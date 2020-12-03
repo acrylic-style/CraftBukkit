@@ -30,19 +30,19 @@
                          if (!itemstack.isEmpty()) {
 +                            // CraftBukkit start
 +                            Block planted = null;
-                             if (itemstack.getItem() == Items.WHEAT_SEEDS) {
+                             if (itemstack.a(Items.WHEAT_SEEDS)) {
 -                                worldserver.setTypeAndData(this.farmBlock, Blocks.WHEAT.getBlockData(), 3);
 +                                planted = Blocks.WHEAT;
                                  flag = true;
-                             } else if (itemstack.getItem() == Items.POTATO) {
+                             } else if (itemstack.a(Items.POTATO)) {
 -                                worldserver.setTypeAndData(this.farmBlock, Blocks.POTATOES.getBlockData(), 3);
 +                                planted = Blocks.POTATOES;
                                  flag = true;
-                             } else if (itemstack.getItem() == Items.CARROT) {
+                             } else if (itemstack.a(Items.CARROT)) {
 -                                worldserver.setTypeAndData(this.farmBlock, Blocks.CARROTS.getBlockData(), 3);
 +                                planted = Blocks.CARROTS;
                                  flag = true;
-                             } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
+                             } else if (itemstack.a(Items.BEETROOT_SEEDS)) {
 -                                worldserver.setTypeAndData(this.farmBlock, Blocks.BEETROOTS.getBlockData(), 3);
 +                                planted = Blocks.BEETROOTS;
                                  flag = true;

@@ -29,7 +29,7 @@
 +                return EnumInteractionResult.SUCCESS;
 +            }
 +            // CraftBukkit end
-             this.d(iblockdata, world, blockposition);
+             this.e(iblockdata, world, blockposition);
              this.a(entityhuman, world, blockposition, true);
              return EnumInteractionResult.a(world.isClientSide);
 @@ -120,6 +138,16 @@
