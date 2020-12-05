@@ -1,8 +1,8 @@
 --- a/net/minecraft/server/EntityExperienceOrb.java
 +++ b/net/minecraft/server/EntityExperienceOrb.java
-@@ -1,6 +1,11 @@
- package net.minecraft.server;
- 
+@@ -3,6 +3,11 @@
+ import java.util.Iterator;
+ import java.util.List;
  import java.util.Map.Entry;
 +// CraftBukkit start
 +import org.bukkit.craftbukkit.event.CraftEventFactory;
@@ -12,15 +12,15 @@
  
  public class EntityExperienceOrb extends Entity {
  
-@@ -36,6 +41,7 @@
+@@ -37,6 +42,7 @@
      @Override
      public void tick() {
          super.tick();
 +        EntityHuman prevTarget = this.targetPlayer;// CraftBukkit - store old target
-         if (this.d > 0) {
-             --this.d;
-         }
-@@ -72,7 +78,22 @@
+         this.lastX = this.locX();
+         this.lastY = this.locY();
+         this.lastZ = this.locZ();
+@@ -63,7 +69,22 @@
              this.targetPlayer = null;
          }
  
@@ -42,10 +42,10 @@
 +        if (this.targetPlayer != null && !cancelled) {
 +            // CraftBukkit end
              Vec3D vec3d = new Vec3D(this.targetPlayer.locX() - this.locX(), this.targetPlayer.locY() + (double) this.targetPlayer.getHeadHeight() / 2.0D - this.locY(), this.targetPlayer.locZ() - this.locZ());
-             double d1 = vec3d.g();
+             double d0 = vec3d.g();
  
-@@ -155,13 +176,19 @@
-                     if (!itemstack.isEmpty() && itemstack.f()) {
+@@ -209,13 +230,19 @@
+                     if (!itemstack.isEmpty() && itemstack.g()) {
                          int i = Math.min(this.c(this.value), itemstack.getDamage());
  
 -                        this.value -= this.b(i);
@@ -66,8 +66,8 @@
 +                    entityhuman.giveExp(CraftEventFactory.callPlayerExpChangeEvent(entityhuman, this.value).getAmount()); // CraftBukkit - this.value -> event.getAmount()
                  }
  
-                 this.die();
-@@ -183,6 +210,24 @@
+                 --this.e;
+@@ -240,6 +267,24 @@
      }
  
      public static int getOrbValue(int i) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/EntitySelector.java
 +++ b/net/minecraft/server/EntitySelector.java
-@@ -64,7 +64,7 @@
+@@ -73,7 +73,7 @@
      }
  
      private void e(CommandListenerWrapper commandlistenerwrapper) throws CommandSyntaxException {

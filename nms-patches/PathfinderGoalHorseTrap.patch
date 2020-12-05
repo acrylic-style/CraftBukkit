@@ -4,7 +4,7 @@
  
          entitylightning.teleportAndSync(this.a.locX(), this.a.locY(), this.a.locZ());
          entitylightning.setEffect(true);
--        worldserver.addEntity(entitylightning);
+-        worldserver.addFreshEntity(entitylightning);
 +        worldserver.strikeLightning(entitylightning, org.bukkit.event.weather.LightningStrikeEvent.Cause.TRAP); // CraftBukkit
          EntitySkeleton entityskeleton = this.a(difficultydamagescaler, this.a);
  

@@ -1,8 +1,8 @@
 --- a/net/minecraft/server/ItemArmor.java
 +++ b/net/minecraft/server/ItemArmor.java
-@@ -6,6 +6,11 @@
- import java.util.List;
+@@ -7,6 +7,11 @@
  import java.util.UUID;
+ import javax.annotation.Nullable;
  
 +// CraftBukkit start
 +import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -11,10 +11,10 @@
 +
  public class ItemArmor extends Item implements ItemWearable {
  
-     private static final UUID[] j = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
-@@ -32,6 +37,32 @@
+     private static final UUID[] i = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+@@ -33,6 +38,32 @@
              EntityLiving entityliving = (EntityLiving) list.get(0);
-             EnumItemSlot enumitemslot = EntityInsentient.j(itemstack);
+             EnumItemSlot enumitemslot = EntityInsentient.g(itemstack);
              ItemStack itemstack1 = itemstack.cloneAndSubtract(1);
 +            // CraftBukkit start
 +            World world = isourceblock.getWorld();

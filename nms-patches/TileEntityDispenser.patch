@@ -1,19 +1,18 @@
 --- a/net/minecraft/server/TileEntityDispenser.java
 +++ b/net/minecraft/server/TileEntityDispenser.java
-@@ -1,12 +1,48 @@
+@@ -1,12 +1,47 @@
  package net.minecraft.server;
  
  import java.util.Random;
 +// CraftBukkit start
 +import java.util.List;
-+
 +import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 +import org.bukkit.entity.HumanEntity;
 +// CraftBukkit end
  
  public class TileEntityDispenser extends TileEntityLootable {
  
-     private static final Random a = new Random();
+     private static final Random c = new Random();
      private NonNullList<ItemStack> items;
  
 +    // CraftBukkit start - add fields and methods
@@ -46,6 +45,6 @@
 +    }
 +    // CraftBukkit end
 +
-     protected TileEntityDispenser(TileEntityTypes<?> tileentitytypes) {
-         super(tileentitytypes);
+     protected TileEntityDispenser(TileEntityTypes<?> tileentitytypes, BlockPosition blockposition, IBlockData iblockdata) {
+         super(tileentitytypes, blockposition, iblockdata);
          this.items = NonNullList.a(9, ItemStack.b);

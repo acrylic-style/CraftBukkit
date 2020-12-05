@@ -17,7 +17,7 @@
 +                if (this.world.getType(blockposition).a(block) && !CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, Blocks.AIR.getBlockData()).isCancelled()) {
                      this.world.a(blockposition, false);
                  } else if (!this.world.isClientSide) {
-                     this.die();
+                     this.ab();
 @@ -122,6 +124,11 @@
                                      this.block = (IBlockData) this.block.set(BlockProperties.C, true);
                                  }
@@ -28,9 +28,9 @@
 +                                }
 +                                // CraftBukkit end
                                  if (this.world.setTypeAndData(blockposition, this.block, 3)) {
-                                     if (block instanceof BlockFalling) {
-                                         ((BlockFalling) block).a(this.world, blockposition, this.block, iblockdata, this);
-@@ -178,7 +185,9 @@
+                                     if (block instanceof BlockFallable) {
+                                         ((BlockFallable) block).a(this.world, blockposition, this.block, iblockdata, this);
+@@ -187,7 +194,9 @@
                  while (iterator.hasNext()) {
                      Entity entity = (Entity) iterator.next();
  

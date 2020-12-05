@@ -14,9 +14,9 @@
  
  public abstract class EntityMinecartContainer extends EntityMinecartAbstract implements IInventory, ITileInventory {
  
-@@ -11,15 +18,56 @@
-     public MinecraftKey lootTable;
-     public long lootTableSeed;
+@@ -10,14 +17,55 @@
+     private MinecraftKey c;
+     public long lootTable;
  
 +    // CraftBukkit start
 +    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
@@ -63,13 +63,12 @@
          super(entitytypes, world);
 -        this.items = NonNullList.a(36, ItemStack.b);
 +        this.items = NonNullList.a(this.getSize(), ItemStack.b); // CraftBukkit - SPIGOT-3513
-         this.c = true;
      }
  
      protected EntityMinecartContainer(EntityTypes<?> entitytypes, double d0, double d1, double d2, World world) {
          super(entitytypes, world, d0, d1, d2);
 -        this.items = NonNullList.a(36, ItemStack.b);
 +        this.items = NonNullList.a(this.getSize(), ItemStack.b); // CraftBukkit - SPIGOT-3513
-         this.c = true;
      }
  
+     @Override

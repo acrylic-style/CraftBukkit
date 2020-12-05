@@ -17,8 +17,8 @@
  
      private static final UUID b = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 @@ -23,6 +32,7 @@
-     private boolean bs;
-     private int bt;
+     private boolean bn;
+     private int bo;
      public int drownedConversionTime;
 +    private int lastTick = MinecraftServer.currentTick; // CraftBukkit - add field
  
@@ -34,7 +34,7 @@
 +                this.drownedConversionTime -= elapsedTicks;
 +                // CraftBukkit end
                  if (this.drownedConversionTime < 0) {
-                     this.eP();
+                     this.fh();
                  }
 @@ -156,6 +169,7 @@
          }
@@ -61,7 +61,7 @@
  
          if (entityzombie != null) {
              entityzombie.y(entityzombie.world.getDamageScaler(entityzombie.getChunkCoordinates()).d());
-             entityzombie.u(entityzombie.eK() && this.eU());
+             entityzombie.u(entityzombie.fc() && this.fm());
          }
 +        else { ((Zombie) getBukkitEntity()).setConversionTime(-1); } // CraftBukkit - SPIGOT-5208: End conversion to stop event spam
  
@@ -70,7 +70,7 @@
 @@ -245,9 +261,9 @@
                      if (SpawnerCreature.a(entitypositiontypes_surface, (IWorldReader) this.world, blockposition, entitytypes) && EntityPositionTypes.a(entitytypes, worldserver, EnumMobSpawn.REINFORCEMENT, blockposition, this.world.random)) {
                          entityzombie.setPosition((double) i1, (double) j1, (double) k1);
-                         if (!this.world.isPlayerNearby((double) i1, (double) j1, (double) k1, 7.0D) && this.world.j((Entity) entityzombie) && this.world.getCubes(entityzombie) && !this.world.containsLiquid(entityzombie.getBoundingBox())) {
+                         if (!this.world.isPlayerNearby((double) i1, (double) j1, (double) k1, 7.0D) && this.world.f(entityzombie) && this.world.g((Entity) entityzombie) && !this.world.containsLiquid(entityzombie.getBoundingBox())) {
 -                            entityzombie.setGoalTarget(entityliving);
 +                            entityzombie.setGoalTarget(entityliving, EntityTargetEvent.TargetReason.REINFORCEMENT_TARGET, true); // CraftBukkit
                              entityzombie.prepare(worldserver, this.world.getDamageScaler(entityzombie.getChunkCoordinates()), EnumMobSpawn.REINFORCEMENT, (GroupDataEntity) null, (NBTTagCompound) null);

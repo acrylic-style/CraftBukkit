@@ -25,7 +25,7 @@
 +
 +    @Override
 +    public List<ItemStack> getContents() {
-+        return this.items;
++        return this.c;
 +    }
 +
 +    @Override
@@ -45,7 +45,7 @@
 +
 +    @Override
 +    public int getMaxStackSize() {
-+       return maxStack;
++        return maxStack;
 +    }
 +
 +    @Override
@@ -53,15 +53,31 @@
 +        maxStack = i;
 +    }
 +    // CraftBukkit end
-     private NonNullList<ItemStack> items;
-     private int b;
+     private NonNullList<ItemStack> c;
+     private ContainerOpenersCounter g;
  
-@@ -100,7 +148,7 @@
-                 return;
+@@ -11,14 +59,20 @@
+         this.g = new ContainerOpenersCounter() {
+             @Override
+             protected void a(World world, BlockPosition blockposition1, IBlockData iblockdata1) {
+-                TileEntityBarrel.this.playOpenSound(iblockdata1, SoundEffects.BARREL_OPEN);
+-                TileEntityBarrel.this.setOpenFlag(iblockdata1, true);
++                boolean flag = (Boolean) iblockdata.get(BlockBarrel.OPEN); // CraftBukkit
++                if (!flag) {
++                    TileEntityBarrel.this.playOpenSound(iblockdata1, SoundEffects.BARREL_OPEN);
++                    TileEntityBarrel.this.setOpenFlag(iblockdata1, true);
++                }
              }
  
--            boolean flag = (Boolean) iblockdata.get(BlockBarrel.OPEN);
-+            boolean flag = (Boolean) iblockdata.get(BlockBarrel.OPEN) && !opened; // CraftBukkit - only set flag if Barrel isn't set open by API.
+             @Override
+             protected void b(World world, BlockPosition blockposition1, IBlockData iblockdata1) {
+-                TileEntityBarrel.this.playOpenSound(iblockdata1, SoundEffects.BARREL_CLOSE);
+-                TileEntityBarrel.this.setOpenFlag(iblockdata1, false);
++                boolean flag = (Boolean) iblockdata.get(BlockBarrel.OPEN) && !opened; // CraftBukkit - only set flag if Barrel isn't set open by API.
++                if (flag) {
++                    TileEntityBarrel.this.playOpenSound(iblockdata1, SoundEffects.BARREL_CLOSE);
++                    TileEntityBarrel.this.setOpenFlag(iblockdata1, false);
++                }
+             }
  
-             if (flag) {
-                 this.playOpenSound(iblockdata, SoundEffects.BLOCK_BARREL_CLOSE);
+             @Override

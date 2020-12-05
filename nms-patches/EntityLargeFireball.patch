@@ -34,7 +34,7 @@
 +                this.world.createExplosion(this, this.locX(), this.locY(), this.locZ(), event.getRadius(), event.getFire(), flag ? Explosion.Effect.DESTROY : Explosion.Effect.NONE);
 +            }
 +            // CraftBukkit end
-             this.die();
+             this.ab();
          }
  
 @@ -49,7 +61,8 @@

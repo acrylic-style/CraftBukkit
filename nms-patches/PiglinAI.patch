@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/PiglinAI.java
 +++ b/net/minecraft/server/PiglinAI.java
-@@ -52,7 +52,8 @@
+@@ -51,7 +51,8 @@
      private static void b(EntityPiglin entitypiglin, BehaviorController<EntityPiglin> behaviorcontroller) {
          behaviorcontroller.a(Activity.FLIGHT, 10, ImmutableList.of(new BehaviorAttackTargetForget<>((entityliving) -> {
              return !b(entitypiglin, entityliving);
@@ -10,7 +10,7 @@
      }
  
      private static void c(BehaviorController<EntityPiglin> behaviorcontroller) {
-@@ -70,7 +71,8 @@
+@@ -69,7 +70,8 @@
      }
  
      private static void f(BehaviorController<EntityPiglin> behaviorcontroller) {
@@ -20,7 +20,7 @@
      }
  
      private static BehaviorGateSingle<EntityPiglin> a() {
-@@ -78,7 +80,8 @@
+@@ -77,7 +79,8 @@
      }
  
      private static BehaviorGateSingle<EntityPiglin> b() {
@@ -30,7 +30,7 @@
      }
  
      private static BehaviorWalkAway<BlockPosition> c() {
-@@ -95,10 +98,10 @@
+@@ -94,10 +97,10 @@
  
      protected static void b(EntityPiglin entitypiglin) {
          BehaviorController<EntityPiglin> behaviorcontroller = entitypiglin.getBehaviorController();
@@ -43,16 +43,16 @@
  
          if (activity != activity1) {
              d(entitypiglin).ifPresent(entitypiglin::a);
-@@ -130,14 +133,18 @@
+@@ -129,14 +132,18 @@
          n(entitypiglin);
          ItemStack itemstack;
  
--        if (entityitem.getItemStack().getItem() == Items.GOLD_NUGGET) {
+-        if (entityitem.getItemStack().a(Items.GOLD_NUGGET)) {
 +        // CraftBukkit start
 +        if (entityitem.getItemStack().getItem() == Items.GOLD_NUGGET && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityPickupItemEvent(entitypiglin, entityitem, 0, false).isCancelled()) {
              entitypiglin.receive(entityitem, entityitem.getItemStack().getCount());
              itemstack = entityitem.getItemStack();
-             entityitem.die();
+             entityitem.ab();
 -        } else {
 +        } else if (!org.bukkit.craftbukkit.event.CraftEventFactory.callEntityPickupItemEvent(entitypiglin, entityitem, entityitem.getItemStack().getCount() - 1, false).isCancelled()) {
              entitypiglin.receive(entityitem, 1);
@@ -62,27 +62,30 @@
          }
 +        // CraftBukkit end
  
-         Item item = itemstack.getItem();
- 
-@@ -148,7 +155,7 @@
-         } else if (c(item) && !u(entitypiglin)) {
+         if (a(itemstack)) {
+             entitypiglin.getBehaviorController().removeMemory(MemoryModuleType.TIME_TRYING_TO_REACH_ADMIRE_ITEM);
+@@ -145,7 +152,7 @@
+         } else if (c(itemstack) && !u(entitypiglin)) {
              s(entitypiglin);
          } else {
--            boolean flag = entitypiglin.g(itemstack);
-+            boolean flag = entitypiglin.g(itemstack, entityitem); // CraftBukkit
+-            boolean flag = entitypiglin.h(itemstack);
++            boolean flag = entitypiglin.h(itemstack, entityitem); // CraftBukkit
  
              if (!flag) {
                  d(entitypiglin, itemstack);
-@@ -350,7 +357,7 @@
+@@ -347,9 +354,9 @@
      }
  
      public static void a(EntityHuman entityhuman, boolean flag) {
 -        List<EntityPiglin> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D));
-+        List<EntityPiglinAbstract> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D)); // CraftBukkit - decompile error
++        List<EntityPiglin> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D)); // CraftBukkit - decompile error
  
-         list.stream().filter(PiglinAI::d).filter((entitypiglin) -> {
+-        list.stream().filter(PiglinAI::d).filter((entitypiglin) -> {
++        list.stream().filter(piglin -> d((EntityPiglinAbstract) piglin)).filter((entitypiglin) -> { // CraftBukkit - decompile error
              return !flag || BehaviorUtil.c(entitypiglin, entityhuman);
-@@ -586,7 +593,7 @@
+         }).forEach((entitypiglin) -> {
+             if (entitypiglin.world.getGameRules().getBoolean(GameRules.H)) {
+@@ -583,7 +590,7 @@
              EntityLiving entityliving = (EntityLiving) behaviorcontroller.getMemory(MemoryModuleType.AVOID_TARGET).get();
              EntityTypes<?> entitytypes = entityliving.getEntityType();
  
@@ -91,12 +94,3 @@
          }
      }
  
-@@ -668,7 +675,7 @@
-     }
- 
-     public static boolean b(EntityLiving entityliving) {
--        return entityliving.getEntityType() == EntityTypes.PLAYER && entityliving.a(PiglinAI::a);
-+        return entityliving.getEntityType() == EntityTypes.PLAYER && entityliving.a((java.util.function.Predicate<Item>) PiglinAI::a); // CraftBukkit - decompile error
-     }
- 
-     private static boolean x(EntityPiglin entitypiglin) {

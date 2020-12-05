@@ -1,0 +1,14 @@
+--- a/net/minecraft/server/Blocks.java
++++ b/net/minecraft/server/Blocks.java
+@@ -143,9 +143,11 @@
+     public static final Block BROWN_MUSHROOM = a("brown_mushroom", (Block) (new BlockMushroom(BlockBase.Info.a(Material.PLANT, MaterialMapColor.B).a().d().c().a(SoundEffectType.c).a((iblockdata) -> {
+         return 1;
+     }).d(Blocks::a), () -> {
++        BlockSapling.treeType = org.bukkit.TreeType.BROWN_MUSHROOM; // CraftBukkit
+         return BiomeDecoratorGroups.HUGE_BROWN_MUSHROOM;
+     })));
+     public static final Block RED_MUSHROOM = a("red_mushroom", (Block) (new BlockMushroom(BlockBase.Info.a(Material.PLANT, MaterialMapColor.D).a().d().c().a(SoundEffectType.c).d(Blocks::a), () -> {
++        BlockSapling.treeType = org.bukkit.TreeType.RED_MUSHROOM; // CraftBukkit
+         return BiomeDecoratorGroups.HUGE_RED_MUSHROOM;
+     })));
+     public static final Block GOLD_BLOCK = a("gold_block", new Block(BlockBase.Info.a(Material.ORE, MaterialMapColor.F).h().a(3.0F, 6.0F).a(SoundEffectType.f)));

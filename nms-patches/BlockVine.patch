@@ -25,11 +25,13 @@
                          } else {
                              EnumDirection enumdirection3 = enumdirection.opposite();
  
-                             if (flag && worldserver.isEmpty(blockposition3) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection1), enumdirection3)) {
+-                            if (flag && worldserver.isEmpty(blockposition3) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection1), enumdirection3)) {
 -                                worldserver.setTypeAndData(blockposition3, (IBlockData) this.getBlockData().set(getDirection(enumdirection3), true), 2);
-+                                CraftEventFactory.handleBlockSpreadEvent(worldserver, source, blockposition3, (IBlockData) this.getBlockData().set(getDirection(enumdirection3), true), 2);
-                             } else if (flag1 && worldserver.isEmpty(blockposition4) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection2), enumdirection3)) {
+-                            } else if (flag1 && worldserver.isEmpty(blockposition4) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection2), enumdirection3)) {
 -                                worldserver.setTypeAndData(blockposition4, (IBlockData) this.getBlockData().set(getDirection(enumdirection3), true), 2);
++                            if (flag && worldserver.x(blockposition3) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection1), enumdirection3)) {
++                                CraftEventFactory.handleBlockSpreadEvent(worldserver, source, blockposition3, (IBlockData) this.getBlockData().set(getDirection(enumdirection3), true), 2);
++                            } else if (flag1 && worldserver.x(blockposition4) && a((IBlockAccess) worldserver, blockposition.shift(enumdirection2), enumdirection3)) {
 +                                CraftEventFactory.handleBlockSpreadEvent(worldserver, source, blockposition4, (IBlockData) this.getBlockData().set(getDirection(enumdirection3), true), 2);
                              } else if ((double) worldserver.random.nextFloat() < 0.05D && a((IBlockAccess) worldserver, blockposition2.up(), EnumDirection.UP)) {
 -                                worldserver.setTypeAndData(blockposition2, (IBlockData) this.getBlockData().set(BlockVine.UP, true), 2);
@@ -39,10 +41,19 @@
                          }
                      } else if (a((IBlockAccess) worldserver, blockposition2, enumdirection)) {
                          worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(getDirection(enumdirection), true), 2);
+@@ -202,7 +208,7 @@
+                         return;
+                     }
+ 
+-                    if (worldserver.isEmpty(blockposition1)) {
++                    if (worldserver.x(blockposition1)) {
+                         if (!this.canSpread(worldserver, blockposition)) {
+                             return;
+                         }
 @@ -218,7 +224,7 @@
                          }
  
-                         if (this.canSpread(iblockdata2)) {
+                         if (this.o(iblockdata2)) {
 -                            worldserver.setTypeAndData(blockposition1, iblockdata2, 2);
 +                            CraftEventFactory.handleBlockSpreadEvent(worldserver, blockposition, blockposition1, iblockdata2, 2); // CraftBukkit
                          }
@@ -51,7 +62,7 @@
 @@ -233,7 +239,7 @@
                          IBlockData iblockdata4 = this.a(iblockdata, iblockdata3, random);
  
-                         if (iblockdata3 != iblockdata4 && this.canSpread(iblockdata4)) {
+                         if (iblockdata3 != iblockdata4 && this.o(iblockdata4)) {
 -                            worldserver.setTypeAndData(blockposition2, iblockdata4, 2);
 +                            CraftEventFactory.handleBlockSpreadEvent(worldserver, blockposition, blockposition2, iblockdata4, 2); // CraftBukkit
                          }

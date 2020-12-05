@@ -37,9 +37,9 @@
 +                // CraftBukkit End - Call BatToggleSleepEvent
              }
          } else {
-             if (this.d != null && (!this.world.isEmpty(this.d) || this.d.getY() < 1)) {
+             if (this.d != null && (!this.world.x(this.d) || this.d.getY() <= this.world.getMinBuildHeight())) {
 @@ -138,7 +147,11 @@
-             this.aT = 0.5F;
+             this.aO = 0.5F;
              this.yaw += f1;
              if (this.random.nextInt(100) == 0 && this.world.getType(blockposition1).isOccluding(this.world, blockposition1)) {
 -                this.setAsleep(true);

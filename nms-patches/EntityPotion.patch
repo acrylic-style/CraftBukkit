@@ -99,20 +99,19 @@
 -        this.world.addEntity(entityareaeffectcloud);
 +        // CraftBukkit start
 +        org.bukkit.event.entity.LingeringPotionSplashEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callLingeringPotionSplashEvent(this, entityareaeffectcloud);
-+        if (!(event.isCancelled() || entityareaeffectcloud.dead)) {
++        if (!(event.isCancelled() || entityareaeffectcloud.dead != null)) {
 +            this.world.addEntity(entityareaeffectcloud);
 +        } else {
-+            entityareaeffectcloud.dead = true;
++            entityareaeffectcloud.killEntity();
 +        }
 +        // CraftBukkit end
      }
  
      public boolean isLingering() {
-@@ -184,11 +224,19 @@
-         IBlockData iblockdata = this.world.getType(blockposition);
+@@ -185,10 +225,19 @@
  
          if (iblockdata.a((Tag) TagsBlock.FIRE)) {
--            this.world.a(blockposition, false);
+             this.world.a(blockposition, false);
 +            // CraftBukkit start
 +            if (!CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, Blocks.AIR.getBlockData()).isCancelled()) {
 +                this.world.a(blockposition, false);

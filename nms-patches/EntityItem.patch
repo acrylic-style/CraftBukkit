@@ -13,14 +13,14 @@
  
 @@ -15,6 +19,7 @@
      private UUID thrower;
-     private UUID owner;
+     private UUID ab;
      public final float b;
 +    private int lastTick = MinecraftServer.currentTick - 1; // CraftBukkit
  
      public EntityItem(EntityTypes<? extends EntityItem> entitytypes, World world) {
          super(entitytypes, world);
 @@ -50,9 +55,12 @@
-             this.die();
+             this.ab();
          } else {
              super.tick();
 -            if (this.pickupDelay > 0 && this.pickupDelay != 32767) {
@@ -45,7 +45,7 @@
              }
 +            // CraftBukkit end */
  
-             this.impulse |= this.aK();
+             this.impulse |= this.aL();
              if (!this.world.isClientSide) {
 @@ -122,6 +132,12 @@
              }
@@ -57,7 +57,7 @@
 +                    return;
 +                }
 +                // CraftBukkit end
-                 this.die();
+                 this.ab();
              }
  
 @@ -197,10 +213,11 @@
@@ -129,7 +129,7 @@
 +            }
 +            // CraftBukkit end
 +
-             if (this.pickupDelay == 0 && (this.owner == null || this.owner.equals(entityhuman.getUniqueID())) && entityhuman.inventory.pickup(itemstack)) {
+             if (this.pickupDelay == 0 && (this.ab == null || this.ab.equals(entityhuman.getUniqueID())) && entityhuman.eT().pickup(itemstack)) {
                  entityhuman.receive(this, i);
                  if (itemstack.isEmpty()) {
 @@ -328,7 +390,9 @@

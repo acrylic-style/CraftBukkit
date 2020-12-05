@@ -97,7 +97,7 @@
          this.b();
      }
  
-@@ -179,6 +179,7 @@
+@@ -177,6 +177,7 @@
  
          while (iterator.hasNext()) {
              EntityPlayer entityplayer = (EntityPlayer) iterator.next();
@@ -105,7 +105,7 @@
              Iterator iterator1 = list.iterator();
  
              while (iterator1.hasNext()) {
-@@ -211,6 +212,7 @@
+@@ -209,6 +210,7 @@
  
          while (iterator.hasNext()) {
              EntityPlayer entityplayer = (EntityPlayer) iterator.next();
@@ -113,8 +113,8 @@
              Iterator iterator1 = list.iterator();
  
              while (iterator1.hasNext()) {
-@@ -235,6 +237,16 @@
-         return i;
+@@ -244,6 +246,16 @@
+         return this.c().b(nbttagcompound);
      }
  
 +    // CraftBukkit start - Send to players

@@ -104,16 +104,16 @@
          thread.setDaemon(true);
          thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(DedicatedServer.LOGGER));
          thread.start();
-@@ -88,7 +150,7 @@
-         this.setForceGamemode(dedicatedserverproperties.forceGamemode);
+@@ -87,7 +149,7 @@
+         this.setMotd(dedicatedserverproperties.motd);
          super.setIdleTimeout((Integer) dedicatedserverproperties.playerIdleTimeout.get());
-         this.i(dedicatedserverproperties.enforceWhitelist);
+         this.setForceGamemode(dedicatedserverproperties.enforceWhitelist);
 -        this.saveData.setGameType(dedicatedserverproperties.gamemode);
 +        // this.saveData.setGameType(dedicatedserverproperties.gamemode); // CraftBukkit - moved to world loading
          DedicatedServer.LOGGER.info("Default game type: {}", dedicatedserverproperties.gamemode);
          InetAddress inetaddress = null;
  
-@@ -112,6 +174,12 @@
+@@ -111,6 +173,12 @@
              return false;
          }
  
@@ -126,7 +126,7 @@
          if (!this.getOnlineMode()) {
              DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
-@@ -126,7 +194,7 @@
+@@ -125,7 +193,7 @@
          if (!NameReferencingFileConverter.e(this)) {
              return false;
          } else {
@@ -135,7 +135,7 @@
              long i = SystemUtils.getMonotonicNanos();
  
              this.c(dedicatedserverproperties.maxBuildHeight);
-@@ -134,7 +202,7 @@
+@@ -133,7 +201,7 @@
              TileEntitySkull.a(this.getMinecraftSessionService());
              UserCache.a(this.getOnlineMode());
              DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getWorld());
@@ -144,7 +144,7 @@
              long j = SystemUtils.getMonotonicNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -151,6 +219,7 @@
+@@ -150,6 +218,7 @@
              if (dedicatedserverproperties.enableRcon) {
                  DedicatedServer.LOGGER.info("Starting remote control listener");
                  this.remoteControlListener = RemoteControlListener.a((IMinecraftServer) this);
@@ -152,7 +152,7 @@
              }
  
              if (this.getMaxTickTime() > 0L) {
-@@ -265,6 +334,7 @@
+@@ -264,6 +333,7 @@
              this.remoteStatusListener.b();
          }
  
@@ -160,7 +160,7 @@
      }
  
      @Override
-@@ -293,7 +363,15 @@
+@@ -292,7 +362,15 @@
          while (!this.serverCommandQueue.isEmpty()) {
              ServerCommand servercommand = (ServerCommand) this.serverCommandQueue.remove(0);
  
@@ -177,7 +177,7 @@
          }
  
      }
-@@ -503,14 +581,45 @@
+@@ -497,14 +575,45 @@
  
      @Override
      public String getPlugins() {
@@ -225,9 +225,9 @@
          });
          return this.remoteControlCommandListener.getMessages();
      }
-@@ -552,4 +661,15 @@
-     public ITextFilter a(EntityPlayer entityplayer) {
-         return this.r != null ? this.r.a(entityplayer.getProfile()) : null;
+@@ -557,4 +666,15 @@
+     public EnumGamemode getForceGamemode() {
+         return this.propertyManager.getProperties().forceGamemode ? this.saveData.getGameType() : null;
      }
 +
 +    // CraftBukkit start

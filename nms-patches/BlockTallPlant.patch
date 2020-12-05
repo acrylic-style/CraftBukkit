@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/BlockTallPlant.java
 +++ b/net/minecraft/server/BlockTallPlant.java
-@@ -66,6 +66,11 @@
+@@ -67,6 +67,11 @@
      }
  
      protected static void b(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman) {

@@ -40,11 +40,11 @@
 +        }
 +        // CraftBukkit end
  
-         if (!worldserver.s_()) {
+         if (!worldserver.t_()) {
              BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
  
 -            this.a(a((WorldServer) worldserver, blockposition) || b((WorldServer) worldserver, blockposition));
-+            this.a(a((WorldServer) worldserver, blockposition) || b((WorldServer) worldserver, blockposition, bukkitBlock, craftItem)); // CraftBukkit
++            this.a(a((WorldServer) worldserver, blockposition) || b((WorldServer) worldserver, blockposition, bukkitBlock, craftItem));
              if (this.a() && itemstack.isDamaged(1, worldserver.getRandom(), (EntityPlayer) null)) {
                  itemstack.setCount(0);
              }

@@ -31,8 +31,8 @@
          } else {
              ItemStack itemstack1 = itemstack.cloneItemStack();
 @@ -103,7 +111,7 @@
-                 if (itemstack1.e() && itemstack1.getItem().a(itemstack, itemstack2)) {
-                     k = Math.min(itemstack1.getDamage(), itemstack1.h() / 4);
+                 if (itemstack1.f() && itemstack1.getItem().a(itemstack, itemstack2)) {
+                     k = Math.min(itemstack1.getDamage(), itemstack1.i() / 4);
                      if (k <= 0) {
 -                        this.resultInventory.setItem(0, ItemStack.b);
 +                        org.bukkit.craftbukkit.event.CraftEventFactory.callPrepareAnvilEvent(getBukkitView(), ItemStack.b); // CraftBukkit
@@ -42,7 +42,7 @@
 @@ -118,7 +126,7 @@
                      this.h = i1;
                  } else {
-                     if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.e())) {
+                     if (!flag && (!itemstack1.a(itemstack2.getItem()) || !itemstack1.f())) {
 -                        this.resultInventory.setItem(0, ItemStack.b);
 +                        org.bukkit.craftbukkit.event.CraftEventFactory.callPrepareAnvilEvent(getBukkitView(), ItemStack.b); // CraftBukkit
                          this.levelCost.set(0);
@@ -67,8 +67,8 @@
 +                this.levelCost.set(maximumRepairCost - 1); // CraftBukkit
              }
  
--            if (this.levelCost.get() >= 40 && !this.player.abilities.canInstantlyBuild) {
-+            if (this.levelCost.get() >= maximumRepairCost && !this.player.abilities.canInstantlyBuild) { // CraftBukkit
+-            if (this.levelCost.get() >= 40 && !this.player.eU().canInstantlyBuild) {
++            if (this.levelCost.get() >= maximumRepairCost && !this.player.eU().canInstantlyBuild) { // CraftBukkit
                  itemstack1 = ItemStack.b;
              }
  

@@ -26,6 +26,6 @@
 +            }
 +            // CraftBukkit end
 +
-             iblockdata1 = this.d(iblockdata, world, blockposition);
+             iblockdata1 = this.e(iblockdata, world, blockposition);
              float f = (Boolean) iblockdata1.get(BlockLever.POWERED) ? 0.6F : 0.5F;
  

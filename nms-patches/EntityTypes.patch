@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/EntityTypes.java
 +++ b/net/minecraft/server/EntityTypes.java
-@@ -12,7 +12,7 @@
- public class EntityTypes<T extends Entity> {
+@@ -16,7 +16,7 @@
+ public class EntityTypes<T extends Entity> implements EntityTypeTest<Entity, T> {
  
      private static final Logger LOGGER = LogManager.getLogger();
 -    public static final EntityTypes<EntityAreaEffectCloud> AREA_EFFECT_CLOUD = a("area_effect_cloud", EntityTypes.Builder.a(EntityAreaEffectCloud::new, EnumCreatureType.MISC).c().a(6.0F, 0.5F).trackingRange(10).updateInterval(Integer.MAX_VALUE));
@@ -9,7 +9,7 @@
      public static final EntityTypes<EntityArmorStand> ARMOR_STAND = a("armor_stand", EntityTypes.Builder.a(EntityArmorStand::new, EnumCreatureType.MISC).a(0.5F, 1.975F).trackingRange(10));
      public static final EntityTypes<EntityTippedArrow> ARROW = a("arrow", EntityTypes.Builder.a(EntityTippedArrow::new, EnumCreatureType.MISC).a(0.5F, 0.5F).trackingRange(4).updateInterval(20));
      public static final EntityTypes<EntityBat> BAT = a("bat", EntityTypes.Builder.a(EntityBat::new, EnumCreatureType.AMBIENT).a(0.5F, 0.9F).trackingRange(5));
-@@ -137,7 +137,7 @@
+@@ -141,7 +141,7 @@
      private MinecraftKey bq;
      private final EntitySize br;
  
@@ -18,7 +18,7 @@
          return (EntityTypes) IRegistry.a((IRegistry) IRegistry.ENTITY_TYPE, s, (Object) entitytypes_builder.a(s));
      }
  
-@@ -169,10 +169,18 @@
+@@ -173,10 +173,18 @@
  
      @Nullable
      public T spawnCreature(WorldServer worldserver, @Nullable NBTTagCompound nbttagcompound, @Nullable IChatBaseComponent ichatbasecomponent, @Nullable EntityHuman entityhuman, BlockPosition blockposition, EnumMobSpawn enummobspawn, boolean flag, boolean flag1) {
@@ -38,7 +38,7 @@
          }
  
          return t0;
-@@ -208,7 +216,7 @@
+@@ -212,7 +220,7 @@
                  t0.setCustomName(ichatbasecomponent);
              }
  
@@ -47,7 +47,7 @@
              return t0;
          }
      }
-@@ -351,7 +359,7 @@
+@@ -355,7 +363,7 @@
              }
  
              return entity;
@@ -55,8 +55,8 @@
 +        }).orElse(null); // CraftBukkit - decompile error
      }
  
-     private static Optional<Entity> b(NBTTagCompound nbttagcompound, World world) {
-@@ -403,7 +411,7 @@
+     public static Stream<Entity> a(final List<? extends NBTBase> list, final World world) {
+@@ -444,7 +452,7 @@
              this.g = enumcreaturetype == EnumCreatureType.CREATURE || enumcreaturetype == EnumCreatureType.MISC;
          }
  

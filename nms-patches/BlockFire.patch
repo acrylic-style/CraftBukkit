@@ -69,7 +69,7 @@
                          return;
                      }
  
-                     if (i == 15 && random.nextInt(4) == 0 && !this.e(worldserver.getType(blockposition.down()))) {
+                     if (i == 15 && random.nextInt(4) == 0 && !this.f(worldserver.getType(blockposition.down()))) {
 -                        worldserver.a(blockposition, false);
 +                        fireExtinguished(worldserver, blockposition); // CraftBukkit
                          return;

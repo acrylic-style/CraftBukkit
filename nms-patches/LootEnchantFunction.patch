@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/LootEnchantFunction.java
 +++ b/net/minecraft/server/LootEnchantFunction.java
-@@ -37,8 +37,13 @@
+@@ -38,8 +38,13 @@
  
          if (entity instanceof EntityLiving) {
              int i = EnchantmentManager.g((EntityLiving) entity);
@@ -15,7 +15,7 @@
                  return itemstack;
              }
  
-@@ -62,7 +67,7 @@
+@@ -63,7 +68,7 @@
          public b() {}
  
          public void a(JsonObject jsonobject, LootEnchantFunction lootenchantfunction, JsonSerializationContext jsonserializationcontext) {

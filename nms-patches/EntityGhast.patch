@@ -1,10 +1,19 @@
 --- a/net/minecraft/server/EntityGhast.java
 +++ b/net/minecraft/server/EntityGhast.java
-@@ -163,7 +163,8 @@
+@@ -89,7 +89,7 @@
+     }
+ 
+     public int getPower() {
+-        return 1;
++        return fa(); // CraftBukkit - delegate to #fa
+     }
+ 
+     @Override
+@@ -162,7 +162,8 @@
  
                      EntityLargeFireball entitylargefireball = new EntityLargeFireball(world, this.ghast, d2, d3, d4);
  
--                    entitylargefireball.yield = this.ghast.getPower();
+-                    entitylargefireball.yield = this.ghast.fa();
 +                    // CraftBukkit - set bukkitYield when setting explosionpower
 +                    entitylargefireball.bukkitYield = entitylargefireball.yield = this.ghast.getPower();
                      entitylargefireball.setPosition(this.ghast.locX() + vec3d.x * 4.0D, this.ghast.e(0.5D) + 0.5D, entitylargefireball.locZ() + vec3d.z * 4.0D);

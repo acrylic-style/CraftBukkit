@@ -22,7 +22,7 @@
          if (entityvillager.getVillagerData().getProfession() == VillagerProfession.NONE) {
              MinecraftServer minecraftserver = worldserver.getMinecraftServer();
 @@ -31,7 +36,14 @@
-                     return villagerprofession.b() == villageplacetype;
+                     return villagerprofession.b() == pointofinteresttype;
                  }).findFirst();
              }).ifPresent((villagerprofession) -> {
 -                entityvillager.setVillagerData(entityvillager.getVillagerData().withProfession(villagerprofession));

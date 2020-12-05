@@ -34,7 +34,7 @@
              return EnumInteractionResult.a(world.isClientSide);
 @@ -120,6 +138,16 @@
              if (this.v) {
-                 this.e(iblockdata, (World) worldserver, blockposition);
+                 this.f(iblockdata, (World) worldserver, blockposition);
              } else {
 +                // CraftBukkit start
 +                org.bukkit.block.Block block = worldserver.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
@@ -47,7 +47,7 @@
 +                }
 +                // CraftBukkit end
                  worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockButtonAbstract.POWERED, false), 3);
-                 this.f(iblockdata, (World) worldserver, blockposition);
+                 this.g(iblockdata, worldserver, blockposition);
                  this.a((EntityHuman) null, worldserver, blockposition, false);
 @@ -140,7 +168,44 @@
          boolean flag = !list.isEmpty();
@@ -92,5 +92,5 @@
 +            }
 +            // CraftBukkit end
              world.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockButtonAbstract.POWERED, flag), 3);
-             this.f(iblockdata, world, blockposition);
+             this.g(iblockdata, world, blockposition);
              this.a((EntityHuman) null, world, blockposition, flag);

@@ -14,9 +14,9 @@
  public class EntityZombieVillager extends EntityZombie implements VillagerDataHolder {
  
 @@ -15,6 +21,7 @@
-     private NBTBase bp;
-     private NBTTagCompound bq;
-     private int br;
+     private NBTBase bk;
+     private NBTTagCompound bl;
+     private int bm;
 +    private int lastTick = MinecraftServer.currentTick; // CraftBukkit - add field
  
      public EntityZombieVillager(EntityTypes<? extends EntityZombieVillager> entitytypes, World world) {

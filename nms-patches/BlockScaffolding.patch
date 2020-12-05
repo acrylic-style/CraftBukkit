@@ -7,5 +7,5 @@
 -        if ((Integer) iblockdata1.get(BlockScaffolding.a) == 7) {
 +        if ((Integer) iblockdata1.get(BlockScaffolding.a) == 7 && !org.bukkit.craftbukkit.event.CraftEventFactory.callBlockFadeEvent(worldserver, blockposition, Blocks.AIR.getBlockData()).isCancelled()) { // CraftBukkit - BlockFadeEvent
              if ((Integer) iblockdata.get(BlockScaffolding.a) == 7) {
-                 worldserver.addEntity(new EntityFallingBlock(worldserver, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (IBlockData) iblockdata1.set(BlockScaffolding.b, false)));
+                 worldserver.addFreshEntity(new EntityFallingBlock(worldserver, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (IBlockData) iblockdata1.set(BlockScaffolding.b, false)));
              } else {

@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/BlockLectern.java
 +++ b/net/minecraft/server/BlockLectern.java
-@@ -165,12 +165,13 @@
+@@ -164,12 +164,13 @@
      }
  
-     private void d(IBlockData iblockdata, World world, BlockPosition blockposition) {
+     private void e(IBlockData iblockdata, World world, BlockPosition blockposition) {
 -        TileEntity tileentity = world.getTileEntity(blockposition);
 +        TileEntity tileentity = world.getTileEntity(blockposition, false); // CraftBukkit - don't validate, type may be changed already
  

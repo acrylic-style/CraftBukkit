@@ -15,7 +15,7 @@
      }
 @@ -186,6 +192,7 @@
  
-                 this.active = this.world.isLoaded(this.center);
+                 this.active = this.world.D(this.center);
                  if (this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
 +                    org.bukkit.craftbukkit.event.CraftEventFactory.callRaidStopEvent(this, org.bukkit.event.raid.RaidStopEvent.Reason.PEACE); // CraftBukkit
                      this.stop();

@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/TileEntityHopper.java
 +++ b/net/minecraft/server/TileEntityHopper.java
-@@ -7,12 +7,51 @@
+@@ -6,6 +6,14 @@
+ import java.util.stream.Collectors;
  import java.util.stream.IntStream;
  import javax.annotation.Nullable;
- 
 +// CraftBukkit start
 +import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 +import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -12,12 +12,12 @@
 +import org.bukkit.event.inventory.InventoryPickupItemEvent;
 +import org.bukkit.inventory.Inventory;
 +// CraftBukkit end
-+
- public class TileEntityHopper extends TileEntityLootable implements IHopper, ITickable {
  
-     private NonNullList<ItemStack> items;
-     private int j;
-     private long k;
+ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+ 
+@@ -13,6 +21,36 @@
+     private int h;
+     private long i;
  
 +    // CraftBukkit start - add fields and methods
 +    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
@@ -49,18 +49,35 @@
 +    }
 +    // CraftBukkit end
 +
-     public TileEntityHopper() {
-         super(TileEntityTypes.HOPPER);
+     public TileEntityHopper(BlockPosition blockposition, IBlockData iblockdata) {
+         super(TileEntityTypes.HOPPER, blockposition, iblockdata);
          this.items = NonNullList.a(5, ItemStack.b);
-@@ -138,7 +177,28 @@
-                 for (int i = 0; i < this.getSize(); ++i) {
-                     if (!this.getItem(i).isEmpty()) {
-                         ItemStack itemstack = this.getItem(i).cloneItemStack();
--                        ItemStack itemstack1 = addItem(this, iinventory, this.splitStack(i, 1), enumdirection);
-+                        // ItemStack itemstack1 = addItem(this, iinventory, this.splitStack(i, 1), enumdirection);
-+
+@@ -87,7 +125,7 @@
+                 boolean flag = false;
+ 
+                 if (!tileentityhopper.isEmpty()) {
+-                    flag = a(world, blockposition, iblockdata, (IInventory) tileentityhopper);
++                    flag = a(world, blockposition, iblockdata, (IInventory) tileentityhopper, tileentityhopper);
+                 }
+ 
+                 if (!tileentityhopper.i()) {
+@@ -121,7 +159,7 @@
+         return false;
+     }
+ 
+-    private static boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, IInventory iinventory) {
++    private static boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, IInventory iinventory, TileEntityHopper tileentityhopper) {
+         IInventory iinventory1 = b(world, blockposition, iblockdata);
+ 
+         if (iinventory1 == null) {
+@@ -135,7 +173,27 @@
+                 for (int i = 0; i < iinventory.getSize(); ++i) {
+                     if (!iinventory.getItem(i).isEmpty()) {
+                         ItemStack itemstack = iinventory.getItem(i).cloneItemStack();
+-                        ItemStack itemstack1 = addItem(iinventory, iinventory1, iinventory.splitStack(i, 1), enumdirection);
++                        // ItemStack itemstack1 = addItem(iinventory, iinventory1, iinventory.splitStack(i, 1), enumdirection);
 +                        // CraftBukkit start - Call event when pushing items into other inventories
-+                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(this.splitStack(i, 1));
++                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(iinventory.splitStack(i, 1));
 +
 +                        Inventory destinationInventory;
 +                        // Have to special case large chests as they work oddly
@@ -70,19 +87,19 @@
 +                            destinationInventory = iinventory.getOwner().getInventory();
 +                        }
 +
-+                        InventoryMoveItemEvent event = new InventoryMoveItemEvent(this.getOwner().getInventory(), oitemstack.clone(), destinationInventory, true);
-+                        this.getWorld().getServer().getPluginManager().callEvent(event);
++                        InventoryMoveItemEvent event = new InventoryMoveItemEvent(iinventory.getOwner().getInventory(), oitemstack.clone(), destinationInventory, true);
++                        tileentityhopper.getWorld().getServer().getPluginManager().callEvent(event);
 +                        if (event.isCancelled()) {
-+                            this.setItem(i, itemstack);
-+                            this.setCooldown(8); // Delay hopper checks
++                            iinventory.setItem(i, itemstack);
++                            tileentityhopper.setCooldown(8); // Delay hopper checks
 +                            return false;
 +                        }
-+                        ItemStack itemstack1 = addItem(this, iinventory, CraftItemStack.asNMSCopy(event.getItem()), enumdirection);
++                        ItemStack itemstack1 = addItem(iinventory, iinventory, CraftItemStack.asNMSCopy(event.getItem()), enumdirection);
 +                        // CraftBukkit end
  
                          if (itemstack1.isEmpty()) {
-                             iinventory.update();
-@@ -203,7 +263,34 @@
+                             iinventory1.update();
+@@ -200,7 +258,38 @@
  
          if (!itemstack.isEmpty() && b(iinventory, itemstack, i, enumdirection)) {
              ItemStack itemstack1 = itemstack.cloneItemStack();
@@ -101,7 +118,11 @@
 +
 +            InventoryMoveItemEvent event = new InventoryMoveItemEvent(sourceInventory, oitemstack.clone(), ihopper.getOwner().getInventory(), false);
 +
-+            ihopper.getWorld().getServer().getPluginManager().callEvent(event);
++            if (ihopper instanceof TileEntityHopper) {
++                ((TileEntityHopper) ihopper).getWorld().getServer().getPluginManager().callEvent(event);
++            } else if (ihopper instanceof EntityMinecartHopper) {
++                ((EntityMinecartHopper) ihopper).getWorld().getServer().getPluginManager().callEvent(event);
++            }
 +            if (event.isCancelled()) {
 +                iinventory.setItem(i, itemstack1);
 +
@@ -118,7 +139,7 @@
  
              if (itemstack2.isEmpty()) {
                  iinventory.update();
-@@ -218,6 +305,13 @@
+@@ -215,6 +304,13 @@
  
      public static boolean a(IInventory iinventory, EntityItem entityitem) {
          boolean flag = false;

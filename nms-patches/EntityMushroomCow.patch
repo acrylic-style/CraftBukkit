@@ -14,7 +14,7 @@
 @@ -75,6 +79,11 @@
              this.playSound(soundeffect, 1.0F, 1.0F);
              return EnumInteractionResult.a(this.world.isClientSide);
-         } else if (itemstack.getItem() == Items.SHEARS && this.canShear()) {
+         } else if (itemstack.a(Items.SHEARS) && this.canShear()) {
 +            // CraftBukkit start
 +            if (!CraftEventFactory.handlePlayerShearEntityEvent(entityhuman, this, itemstack, enumhand)) {
 +                return EnumInteractionResult.PASS;
@@ -24,18 +24,18 @@
              if (!this.world.isClientSide) {
                  itemstack.damage(1, entityhuman, (entityhuman1) -> {
 @@ -121,7 +130,7 @@
-         this.world.playSound((EntityHuman) null, (Entity) this, SoundEffects.ENTITY_MOOSHROOM_SHEAR, soundcategory, 1.0F, 1.0F);
-         if (!this.world.s_()) {
+         this.world.playSound((EntityHuman) null, (Entity) this, SoundEffects.MOOSHROOM_SHEAR, soundcategory, 1.0F, 1.0F);
+         if (!this.world.t_()) {
              ((WorldServer) this.world).a(Particles.EXPLOSION, this.locX(), this.e(0.5D), this.locZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
--            this.die();
-+            // this.die(); // CraftBukkit - moved down
+-            this.ab();
++            // this.ab(); // CraftBukkit - moved down
              EntityCow entitycow = (EntityCow) EntityTypes.COW.a(this.world);
  
              entitycow.setPositionRotation(this.locX(), this.locY(), this.locZ(), this.yaw, this.pitch);
 @@ -137,7 +146,14 @@
              }
  
-             entitycow.setInvulnerable(this.isInvulnerable());
+             entitycow.l(this.isInvulnerable());
 -            this.world.addEntity(entitycow);
 +            // CraftBukkit start
 +            if (CraftEventFactory.callEntityTransformEvent(this, entitycow, EntityTransformEvent.TransformReason.SHEARED).isCancelled()) {
@@ -43,7 +43,7 @@
 +            }
 +            this.world.addEntity(entitycow, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SHEARED);
 +
-+            this.die(); // CraftBukkit - from above
++            this.killEntity(); // CraftBukkit - from above
 +            // CraftBukkit end
  
              for (int i = 0; i < 5; ++i) {

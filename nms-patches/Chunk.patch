@@ -1,27 +1,27 @@
 --- a/net/minecraft/server/Chunk.java
 +++ b/net/minecraft/server/Chunk.java
-@@ -31,7 +31,7 @@
-     private BiomeStorage d;
-     private final Map<BlockPosition, NBTTagCompound> e;
+@@ -51,7 +51,7 @@
+     private final Map<BlockPosition, NBTTagCompound> f;
+     private final Map<BlockPosition, Chunk.c> g;
      public boolean loaded;
 -    public final World world;
 +    public final WorldServer world; // CraftBukkit - type
      public final Map<HeightMap.Type, HeightMap> heightMap;
-     private final ChunkConverter i;
+     private final ChunkConverter k;
      public final Map<BlockPosition, TileEntity> tileEntities;
-@@ -65,7 +65,7 @@
+@@ -80,7 +80,7 @@
+         this.tileEntities = Maps.newHashMap();
          this.m = Maps.newHashMap();
-         this.n = new ShortList[16];
-         this.entitySlices = (EntitySlice[]) (new EntitySlice[16]);
+         this.n = Maps.newHashMap();
 -        this.world = world;
 +        this.world = (WorldServer) world; // CraftBukkit - type
          this.loc = chunkcoordintpair;
-         this.i = chunkconverter;
+         this.k = chunkconverter;
          HeightMap.Type[] aheightmap_type = HeightMap.Type.values();
-@@ -96,8 +96,22 @@
-             }
+@@ -109,8 +109,22 @@
          }
  
+         this.o = new ShortList[world.w_()];
 +        // CraftBukkit start
 +        this.bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
      }
@@ -38,18 +38,18 @@
 +    public final org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer persistentDataContainer = new org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
 +    // CraftBukkit end
 +
-     public Chunk(World world, ProtoChunk protochunk) {
-         this(world, protochunk.getPos(), protochunk.getBiomeIndex(), protochunk.p(), protochunk.n(), protochunk.o(), protochunk.getInhabitedTime(), protochunk.getSections(), (Consumer) null);
-         Iterator iterator = protochunk.y().iterator();
-@@ -139,6 +153,7 @@
+     public Chunk(WorldServer worldserver, ProtoChunk protochunk, @Nullable Consumer<Chunk> consumer) {
+         this(worldserver, protochunk.getPos(), protochunk.getBiomeIndex(), protochunk.r(), protochunk.p(), protochunk.q(), protochunk.getInhabitedTime(), protochunk.getSections(), consumer);
+         Iterator iterator = protochunk.z().values().iterator();
+@@ -141,6 +155,7 @@
  
-         this.b(protochunk.r());
-         this.s = true;
+         this.b(protochunk.t());
+         this.r = true;
 +        this.needsDecoration = true; // CraftBukkit
      }
  
      @Override
-@@ -229,9 +244,16 @@
+@@ -235,9 +250,16 @@
          }
      }
  
@@ -63,24 +63,29 @@
 +    @Nullable
 +    public IBlockData setType(BlockPosition blockposition, IBlockData iblockdata, boolean flag, boolean doPlace) {
 +        // CraftBukkit end
-         int i = blockposition.getX() & 15;
-         int j = blockposition.getY();
-         int k = blockposition.getZ() & 15;
+         int i = blockposition.getY();
+         int j = this.e(i);
+         ChunkSection chunksection = this.sections[j];
 @@ -283,7 +305,8 @@
-                     }
-                 }
- 
+             if (!chunksection.getType(k, l, i1).a(block)) {
+                 return null;
+             } else {
 -                if (!this.world.isClientSide) {
 +                // CraftBukkit - Don't place while processing the BlockPlaceEvent, unless it's a BlockContainer. Prevents blocks such as TNT from activating when cancelled.
 +                if (!this.world.isClientSide && doPlace && (!this.world.captureBlockStates || block instanceof BlockTileEntity)) {
                      iblockdata.onPlace(this.world, blockposition, iblockdata1, flag);
                  }
  
-@@ -378,7 +401,12 @@
+@@ -341,7 +364,17 @@
  
      @Nullable
-     public TileEntity a(BlockPosition blockposition, Chunk.EnumTileEntityState chunk_enumtileentitystate) {
+     public TileEntity a(BlockPosition blockposition, Chunk.b chunk_b) {
 -        TileEntity tileentity = (TileEntity) this.tileEntities.get(blockposition);
++        // CraftBukkit start
++        if (world.capturedTileEntities.containsKey(blockposition)) {
++            return world.capturedTileEntities.get(blockposition);
++        }
++        // CraftBukkit end
 +        // CraftBukkit start
 +        TileEntity tileentity = world.capturedTileEntities.get(blockposition);
 +        if (tileentity == null) {
@@ -89,9 +94,9 @@
 +        // CraftBukkit end
  
          if (tileentity == null) {
-             NBTTagCompound nbttagcompound = (NBTTagCompound) this.e.remove(blockposition);
-@@ -424,6 +452,13 @@
-                 tileentity1.al_();
+             NBTTagCompound nbttagcompound = (NBTTagCompound) this.f.remove(blockposition);
+@@ -399,6 +432,13 @@
+                 tileentity1.ap_();
              }
  
 +            // CraftBukkit start
@@ -104,7 +109,7 @@
          }
      }
  
-@@ -473,6 +508,50 @@
+@@ -458,6 +498,50 @@
  
      }
  
@@ -153,65 +158,65 @@
 +    // CraftBukkit end
 +
      public void markDirty() {
-         this.s = true;
+         this.r = true;
      }
-@@ -526,7 +605,7 @@
-             Iterator iterator = this.entitySlices[k].a(Entity.class).iterator();
- 
-             while (iterator.hasNext()) {
--                Entity entity = (Entity) iterator.next();
-+                T entity = (T) iterator.next(); // CraftBukkit - decompile error
- 
-                 if ((entitytypes == null || entity.getEntityType() == entitytypes) && entity.getBoundingBox().c(axisalignedbb) && predicate.test(entity)) {
-                     list.add(entity);
-@@ -547,7 +626,7 @@
-             Iterator iterator = this.entitySlices[k].a(oclass).iterator();
- 
-             while (iterator.hasNext()) {
--                T t0 = (Entity) iterator.next();
-+                T t0 = (T) iterator.next(); // CraftBukkit - decompile error
- 
-                 if (t0.getBoundingBox().c(axisalignedbb) && (predicate == null || predicate.test(t0))) {
-                     list.add(t0);
-@@ -621,7 +700,7 @@
+@@ -527,7 +611,7 @@
  
      @Override
      public boolean isNeedsSaving() {
--        return this.s || this.q && this.world.getTime() != this.lastSaved;
-+        return (this.s || this.q && this.world.getTime() != this.lastSaved) && !this.mustNotSave; // CraftBukkit
+-        return this.r;
++        return this.r && !this.mustNotSave; // CraftBukkit
      }
  
-     public void d(boolean flag) {
-@@ -763,7 +842,7 @@
+     @Nullable
+@@ -658,7 +742,7 @@
  
-     public void B() {
-         if (this.o instanceof ProtoChunkTickList) {
--            ((ProtoChunkTickList) this.o).a(this.world.getBlockTickList(), (blockposition) -> {
-+            ((ProtoChunkTickList<Block>) this.o).a(this.world.getBlockTickList(), (blockposition) -> { // CraftBukkit - decompile error
+     public void C() {
+         if (this.p instanceof ProtoChunkTickList) {
+-            ((ProtoChunkTickList) this.p).a(this.world.getBlockTickList(), (blockposition) -> {
++            ((ProtoChunkTickList<Block>) this.p).a(this.world.getBlockTickList(), (blockposition) -> { // CraftBukkit - decompile error
                  return this.getType(blockposition).getBlock();
              });
-             this.o = TickListEmpty.b();
-@@ -773,7 +852,7 @@
+             this.p = TickListEmpty.b();
+@@ -668,7 +752,7 @@
          }
  
-         if (this.p instanceof ProtoChunkTickList) {
--            ((ProtoChunkTickList) this.p).a(this.world.getFluidTickList(), (blockposition) -> {
-+            ((ProtoChunkTickList<FluidType>) this.p).a(this.world.getFluidTickList(), (blockposition) -> { // CraftBukkit - decompile error
+         if (this.q instanceof ProtoChunkTickList) {
+-            ((ProtoChunkTickList) this.q).a(this.world.getFluidTickList(), (blockposition) -> {
++            ((ProtoChunkTickList<FluidType>) this.q).a(this.world.getFluidTickList(), (blockposition) -> { // CraftBukkit - decompile error
                  return this.getFluid(blockposition).getType();
              });
-             this.p = TickListEmpty.b();
-@@ -785,12 +864,12 @@
+             this.q = TickListEmpty.b();
+@@ -680,12 +764,12 @@
      }
  
      public void a(WorldServer worldserver) {
--        if (this.o == TickListEmpty.b()) {
-+        if (this.o == TickListEmpty.<Block>b()) { // CraftBukkit - decompile error
-             this.o = new TickListChunk<>(IRegistry.BLOCK::getKey, worldserver.getBlockTickList().a(this.loc, true, false), worldserver.getTime());
+-        if (this.p == TickListEmpty.b()) {
++        if (this.p == TickListEmpty.<Block>b()) { // CraftBukkit - decompile error
+             this.p = new TickListChunk<>(IRegistry.BLOCK::getKey, worldserver.getBlockTickList().a(this.loc, true, false), worldserver.getTime());
              this.setNeedsSaving(true);
          }
  
--        if (this.p == TickListEmpty.b()) {
-+        if (this.p == TickListEmpty.<FluidType>b()) { // CraftBukkit - decompile error
-             this.p = new TickListChunk<>(IRegistry.FLUID::getKey, worldserver.getFluidTickList().a(this.loc, true, false), worldserver.getTime());
+-        if (this.q == TickListEmpty.b()) {
++        if (this.q == TickListEmpty.<FluidType>b()) { // CraftBukkit - decompile error
+             this.q = new TickListChunk<>(IRegistry.FLUID::getKey, worldserver.getFluidTickList().a(this.loc, true, false), worldserver.getTime());
              this.setNeedsSaving(true);
          }
+@@ -736,7 +820,7 @@
+ 
+     private <T extends TileEntity> void d(T t0) {
+         IBlockData iblockdata = t0.getBlock();
+-        TileEntityTicker<T> tileentityticker = iblockdata.a(this.world, t0.getTileType());
++        TileEntityTicker<T> tileentityticker = (TileEntityTicker<T>) iblockdata.a(this.world, t0.getTileType()); // CraftBukkit - decompile error
+ 
+         if (tileentityticker == null) {
+             this.m(t0.getPosition());
+@@ -808,7 +892,7 @@
+         private boolean d;
+ 
+         private EnumTileEntityState(TileEntity tileentity, TileEntityTicker tileentityticker) {
+-            this.QUEUED = tileentity;
++            this.QUEUED = (T) tileentity; // CraftBukkit - decompile error
+             this.CHECK = tileentityticker;
+         }
+ 

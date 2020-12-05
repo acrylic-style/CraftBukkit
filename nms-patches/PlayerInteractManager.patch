@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/PlayerInteractManager.java
 +++ b/net/minecraft/server/PlayerInteractManager.java
-@@ -3,6 +3,15 @@
- import java.util.Objects;
+@@ -4,12 +4,21 @@
+ import javax.annotation.Nullable;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
 +// CraftBukkit start
@@ -16,9 +16,17 @@
  
  public class PlayerInteractManager {
  
-@@ -38,7 +47,7 @@
+     private static final Logger LOGGER = LogManager.getLogger();
+-    protected WorldServer world;
+-    protected final EntityPlayer player;
++    public WorldServer world; // CraftBukkit - protected -> public
++    public EntityPlayer player; // CraftBukkit - protected final -> public
+     private EnumGamemode gamemode;
+     @Nullable
+     private EnumGamemode e;
+@@ -45,7 +54,7 @@
          this.gamemode = enumgamemode;
-         enumgamemode.a(this.player.abilities);
+         enumgamemode.a(this.player.eU());
          this.player.updateAbilities();
 -        this.player.server.getPlayerList().sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE, new EntityPlayer[]{this.player}));
 +        this.player.server.getPlayerList().sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE, new EntityPlayer[]{this.player}), this.player); // CraftBukkit
@@ -115,8 +123,8 @@
              } else if (packetplayinblockdig_enumplayerdigtype == PacketPlayInBlockDig.EnumPlayerDigType.ABORT_DESTROY_BLOCK) {
                  this.f = false;
                  if (!Objects.equals(this.h, blockposition)) {
--                    PlayerInteractManager.LOGGER.warn("Mismatch in destroy block pos: " + this.h + " " + blockposition);
-+                    PlayerInteractManager.LOGGER.debug("Mismatch in destroy block pos: " + this.h + " " + blockposition); // CraftBukkit - SPIGOT-5457 sent by client when interact event cancelled
+-                    PlayerInteractManager.LOGGER.warn("Mismatch in destroy block pos: {} {}", this.h, blockposition);
++                    PlayerInteractManager.LOGGER.debug("Mismatch in destroy block pos: {} {}", this.h, blockposition); // CraftBukkit - SPIGOT-5457 sent by client when interact event cancelled
                      this.world.a(this.player.getId(), this.h, -1);
                      this.player.playerConnection.sendPacket(new PacketPlayOutBlockBreak(this.h, this.world.getType(this.h), packetplayinblockdig_enumplayerdigtype, true, "aborted mismatched destroying"));
                  }
@@ -212,13 +220,13 @@
  
                  if (this.isCreative()) {
 -                    return true;
-+                    // return true; // CraftBukkit
++                    //return true; // CraftBukkit
                  } else {
                      ItemStack itemstack = this.player.getItemInMainHand();
                      ItemStack itemstack1 = itemstack.cloneItemStack();
                      boolean flag1 = this.player.hasBlock(iblockdata);
  
-                     itemstack.a(this.world, iblockdata, blockposition, this.player);
+                     itemstack.a((World) this.world, iblockdata, blockposition, (EntityHuman) this.player);
 -                    if (flag && flag1) {
 +                    if (flag && flag1 && event.isDropItems()) { // CraftBukkit - Check if block should drop items
                          block.a(this.world, this.player, blockposition, iblockdata, tileentity, itemstack1);
@@ -259,7 +267,7 @@
 +        EnumInteractionResult enuminteractionresult = EnumInteractionResult.PASS;
 +        boolean cancelledBlock = false;
  
-         if (this.gamemode == EnumGamemode.SPECTATOR) {
+         if (this.gamemode == EnumGamemode.ADVENTURE) {
              ITileInventory itileinventory = iblockdata.b(world, blockposition);
 +            cancelledBlock = !(itileinventory instanceof ITileInventory);
 +        }

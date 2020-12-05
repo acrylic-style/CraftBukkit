@@ -28,6 +28,6 @@
 +                            return new InteractionResultWrapper(EnumInteractionResult.PASS, itemstack);
 +                        }
 +                        // CraftBukkit end
-                         if (!entityhuman.abilities.canInstantlyBuild) {
+                         if (!entityhuman.eU().canInstantlyBuild) {
                              itemstack.subtract(1);
                          }

@@ -14,13 +14,13 @@
  
                  if (BlockMonsterEggs.h(iblockdata)) {
 +                    // CraftBukkit start
-+                    if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(this.a, blockposition, BlockMonsterEggs.c(iblockdata.getBlock())).isCancelled()) {
++                    if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(this.a, blockposition, BlockMonsterEggs.a(iblockdata.getBlock())).isCancelled()) {
 +                        return;
 +                    }
 +                    // CraftBukkit end
-                     world.setTypeAndData(blockposition, BlockMonsterEggs.c(iblockdata.getBlock()), 3);
+                     world.setTypeAndData(blockposition, BlockMonsterEggs.a(iblockdata.getBlock()), 3);
                      this.a.doSpawnEffect();
-                     this.a.die();
+                     this.a.ab();
 @@ -202,6 +207,11 @@
                              Block block = iblockdata.getBlock();
  

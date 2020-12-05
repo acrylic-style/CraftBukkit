@@ -18,7 +18,7 @@
          hashmap.put("Iglu", "Igloo");
          hashmap.put("TeDP", "Desert_Pyramid");
          hashmap.put("TeJP", "Jungle_Pyramid");
-@@ -228,16 +228,16 @@
+@@ -226,16 +226,16 @@
          }
      }
  

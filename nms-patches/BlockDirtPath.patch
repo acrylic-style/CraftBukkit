@@ -1,5 +1,5 @@
---- a/net/minecraft/server/BlockGrassPath.java
-+++ b/net/minecraft/server/BlockGrassPath.java
+--- a/net/minecraft/server/BlockDirtPath.java
++++ b/net/minecraft/server/BlockDirtPath.java
 @@ -31,6 +31,11 @@
  
      @Override

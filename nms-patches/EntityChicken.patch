@@ -10,12 +10,12 @@
 +        }
 +        // CraftBukkit end
          super.movementTick();
-         this.br = this.bo;
-         this.bq = this.bp;
+         this.bm = this.bj;
+         this.bl = this.bk;
 @@ -59,7 +64,9 @@
-         this.bo += this.bs * 2.0F;
+         this.bj += this.bn * 2.0F;
          if (!this.world.isClientSide && this.isAlive() && !this.isBaby() && !this.isChickenJockey() && --this.eggLayTime <= 0) {
-             this.playSound(SoundEffects.ENTITY_CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+             this.playSound(SoundEffects.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
 +            this.forceDrops = true; // CraftBukkit
              this.a((IMaterial) Items.EGG);
 +            this.forceDrops = false; // CraftBukkit

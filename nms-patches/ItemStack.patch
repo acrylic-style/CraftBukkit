@@ -80,8 +80,8 @@
          this.checkEmpty();
      }
  
-@@ -113,7 +150,7 @@
-         return this.j ? Items.AIR : this.item;
+@@ -121,7 +158,7 @@
+         return this.getItem() == item;
      }
  
 -    public EnumInteractionResult placeItem(ItemActionContext itemactioncontext) {
@@ -89,8 +89,8 @@
          EntityHuman entityhuman = itemactioncontext.getEntity();
          BlockPosition blockposition = itemactioncontext.getClickPosition();
          ShapeDetectorBlock shapedetectorblock = new ShapeDetectorBlock(itemactioncontext.getWorld(), blockposition, false);
-@@ -121,12 +158,153 @@
-         if (entityhuman != null && !entityhuman.abilities.mayBuild && !this.b(itemactioncontext.getWorld().p(), shapedetectorblock)) {
+@@ -129,12 +166,153 @@
+         if (entityhuman != null && !entityhuman.eU().mayBuild && !this.b(itemactioncontext.getWorld().p(), shapedetectorblock)) {
              return EnumInteractionResult.PASS;
          } else {
 +            // CraftBukkit start - handle all block place event logic here
@@ -244,7 +244,7 @@
  
              return enuminteractionresult;
          }
-@@ -207,6 +385,21 @@
+@@ -215,6 +393,21 @@
                  }
  
                  i -= k;
@@ -266,7 +266,7 @@
                  if (i <= 0) {
                      return false;
                  }
-@@ -228,6 +421,11 @@
+@@ -236,6 +429,11 @@
                  if (this.isDamaged(i, t0.getRandom(), t0 instanceof EntityPlayer ? (EntityPlayer) t0 : null)) {
                      consumer.accept(t0);
                      Item item = this.getItem();
@@ -278,7 +278,7 @@
  
                      this.subtract(1);
                      if (t0 instanceof EntityHuman) {
-@@ -359,6 +557,17 @@
+@@ -379,6 +577,17 @@
          return this.tag;
      }
  
@@ -296,7 +296,7 @@
      public NBTTagCompound getOrCreateTag() {
          if (this.tag == null) {
              this.setTag(new NBTTagCompound());
-@@ -522,6 +731,12 @@
+@@ -542,6 +751,12 @@
      }
  
      public void setRepairCost(int i) {
@@ -309,7 +309,7 @@
          this.getOrCreateTag().setInt("RepairCost", i);
      }
  
-@@ -571,6 +786,13 @@
+@@ -591,6 +806,13 @@
          nbttaglist.add(nbttagcompound);
      }
  
@@ -320,6 +320,6 @@
 +    }
 +    // CraftBukkit end
 +
-     public IChatBaseComponent C() {
+     public IChatBaseComponent G() {
          IChatMutableComponent ichatmutablecomponent = (new ChatComponentText("")).addSibling(this.getName());
  

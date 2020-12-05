@@ -15,9 +15,9 @@
  
      private static final Logger LOGGER = LogManager.getLogger();
 @@ -38,6 +44,7 @@
-     private final PathPoint[] bJ = new PathPoint[24];
-     private final int[] bK = new int[24];
-     private final Path bL = new Path();
+     private final PathPoint[] bE = new PathPoint[24];
+     private final int[] bF = new int[24];
+     private final Path bG = new Path();
 +    private Explosion explosionSource = new Explosion(null, this, null, null, Double.NaN, Double.NaN, Double.NaN, Float.NaN, true, Explosion.Effect.DESTROY); // CraftBukkit - reusable source for CraftTNTPrimed.getSource()
  
      public EntityEnderDragon(EntityTypes<? extends EntityEnderDragon> entitytypes, World world) {
@@ -32,8 +32,8 @@
                          d1 = vec3d1.y - this.locY();
                          d2 = vec3d1.z - this.locZ();
 @@ -313,7 +320,14 @@
-             if (this.currentEnderCrystal.dead) {
-                 this.currentEnderCrystal = null;
+             if (this.bp.cU()) {
+                 this.bp = null;
              } else if (this.ticksLived % 10 == 0 && this.getHealth() < this.getMaxHealth()) {
 -                this.setHealth(this.getHealth() + 1.0F);
 +                // CraftBukkit start
@@ -57,10 +57,10 @@
  
          for (int k1 = i; k1 <= l; ++k1) {
              for (int l1 = j; l1 <= i1; ++l1) {
-@@ -398,7 +415,11 @@
+@@ -397,7 +414,11 @@
  
                      if (!iblockdata.isAir() && iblockdata.getMaterial() != Material.FIRE) {
-                         if (this.world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && !TagsBlock.DRAGON_IMMUNE.isTagged(block)) {
+                         if (this.world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) && !iblockdata.a((Tag) TagsBlock.DRAGON_IMMUNE)) {
 -                            flag1 = this.world.a(blockposition, false) || flag1;
 +                            // CraftBukkit start - Add blocks to list rather than destroying them
 +                            // flag1 = this.world.a(blockposition, false) || flag1;
@@ -70,7 +70,7 @@
                          } else {
                              flag = true;
                          }
-@@ -407,6 +428,51 @@
+@@ -406,6 +427,51 @@
              }
          }
  
@@ -104,7 +104,7 @@
 +
 +                Block nmsBlock = craftBlock.getNMS().getBlock();
 +                if (nmsBlock.a(explosionSource)) {
-+                    TileEntity tileentity = nmsBlock.isTileEntity() ? this.world.getTileEntity(blockposition) : null;
++                    TileEntity tileentity = nmsBlock.getBlockData().isTileEntity() ? this.world.getTileEntity(blockposition) : null;
 +                    LootTableInfo.Builder loottableinfo_builder = (new LootTableInfo.Builder((WorldServer) this.world)).a(this.world.random).set(LootContextParameters.ORIGIN, Vec3D.a(blockposition)).set(LootContextParameters.TOOL, ItemStack.b).set(LootContextParameters.EXPLOSION_RADIUS, 1.0F / event.getYield()).setOptional(LootContextParameters.BLOCK_ENTITY, tileentity);
 +
 +                    craftBlock.getNMS().a(loottableinfo_builder).forEach((itemstack) -> {

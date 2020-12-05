@@ -177,7 +177,7 @@
  
                  IDispenseBehavior.a(isourceblock, entityfireworks, enumdirection);
                  entityfireworks.shoot((double) enumdirection.getAdjacentX(), (double) enumdirection.getAdjacentY(), (double) enumdirection.getAdjacentZ(), 0.5F, 1.0F);
-                 isourceblock.getWorld().addEntity(entityfireworks);
+                 isourceblock.getWorld().addFreshEntity(entityfireworks);
 -                itemstack.subtract(1);
 +                // itemstack.subtract(1); // Handled during event processing
 +                // CraftBukkit end
@@ -238,7 +238,7 @@
 +                int z = blockposition.getZ();
 +                IBlockData iblockdata = worldserver.getType(blockposition);
 +                Material material = iblockdata.getMaterial();
-+                if (worldserver.isEmpty(blockposition) || !material.isBuildable() || material.isReplaceable() || ((iblockdata.getBlock() instanceof IFluidContainer) && ((IFluidContainer) iblockdata.getBlock()).canPlace(worldserver, blockposition, iblockdata, itembucket.fluidType))) {
++                if (worldserver.isEmpty(blockposition) || !material.isBuildable() || material.isReplaceable() || ((iblockdata.getBlock() instanceof IFluidContainer) && ((IFluidContainer) iblockdata.getBlock()).canPlace(worldserver, blockposition, iblockdata, ((ItemBucket) dispensiblecontaineritem).fluidType))) {
 +                    org.bukkit.block.Block block = worldserver.getWorld().getBlockAt(isourceblock.getBlockPosition().getX(), isourceblock.getBlockPosition().getY(), isourceblock.getBlockPosition().getZ());
 +                    CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack);
 +
@@ -261,12 +261,12 @@
 +                        }
 +                    }
 +
-+                    itembucket = (ItemBucket) CraftItemStack.asNMSCopy(event.getItem()).getItem();
++                    dispensiblecontaineritem = (ItemBucket) CraftItemStack.asNMSCopy(event.getItem()).getItem();
 +                }
 +                // CraftBukkit end
 +
-                 if (itembucket.a((EntityHuman) null, (World) worldserver, blockposition, (MovingObjectPositionBlock) null)) {
-                     itembucket.a((World) worldserver, itemstack, blockposition);
+                 if (dispensiblecontaineritem.a((EntityHuman) null, worldserver, blockposition, (MovingObjectPositionBlock) null)) {
+                     dispensiblecontaineritem.a(worldserver, itemstack, blockposition);
 -                    return new ItemStack(Items.BUCKET);
 +                    // CraftBukkit start - Handle stacked buckets
 +                    Item item = Items.BUCKET;
@@ -282,17 +282,17 @@
                  } else {
                      return this.b.dispense(isourceblock, itemstack);
                  }
-@@ -333,13 +499,39 @@
+@@ -334,13 +500,39 @@
                  Block block = iblockdata.getBlock();
  
                  if (block instanceof IFluidSource) {
--                    FluidType fluidtype = ((IFluidSource) block).removeFluid(worldserver, blockposition, iblockdata);
-+                    FluidType fluidtype = ((IFluidSource) block).removeFluid(DummyGeneratorAccess.INSTANCE, blockposition, iblockdata); // CraftBukkit
+-                    ItemStack itemstack1 = ((IFluidSource) block).removeFluid(worldserver, blockposition, iblockdata);
++                    ItemStack itemstack1 = ((IFluidSource) block).removeFluid(DummyGeneratorAccess.INSTANCE, blockposition, iblockdata);
  
-                     if (!(fluidtype instanceof FluidTypeFlowing)) {
+                     if (itemstack1.isEmpty()) {
                          return super.a(isourceblock, itemstack);
                      } else {
-                         Item item = fluidtype.a();
+                         Item item = itemstack1.getItem();
  
 +                        // CraftBukkit start
 +                        org.bukkit.block.Block bukkitBlock = worldserver.getWorld().getBlockAt(isourceblock.getBlockPosition().getX(), isourceblock.getBlockPosition().getY(), isourceblock.getBlockPosition().getZ());
@@ -317,13 +317,13 @@
 +                            }
 +                        }
 +
-+                        fluidtype = ((IFluidSource) block).removeFluid(worldserver, blockposition, iblockdata); // From above
++                        itemstack1 = ((IFluidSource) block).removeFluid(worldserver, blockposition, iblockdata); // From above
 +                        // CraftBukkit end
 +
                          itemstack.subtract(1);
                          if (itemstack.isEmpty()) {
                              return new ItemStack(item);
-@@ -361,13 +553,41 @@
+@@ -362,13 +554,41 @@
              protected ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
                  WorldServer worldserver = isourceblock.getWorld();
  
@@ -363,10 +363,10 @@
 +                        worldserver.setTypeUpdate(blockposition, BlockFireAbstract.a((IBlockAccess) worldserver, blockposition));
 +                    }
 +                    // CraftBukkit end
-                 } else if (BlockCampfire.h(iblockdata)) {
-                     worldserver.setTypeUpdate(blockposition, (IBlockData) iblockdata.set(BlockProperties.r, true));
-                 } else if (iblockdata.getBlock() instanceof BlockTNT) {
-@@ -390,12 +610,57 @@
+                 } else if (!BlockCampfire.h(iblockdata) && !BlockCandle.g(iblockdata) && !BlockCandleCake.g(iblockdata)) {
+                     if (iblockdata.getBlock() instanceof BlockTNT) {
+                         BlockTNT.a((World) worldserver, blockposition);
+@@ -393,12 +613,57 @@
                  this.a(true);
                  WorldServer worldserver = isourceblock.getWorld();
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
@@ -424,12 +424,12 @@
  
                  return itemstack;
              }
-@@ -405,11 +670,40 @@
+@@ -408,11 +673,40 @@
              protected ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
                  WorldServer worldserver = isourceblock.getWorld();
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
 -                EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldserver, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (EntityLiving) null);
-+                // EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (EntityLiving) null);
++                // EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldserver, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (EntityLiving) null);
 +
 +                // CraftBukkit start
 +                ItemStack itemstack1 = itemstack.cloneAndSubtract(1);
@@ -438,7 +438,7 @@
 +
 +                BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D));
 +                if (!BlockDispenser.eventFired) {
-+                   worldserver.getServer().getPluginManager().callEvent(event);
++                    worldserver.getServer().getPluginManager().callEvent(event);
 +                }
 +
 +                if (event.isCancelled()) {
@@ -461,16 +461,17 @@
 +                // CraftBukkit end
  
                  worldserver.addEntity(entitytntprimed);
-                 worldserver.playSound((EntityHuman) null, entitytntprimed.locX(), entitytntprimed.locY(), entitytntprimed.locZ(), SoundEffects.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                 worldserver.playSound((EntityHuman) null, entitytntprimed.locX(), entitytntprimed.locY(), entitytntprimed.locZ(), SoundEffects.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 -                itemstack.subtract(1);
 +                // itemstack.subtract(1); // CraftBukkit - handled above
                  return itemstack;
              }
          }));
-@@ -433,6 +727,30 @@
+@@ -436,7 +730,31 @@
                  EnumDirection enumdirection = (EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING);
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift(enumdirection);
  
+-                if (worldserver.x(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
 +                // CraftBukkit start
 +                org.bukkit.block.Block bukkitBlock = worldserver.getWorld().getBlockAt(isourceblock.getBlockPosition().getX(), isourceblock.getBlockPosition().getY(), isourceblock.getBlockPosition().getZ());
 +                CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack);
@@ -495,10 +496,11 @@
 +                }
 +                // CraftBukkit end
 +
-                 if (worldserver.isEmpty(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
++                if (worldserver.isEmpty(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
                      worldserver.setTypeAndData(blockposition, (IBlockData) Blocks.WITHER_SKELETON_SKULL.getBlockData().set(BlockSkull.a, enumdirection.n() == EnumDirection.EnumAxis.Y ? 0 : enumdirection.opposite().get2DRotationValue() * 4), 3);
                      TileEntity tileentity = worldserver.getTileEntity(blockposition);
-@@ -457,6 +775,30 @@
+ 
+@@ -460,6 +778,30 @@
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
                  BlockPumpkinCarved blockpumpkincarved = (BlockPumpkinCarved) Blocks.CARVED_PUMPKIN;
  
@@ -526,10 +528,10 @@
 +                }
 +                // CraftBukkit end
 +
-                 if (worldserver.isEmpty(blockposition) && blockpumpkincarved.a((IWorldReader) worldserver, blockposition)) {
+                 if (worldserver.x(blockposition) && blockpumpkincarved.a((IWorldReader) worldserver, blockposition)) {
                      if (!worldserver.isClientSide) {
                          worldserver.setTypeAndData(blockposition, blockpumpkincarved.getBlockData(), 3);
-@@ -504,6 +846,30 @@
+@@ -507,6 +849,30 @@
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
                  IBlockData iblockdata = worldserver.getType(blockposition);
  

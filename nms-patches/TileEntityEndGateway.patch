@@ -11,18 +11,18 @@
 +import org.bukkit.event.player.PlayerTeleportEvent;
 +// CraftBukkit end
  
- public class TileEntityEndGateway extends TileEntityEnderPortal implements ITickable {
+ public class TileEntityEndGateway extends TileEntityEnderPortal {
  
-@@ -117,7 +123,7 @@
-     public void b(Entity entity) {
-         if (this.world instanceof WorldServer && !this.f()) {
-             this.c = 100;
--            if (this.exitPortal == null && this.world.getDimensionKey() == World.THE_END) {
-+            if (this.exitPortal == null && this.world.getTypeKey() == DimensionManager.THE_END) { // CraftBukkit - work in alternate worlds
-                 this.a((WorldServer) this.world);
-             }
+@@ -128,7 +134,7 @@
+             tileentityendgateway.c = 100;
+             BlockPosition blockposition1;
  
-@@ -142,6 +148,27 @@
+-            if (tileentityendgateway.exitPortal == null && world.getDimensionKey() == World.THE_END) {
++            if (tileentityendgateway.exitPortal == null && tileentityendgateway.world.getTypeKey() == DimensionManager.THE_END) { // CraftBukkit - work in alternate worlds
+                 blockposition1 = a(worldserver, blockposition);
+                 blockposition1 = blockposition1.up(10);
+                 TileEntityEndGateway.LOGGER.debug("Creating portal at {}", blockposition1);
+@@ -157,6 +163,26 @@
                      entity1 = entity.getRootVehicle();
                  }
  
@@ -41,21 +41,20 @@
 +
 +                    entity1.resetPortalCooldown();
 +                    ((EntityPlayer) entity1).playerConnection.teleport(teleEvent.getTo());
-+                    this.h(); // CraftBukkit - call at end of method
++                    c(world, blockposition, iblockdata, tileentityendgateway); // CraftBukkit - call at end of method
 +                    return;
 +
 +                }
 +                // CraftBukkit end
-+
-                 entity1.resetPortalCooldown();
-                 entity1.enderTeleportAndLoad((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D);
+                 entity1.ai();
+                 entity1.enderTeleportAndLoad((double) blockposition1.getX() + 0.5D, (double) blockposition1.getY(), (double) blockposition1.getZ() + 0.5D);
              }
-@@ -246,7 +273,7 @@
+@@ -268,7 +294,7 @@
      }
  
-     private void a(WorldServer worldserver, BlockPosition blockposition) {
--        WorldGenerator.END_GATEWAY.b((WorldGenFeatureConfiguration) WorldGenEndGatewayConfiguration.a(this.getPosition(), false)).a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), new Random(), blockposition);
-+        WorldGenerator.END_GATEWAY.b(WorldGenEndGatewayConfiguration.a(this.getPosition(), false)).a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), new Random(), blockposition); // CraftBukkit - decompile error
+     private static void a(WorldServer worldserver, BlockPosition blockposition, WorldGenEndGatewayConfiguration worldgenendgatewayconfiguration) {
+-        WorldGenerator.END_GATEWAY.b((WorldGenFeatureConfiguration) worldgenendgatewayconfiguration).a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), new Random(), blockposition);
++        WorldGenerator.END_GATEWAY.b(worldgenendgatewayconfiguration).a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), new Random(), blockposition); // CraftBukkit - decompile error
      }
  
      public void a(BlockPosition blockposition, boolean flag) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/PersistentRaid.java
 +++ b/net/minecraft/server/PersistentRaid.java
-@@ -92,19 +92,33 @@
+@@ -91,19 +91,33 @@
                  boolean flag = false;
  
                  if (!raid.isStarted()) {

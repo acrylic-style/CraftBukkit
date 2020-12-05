@@ -28,20 +28,20 @@
 @@ -78,9 +87,22 @@
              return false;
          } else {
-             if (!this.dead && !this.world.isClientSide) {
+             if (!this.cU() && !this.world.isClientSide) {
 +                // CraftBukkit start - All non-living entities need this
 +                if (CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f, false)) {
 +                    return false;
 +                }
 +                // CraftBukkit end
-                 this.die();
+                 this.a(Entity.RemovalReason.KILLED);
                  if (!damagesource.isExplosion()) {
 -                    this.world.explode((Entity) null, this.locX(), this.locY(), this.locZ(), 6.0F, Explosion.Effect.DESTROY);
 +                    // CraftBukkit start
 +                    ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), 6.0F, false);
 +                    this.world.getServer().getPluginManager().callEvent(event);
 +                    if (event.isCancelled()) {
-+                        this.dead = false;
++                        this.die(null);
 +                        return false;
 +                    }
 +                    this.world.createExplosion(this, this.locX(), this.locY(), this.locZ(), event.getRadius(), event.getFire(), Explosion.Effect.DESTROY);

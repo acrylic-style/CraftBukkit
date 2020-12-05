@@ -42,7 +42,7 @@
 +                    return;
 +                }
 +                // CraftBukkit end
-                 worldserver.playSound((EntityHuman) null, blockposition, SoundEffects.ENTITY_TURTLE_EGG_CRACK, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+                 worldserver.playSound((EntityHuman) null, blockposition, SoundEffects.TURTLE_EGG_CRACK, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
 -                worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockTurtleEgg.a, i + 1), 2);
 +                // worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockTurtleEgg.a, i + 1), 2); // CraftBukkit - handled above
              } else {
@@ -51,14 +51,14 @@
 +                    return;
 +                }
 +                // CraftBukkit end
-                 worldserver.playSound((EntityHuman) null, blockposition, SoundEffects.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+                 worldserver.playSound((EntityHuman) null, blockposition, SoundEffects.TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
                  worldserver.a(blockposition, false);
  
 @@ -75,7 +104,7 @@
                      entityturtle.setAgeRaw(-24000);
                      entityturtle.setHomePos(blockposition);
                      entityturtle.setPositionRotation((double) blockposition.getX() + 0.3D + (double) j * 0.2D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.3D, 0.0F, 0.0F);
--                    worldserver.addEntity(entityturtle);
+-                    worldserver.addFreshEntity(entityturtle);
 +                    worldserver.addEntity(entityturtle, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.EGG); // CraftBukkit
                  }
              }

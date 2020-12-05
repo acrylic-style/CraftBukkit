@@ -9,7 +9,7 @@
  public class BlockChorusFlower extends Block {
  
      public static final BlockStateInteger AGE = BlockProperties.ah;
-@@ -68,8 +70,12 @@
+@@ -67,8 +69,12 @@
                  }
  
                  if (flag && b((IWorldReader) worldserver, blockposition1, (EnumDirection) null) && worldserver.isEmpty(blockposition.up(2))) {
@@ -24,7 +24,7 @@
                  } else if (i < 4) {
                      j = random.nextInt(4);
                      if (flag1) {
-@@ -83,18 +89,30 @@
+@@ -82,18 +88,30 @@
                          BlockPosition blockposition2 = blockposition.shift(enumdirection);
  
                          if (worldserver.isEmpty(blockposition2) && worldserver.isEmpty(blockposition2.down()) && b((IWorldReader) worldserver, blockposition2, enumdirection.opposite())) {

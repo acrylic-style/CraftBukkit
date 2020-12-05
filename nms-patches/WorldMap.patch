@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/WorldMap.java
 +++ b/net/minecraft/server/WorldMap.java
-@@ -11,6 +11,15 @@
+@@ -11,6 +11,14 @@
+ import javax.annotation.Nullable;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
- 
 +// CraftBukkit start
 +import java.util.UUID;
 +
@@ -12,12 +12,11 @@
 +import org.bukkit.craftbukkit.map.CraftMapView;
 +import org.bukkit.craftbukkit.util.CraftChatMessage;
 +// CraftBukkit end
-+
+ 
  public class WorldMap extends PersistentBase {
  
-     private static final Logger LOGGER = LogManager.getLogger();
-@@ -28,8 +37,18 @@
-     public final Map<String, MapIcon> decorations = Maps.newLinkedHashMap();
+@@ -29,6 +37,12 @@
+     private final Map<String, MapIcon> decorations = Maps.newLinkedHashMap();
      private final Map<String, WorldMapFrame> n = Maps.newHashMap();
  
 +    // CraftBukkit start
@@ -26,35 +25,38 @@
 +    private UUID uniqueId = null;
 +    // CraftBukkit end
 +
-     public WorldMap(String s) {
-         super(s);
+     private WorldMap(int i, int j, byte b0, boolean flag, boolean flag1, boolean flag2, ResourceKey<World> resourcekey) {
+         this.scale = b0;
+         this.centerX = i;
+@@ -38,6 +52,10 @@
+         this.unlimitedTracking = flag1;
+         this.locked = flag2;
+         this.b();
 +        // CraftBukkit start
 +        mapView = new CraftMapView(this);
 +        server = (CraftServer) org.bukkit.Bukkit.getServer();
 +        // CraftBukkit end
      }
  
-     public void a(int i, int j, int k, boolean flag, boolean flag1, ResourceKey<World> resourcekey) {
-@@ -52,12 +71,30 @@
+     public static WorldMap a(double d0, double d1, byte b0, boolean flag, boolean flag1, ResourceKey<World> resourcekey) {
+@@ -51,12 +69,28 @@
+     }
  
-     @Override
-     public void a(NBTTagCompound nbttagcompound) {
+     public static WorldMap b(NBTTagCompound nbttagcompound) {
 -        DataResult dataresult = DimensionManager.a(new Dynamic(DynamicOpsNBT.a, nbttagcompound.get("dimension")));
 +        DataResult<ResourceKey<World>> dataresult = DimensionManager.a(new Dynamic(DynamicOpsNBT.a, nbttagcompound.get("dimension"))); // CraftBukkit - decompile error
          Logger logger = WorldMap.LOGGER;
  
          logger.getClass();
--        this.map = (ResourceKey) dataresult.resultOrPartial(logger::error).orElseThrow(() -> {
+-        ResourceKey<World> resourcekey = (ResourceKey) dataresult.resultOrPartial(logger::error).orElseThrow(() -> {
 -            return new IllegalArgumentException("Invalid map dimension: " + nbttagcompound.get("dimension"));
 +        // CraftBukkit start
-+        this.map = (ResourceKey) dataresult.resultOrPartial(logger::error).orElseGet(() -> {
++        ResourceKey<World> resourcekey = (ResourceKey) dataresult.resultOrPartial(logger::error).orElseGet(() -> {
 +            long least = nbttagcompound.getLong("UUIDLeast");
 +            long most = nbttagcompound.getLong("UUIDMost");
 +
 +            if (least != 0L && most != 0L) {
-+                this.uniqueId = new UUID(most, least);
-+
-+                CraftWorld world = (CraftWorld) server.getWorld(this.uniqueId);
++                CraftWorld world = (CraftWorld) org.bukkit.Bukkit.getServer().getWorld(new UUID(most, least));
 +                // Check if the stored world details are correct.
 +                if (world == null) {
 +                    /* All Maps which do not have their valid world loaded are set to a dimension which hopefully won't be reached.
@@ -67,12 +69,12 @@
 +            throw new IllegalArgumentException("Invalid map dimension: " + nbttagcompound.get("dimension"));
 +            // CraftBukkit end
          });
-         this.centerX = nbttagcompound.getInt("xCenter");
-         this.centerZ = nbttagcompound.getInt("zCenter");
-@@ -92,13 +129,32 @@
+         int i = nbttagcompound.getInt("xCenter");
+         int j = nbttagcompound.getInt("zCenter");
+@@ -94,13 +128,32 @@
  
      @Override
-     public NBTTagCompound b(NBTTagCompound nbttagcompound) {
+     public NBTTagCompound a(NBTTagCompound nbttagcompound) {
 -        DataResult dataresult = MinecraftKey.a.encodeStart(DynamicOpsNBT.a, this.map.a());
 +        DataResult<NBTBase> dataresult = MinecraftKey.a.encodeStart(DynamicOpsNBT.a, this.map.a()); // CraftBukkit - decompile error
          Logger logger = WorldMap.LOGGER;
@@ -103,31 +105,24 @@
          nbttagcompound.setInt("xCenter", this.centerX);
          nbttagcompound.setInt("zCenter", this.centerZ);
          nbttagcompound.setByte("scale", this.scale);
-@@ -389,12 +445,25 @@
- 
-         @Nullable
-         public Packet<?> a(ItemStack itemstack) {
+@@ -470,8 +523,19 @@
+             } else {
+                 collection = null;
+             }
 +            // CraftBukkit start
 +            org.bukkit.craftbukkit.map.RenderData render = WorldMap.this.mapView.render((org.bukkit.craftbukkit.entity.CraftPlayer) this.trackee.getBukkitEntity()); // CraftBukkit
 +
-+            java.util.Collection<MapIcon> icons = new java.util.ArrayList<MapIcon>();
-+
++            java.util.Collection<MapIcon> icons = collection == null ? new java.util.ArrayList<MapIcon>() : new java.util.ArrayList<MapIcon>(collection);
+ 
+-            return collection == null && worldmap_b == null ? null : new PacketPlayOutMap(i, WorldMap.this.scale, WorldMap.this.locked, collection, worldmap_b);
 +            for ( org.bukkit.map.MapCursor cursor : render.cursors) {
 +
 +                if (cursor.isVisible()) {
 +                    icons.add(new MapIcon(MapIcon.Type.a(cursor.getRawType()), cursor.getX(), cursor.getY(), cursor.getDirection(), CraftChatMessage.fromStringOrNull(cursor.getCaption())));
 +                }
 +            }
-+
-             if (this.d) {
-                 this.d = false;
--                return new PacketPlayOutMap(ItemWorldMap.d(itemstack), WorldMap.this.scale, WorldMap.this.track, WorldMap.this.locked, WorldMap.this.decorations.values(), WorldMap.this.colors, this.e, this.f, this.g + 1 - this.e, this.h + 1 - this.f);
-+                return new PacketPlayOutMap(ItemWorldMap.d(itemstack), WorldMap.this.scale, WorldMap.this.track, WorldMap.this.locked, icons, render.buffer, this.e, this.f, this.g + 1 - this.e, this.h + 1 - this.f);
-             } else {
--                return this.i++ % 5 == 0 ? new PacketPlayOutMap(ItemWorldMap.d(itemstack), WorldMap.this.scale, WorldMap.this.track, WorldMap.this.locked, WorldMap.this.decorations.values(), WorldMap.this.colors, 0, 0, 0, 0) : null;
-+                return this.i++ % 5 == 0 ? new PacketPlayOutMap(ItemWorldMap.d(itemstack), WorldMap.this.scale, WorldMap.this.track, WorldMap.this.locked, icons, render.buffer, 0, 0, 0, 0) : null;
-             }
++            return collection == null && worldmap_b == null ? null : new PacketPlayOutMap(i, WorldMap.this.scale, WorldMap.this.locked, icons, new WorldMap.b(0, 0, 0, 0, render.buffer));
 +            // CraftBukkit end
          }
  
-         public void a(int i, int j) {
+         private void a(int i, int j) {

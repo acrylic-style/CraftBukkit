@@ -8,7 +8,7 @@
 +
  public class BlockLeaves extends Block {
  
-     public static final BlockStateInteger DISTANCE = BlockProperties.an;
+     public static final BlockStateInteger DISTANCE = BlockProperties.ao;
 @@ -25,6 +27,14 @@
      @Override
      public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {

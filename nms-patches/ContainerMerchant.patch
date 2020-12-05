@@ -43,3 +43,12 @@
              Entity entity = (Entity) this.merchant;
  
              this.merchant.getWorld().a(entity.locX(), entity.locY(), entity.locZ(), this.merchant.getTradeSound(), SoundCategory.NEUTRAL, 1.0F, 1.0F, false);
+@@ -109,7 +125,7 @@
+         super.b(entityhuman);
+         this.merchant.setTradingPlayer((EntityHuman) null);
+         if (!this.merchant.getWorld().isClientSide) {
+-            if (entityhuman.isAlive() && (!(entityhuman instanceof EntityPlayer) || !((EntityPlayer) entityhuman).q())) {
++            if (entityhuman.isAlive() && (!(entityhuman instanceof EntityPlayer) || !((EntityPlayer) entityhuman).playerConnection.isDisconnected())) {
+                 if (entityhuman instanceof EntityPlayer) {
+                     entityhuman.eT().f(this.inventoryMerchant.splitWithoutUpdate(0));
+                     entityhuman.eT().f(this.inventoryMerchant.splitWithoutUpdate(1));

@@ -40,6 +40,6 @@
 +                this.world.createExplosion(this, this.locX(), this.locY(), this.locZ(), event.getRadius(), event.getFire(), explosion_effect);
 +            }
 +            // CraftBukkit end
-             this.die();
+             this.ab();
          }
  

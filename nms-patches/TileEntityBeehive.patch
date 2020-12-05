@@ -3,11 +3,11 @@
 @@ -10,6 +10,7 @@
      private final List<TileEntityBeehive.HiveBee> bees = Lists.newArrayList();
      @Nullable
-     public BlockPosition flowerPos = null;
+     public BlockPosition flowerPos;
 +    public int maxBees = 3; // CraftBukkit - allow setting max amount of bees a hive can hold
  
-     public TileEntityBeehive() {
-         super(TileEntityTypes.BEEHIVE);
+     public TileEntityBeehive(BlockPosition blockposition, IBlockData iblockdata) {
+         super(TileEntityTypes.BEEHIVE, blockposition, iblockdata);
 @@ -49,7 +50,7 @@
      }
  
@@ -26,7 +26,7 @@
                          } else {
                              entitybee.setCannotEnterHiveTicks(400);
                          }
-@@ -78,10 +79,16 @@
+@@ -78,10 +79,15 @@
      }
  
      private List<Entity> releaseBees(IBlockData iblockdata, TileEntityBeehive.ReleaseStatus tileentitybeehive_releasestatus) {
@@ -38,13 +38,12 @@
          List<Entity> list = Lists.newArrayList();
  
          this.bees.removeIf((tileentitybeehive_hivebee) -> {
--            return this.releaseBee(iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus);
-+            return this.releaseBee(iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus, force);
-+            // CraftBukkit end
+-            return releaseBee(this.world, this.position, iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus, this.flowerPos);
++            return releaseBee(this.world, this.position, iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus, this.flowerPos, true);
          });
          return list;
      }
-@@ -107,7 +114,19 @@
+@@ -103,7 +109,19 @@
      }
  
      public void a(Entity entity, boolean flag, int i) {
@@ -65,22 +64,22 @@
              entity.stopRiding();
              entity.ejectPassengers();
              NBTTagCompound nbttagcompound = new NBTTagCompound();
-@@ -133,7 +152,13 @@
+@@ -129,7 +147,13 @@
      }
  
-     private boolean releaseBee(IBlockData iblockdata, TileEntityBeehive.HiveBee tileentitybeehive_hivebee, @Nullable List<Entity> list, TileEntityBeehive.ReleaseStatus tileentitybeehive_releasestatus) {
--        if ((this.world.isNight() || this.world.isRaining()) && tileentitybeehive_releasestatus != TileEntityBeehive.ReleaseStatus.EMERGENCY) {
+     private static boolean releaseBee(World world, BlockPosition blockposition, IBlockData iblockdata, TileEntityBeehive.HiveBee tileentitybeehive_hivebee, @Nullable List<Entity> list, TileEntityBeehive.ReleaseStatus tileentitybeehive_releasestatus, @Nullable BlockPosition blockposition1) {
+-        if ((world.isNight() || world.isRaining()) && tileentitybeehive_releasestatus != TileEntityBeehive.ReleaseStatus.EMERGENCY) {
 +        // CraftBukkit start - This allows us to bypass the night/rain/emergency check
-+        return releaseBee(iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus, false);
++        return releaseBee(world, blockposition, iblockdata, tileentitybeehive_hivebee, list, tileentitybeehive_releasestatus, blockposition1, false);
 +    }
 +
-+    private boolean releaseBee(IBlockData iblockdata, TileEntityBeehive.HiveBee tileentitybeehive_hivebee, @Nullable List<Entity> list, TileEntityBeehive.ReleaseStatus tileentitybeehive_releasestatus, boolean force) {
-+        if (!force && (this.world.isNight() || this.world.isRaining()) && tileentitybeehive_releasestatus != TileEntityBeehive.ReleaseStatus.EMERGENCY) {
++    private static boolean releaseBee(World world, BlockPosition blockposition, IBlockData iblockdata, TileEntityBeehive.HiveBee tileentitybeehive_hivebee, @Nullable List<Entity> list, TileEntityBeehive.ReleaseStatus tileentitybeehive_releasestatus, @Nullable BlockPosition blockposition1, boolean force) {
++        if (!force && (world.isNight() || world.isRaining()) && tileentitybeehive_releasestatus != TileEntityBeehive.ReleaseStatus.EMERGENCY) {
 +            // CraftBukkit end
              return false;
          } else {
-             BlockPosition blockposition = this.getPosition();
-@@ -157,6 +182,18 @@
+             NBTTagCompound nbttagcompound = tileentitybeehive_hivebee.entityData;
+@@ -152,6 +176,18 @@
                      if (!entity.getEntityType().a((Tag) TagsEntity.BEEHIVE_INHABITORS)) {
                          return false;
                      } else {
@@ -94,12 +93,12 @@
 +
 +                            entity.setPositionRotation(d1, d2, d3, entity.yaw, entity.pitch);
 +                        }
-+                        if (!this.world.addEntity(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BEEHIVE)) return false; // CraftBukkit - SpawnReason, moved from below
++                        if (!world.addEntity(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BEEHIVE)) return false; // CraftBukkit - SpawnReason, moved from below
 +                        // CraftBukkit end
                          if (entity instanceof EntityBee) {
                              EntityBee entitybee = (EntityBee) entity;
  
-@@ -186,6 +223,7 @@
+@@ -181,6 +217,7 @@
                                  list.add(entitybee);
                              }
  
@@ -107,21 +106,21 @@
                              float f = entity.getWidth();
                              double d0 = flag ? 0.0D : 0.55D + (double) (f / 2.0F);
                              double d1 = (double) blockposition.getX() + 0.5D + d0 * (double) enumdirection.getAdjacentX();
-@@ -193,10 +231,11 @@
+@@ -188,10 +225,11 @@
                              double d3 = (double) blockposition.getZ() + 0.5D + d0 * (double) enumdirection.getAdjacentZ();
  
                              entity.setPositionRotation(d1, d2, d3, entity.yaw, entity.pitch);
-+                             */ // CraftBukkit end
++                            */ // CraftBukkit end
                          }
  
-                         this.world.playSound((EntityHuman) null, blockposition, SoundEffects.BLOCK_BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
--                        return this.world.addEntity(entity);
+                         world.playSound((EntityHuman) null, blockposition, SoundEffects.BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+-                        return world.addEntity(entity);
 +                        return true; // return this.world.addEntity(entity); // CraftBukkit - moved up
                      }
                  } else {
                      return false;
-@@ -235,6 +274,11 @@
-                 if (this.releaseBee(iblockdata, tileentitybeehive_hivebee, (List) null, tileentitybeehive_releasestatus)) {
+@@ -228,6 +266,11 @@
+                 if (releaseBee(world, blockposition, iblockdata, tileentitybeehive_hivebee, (List) null, tileentitybeehive_releasestatus, blockposition1)) {
                      iterator.remove();
                  }
 +                // CraftBukkit start
@@ -132,7 +131,7 @@
              }
          }
  
-@@ -276,6 +320,11 @@
+@@ -264,6 +307,11 @@
              this.flowerPos = GameProfileSerializer.b(nbttagcompound.getCompound("FlowerPos"));
          }
  
@@ -144,8 +143,8 @@
      }
  
      @Override
-@@ -285,6 +334,7 @@
-         if (this.x()) {
+@@ -273,6 +321,7 @@
+         if (this.t()) {
              nbttagcompound.set("FlowerPos", GameProfileSerializer.a(this.flowerPos));
          }
 +        nbttagcompound.setInt("Bukkit.MaxEntities", this.maxBees); // CraftBukkit

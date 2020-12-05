@@ -9,7 +9,7 @@
                  return new IllegalStateException("Failed to get dimension registry");
              });
  
-             dataresult1 = RegistryLookupCodec.a(IRegistry.ay).codec().parse(dynamic2);
+             dataresult1 = RegistryLookupCodec.a(IRegistry.aE).codec().parse(dynamic2);
              logger1 = Convertable.LOGGER;
              logger1.getClass();
 -            IRegistry<BiomeBase> iregistry1 = (IRegistry) dataresult1.resultOrPartial(SystemUtils.a("Biome registry: ", logger1::error)).orElseThrow(() -> {
@@ -17,7 +17,7 @@
                  return new IllegalStateException("Failed to get biome registry");
              });
  
-             dataresult1 = RegistryLookupCodec.a(IRegistry.ar).codec().parse(dynamic2);
+             dataresult1 = RegistryLookupCodec.a(IRegistry.ax).codec().parse(dynamic2);
              logger1 = Convertable.LOGGER;
              logger1.getClass();
 -            IRegistry<GeneratorSettingBase> iregistry2 = (IRegistry) dataresult1.resultOrPartial(SystemUtils.a("Noise settings registry: ", logger1::error)).orElseThrow(() -> {

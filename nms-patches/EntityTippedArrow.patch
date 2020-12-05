@@ -34,7 +34,7 @@
 +            entityliving.addEffect(new MobEffect(mobeffect.getMobEffect(), Math.max(mobeffect.getDuration() / 8, 1), mobeffect.getAmplifier(), mobeffect.isAmbient(), mobeffect.isShowParticles()), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.ARROW); // CraftBukkit
          }
  
-         if (!this.effects.isEmpty()) {
+         if (!this.ab.isEmpty()) {
 @@ -197,7 +216,7 @@
  
              while (iterator.hasNext()) {

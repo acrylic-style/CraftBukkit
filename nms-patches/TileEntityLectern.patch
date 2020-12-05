@@ -90,7 +90,7 @@
          }
  
          @Override
-@@ -135,7 +198,7 @@
+@@ -133,7 +196,7 @@
          if (j != this.page) {
              this.page = j;
              this.update();
@@ -99,7 +99,7 @@
          }
  
      }
-@@ -158,6 +221,32 @@
+@@ -156,6 +219,32 @@
          return itemstack;
      }
  
@@ -132,7 +132,7 @@
      private CommandListenerWrapper a(@Nullable EntityHuman entityhuman) {
          String s;
          Object object;
-@@ -172,7 +261,8 @@
+@@ -170,7 +259,8 @@
  
          Vec3D vec3d = Vec3D.a((BaseBlockPosition) this.position);
  
@@ -142,7 +142,7 @@
      }
  
      @Override
-@@ -211,7 +301,7 @@
+@@ -209,7 +299,7 @@
  
      @Override
      public Container createMenu(int i, PlayerInventory playerinventory, EntityHuman entityhuman) {

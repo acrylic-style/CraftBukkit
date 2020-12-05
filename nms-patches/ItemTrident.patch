@@ -32,9 +32,9 @@
 +                            entitythrowntrident.trident = itemstack.cloneItemStack(); // SPIGOT-4511 update since damage call moved
 +                            // CraftBukkit end
 +
-                             world.playSound((EntityHuman) null, (Entity) entitythrowntrident, SoundEffects.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                             if (!entityhuman.abilities.canInstantlyBuild) {
-                                 entityhuman.inventory.f(itemstack);
+                             world.playSound((EntityHuman) null, (Entity) entitythrowntrident, SoundEffects.TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                             if (!entityhuman.eU().canInstantlyBuild) {
+                                 entityhuman.eT().setCarried(itemstack);
                              }
                          }
 +                        // CraftBukkit start - SPIGOT-5458 also need in this branch :(
@@ -43,7 +43,7 @@
 +                                entityhuman1.broadcastItemBreak(entityliving.getRaisedHand());
 +                            });
 +                        }
-+                        // CraftBukkkit end
++                        // CraftBukkit end
                      }
  
                      entityhuman.b(StatisticList.ITEM_USED.b(this));

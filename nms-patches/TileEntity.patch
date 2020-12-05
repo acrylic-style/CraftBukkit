@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/TileEntity.java
 +++ b/net/minecraft/server/TileEntity.java
-@@ -4,9 +4,18 @@
+@@ -3,14 +3,23 @@
+ import javax.annotation.Nullable;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
- import org.apache.logging.log4j.util.Supplier;
 +// CraftBukkit start
 +import org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer;
 +import org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry;
@@ -19,10 +19,19 @@
      private static final Logger LOGGER = LogManager.getLogger();
      private final TileEntityTypes<?> tileType;
      @Nullable
-@@ -38,6 +47,14 @@
+     protected World world;
+-    protected final BlockPosition position;
++    protected BlockPosition position; // CraftBukkit - remove final
+     protected boolean f;
+     private IBlockData c;
  
-     public void load(IBlockData iblockdata, NBTTagCompound nbttagcompound) {
-         this.position = new BlockPosition(nbttagcompound.getInt("x"), nbttagcompound.getInt("y"), nbttagcompound.getInt("z"));
+@@ -33,7 +42,17 @@
+         return this.world != null;
+     }
+ 
+-    public void load(NBTTagCompound nbttagcompound) {}
++    public void load(NBTTagCompound nbttagcompound) {
++        this.position = new BlockPosition(nbttagcompound.getInt("x"), nbttagcompound.getInt("y"), nbttagcompound.getInt("z")); // CraftBukkit - read position from nbt
 +        // CraftBukkit start - read container
 +        this.persistentDataContainer = new CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
 +
@@ -31,10 +40,11 @@
 +            this.persistentDataContainer.putAll((NBTTagCompound) persistentDataTag);
 +        }
 +        // CraftBukkit end
-     }
++    }
  
      public NBTTagCompound save(NBTTagCompound nbttagcompound) {
-@@ -54,6 +71,11 @@
+         return this.c(nbttagcompound);
+@@ -49,6 +68,11 @@
              nbttagcompound.setInt("x", this.position.getX());
              nbttagcompound.setInt("y", this.position.getY());
              nbttagcompound.setInt("z", this.position.getZ());
@@ -46,9 +56,9 @@
              return nbttagcompound;
          }
      }
-@@ -169,4 +191,13 @@
-                     }, this::getPosition});
-         }
+@@ -148,4 +172,13 @@
+     public void b(IBlockData iblockdata) {
+         this.c = iblockdata;
      }
 +
 +    // CraftBukkit start - add method

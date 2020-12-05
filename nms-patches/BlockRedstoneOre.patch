@@ -16,14 +16,14 @@
  
      @Override
      public void attack(IBlockData iblockdata, World world, BlockPosition blockposition, EntityHuman entityhuman) {
--        interact(iblockdata, world, blockposition);
-+        interact(iblockdata, world, blockposition, entityhuman); // CraftBukkit - add entityhuman
+-        e(iblockdata, world, blockposition);
++        interact(iblockdata, world, blockposition, entityhuman);
          super.attack(iblockdata, world, blockposition, entityhuman);
      }
  
      @Override
      public void stepOn(World world, BlockPosition blockposition, Entity entity) {
--        interact(world.getType(blockposition), world, blockposition);
+-        e(world.getType(blockposition), world, blockposition);
 -        super.stepOn(world, blockposition, entity);
 +        // CraftBukkit start
 +        // interact(world.getType(blockposition), world, blockposition);
@@ -50,28 +50,21 @@
          if (world.isClientSide) {
              playEffect(world, blockposition);
          } else {
--            interact(iblockdata, world, blockposition);
-+            interact(iblockdata, world, blockposition, entityhuman); // CraftBukkit - add entityhuman
+-            e(iblockdata, world, blockposition);
++            interact(iblockdata, world, blockposition, entityhuman);
          }
  
          ItemStack itemstack = entityhuman.b(enumhand);
-@@ -36,9 +57,14 @@
+@@ -36,7 +57,7 @@
          return itemstack.getItem() instanceof ItemBlock && (new BlockActionContext(entityhuman, enumhand, itemstack, movingobjectpositionblock)).b() ? EnumInteractionResult.PASS : EnumInteractionResult.SUCCESS;
      }
  
--    private static void interact(IBlockData iblockdata, World world, BlockPosition blockposition) {
+-    private static void e(IBlockData iblockdata, World world, BlockPosition blockposition) {
 +    private static void interact(IBlockData iblockdata, World world, BlockPosition blockposition, Entity entity) { // CraftBukkit - add Entity
          playEffect(world, blockposition);
          if (!(Boolean) iblockdata.get(BlockRedstoneOre.a)) {
-+            // CraftBukkit start
-+            if (CraftEventFactory.callEntityChangeBlockEvent(entity, blockposition, iblockdata.set(BlockRedstoneOre.a, true)).isCancelled()) {
-+                return;
-+            }
-+            // CraftBukkit end
              world.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockRedstoneOre.a, true), 3);
-         }
- 
-@@ -52,6 +78,11 @@
+@@ -52,6 +73,11 @@
      @Override
      public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
          if ((Boolean) iblockdata.get(BlockRedstoneOre.a)) {
@@ -83,7 +76,7 @@
              worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockRedstoneOre.a, false), 3);
          }
  
-@@ -60,12 +91,25 @@
+@@ -60,12 +86,25 @@
      @Override
      public void dropNaturally(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, ItemStack itemstack) {
          super.dropNaturally(iblockdata, worldserver, blockposition, itemstack);

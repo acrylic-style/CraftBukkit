@@ -15,7 +15,7 @@
          this.goalSelector.a(4, new EntityShulker.a());
          this.goalSelector.a(7, new EntityShulker.e());
          this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
--        this.targetSelector.a(1, (new PathfinderGoalHurtByTarget(this, new Class[0])).a());
+-        this.targetSelector.a(1, (new PathfinderGoalHurtByTarget(this, new Class[]{this.getClass()})).a());
 +        this.targetSelector.a(1, (new PathfinderGoalHurtByTarget(this, new Class[0])).a(new Class[0])); // CraftBukkit - decompile error
          this.targetSelector.a(2, new EntityShulker.d(this));
          this.targetSelector.a(3, new EntityShulker.c(this));
@@ -34,14 +34,14 @@
 +                            return false;
 +                        }
 +                        // CraftBukkit end
+                         this.decouple();
                          this.datawatcher.set(EntityShulker.b, enumdirection);
-                         this.playSound(SoundEffects.ENTITY_SHULKER_TELEPORT, 1.0F, 1.0F);
-                         this.datawatcher.set(EntityShulker.c, Optional.of(blockposition1));
-@@ -319,6 +333,7 @@
+                         this.playSound(SoundEffects.SHULKER_TELEPORT, 1.0F, 1.0F);
+@@ -320,6 +334,7 @@
                  }
  
                  this.g((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D);
-+                if (valid) ((WorldServer) world).chunkCheck(this); // CraftBukkit
++                //if (valid) ((WorldServer) world).chunkCheck(this); // CraftBukkit
              }
          }
  

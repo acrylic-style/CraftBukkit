@@ -37,8 +37,8 @@
          return this.brewingStand.a(entityhuman);
      }
  
-@@ -171,4 +183,17 @@
-             return item == Items.POTION || item == Items.SPLASH_POTION || item == Items.LINGERING_POTION || item == Items.GLASS_BOTTLE;
+@@ -169,4 +181,17 @@
+             return itemstack.a(Items.POTION) || itemstack.a(Items.SPLASH_POTION) || itemstack.a(Items.LINGERING_POTION) || itemstack.a(Items.GLASS_BOTTLE);
          }
      }
 +

@@ -11,7 +11,7 @@
 +            // CraftBukkit end
              worldserver.setTypeUpdate(blockposition, Blocks.DIRT.getBlockData());
          } else {
-             if (worldserver.getLightLevel(blockposition.up()) >= 9) {
+             if (worldserver.C(blockposition.up()) >= 9) {
 @@ -41,7 +46,7 @@
                      BlockPosition blockposition1 = blockposition.b(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
  

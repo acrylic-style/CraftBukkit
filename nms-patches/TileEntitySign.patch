@@ -26,7 +26,7 @@
          return nbttagcompound;
      }
 @@ -39,18 +46,38 @@
-         super.load(iblockdata, nbttagcompound);
+         super.load(nbttagcompound);
          this.color = EnumColor.a(nbttagcompound.getString("Color"), EnumColor.BLACK);
  
 +        // CraftBukkit start - Add an option to convert signs correctly
@@ -109,9 +109,9 @@
 +        return new CommandListenerWrapper(this, Vec3D.a((BaseBlockPosition) this.position), Vec2F.a, (WorldServer) this.world, 2, s, (IChatBaseComponent) object, this.world.getMinecraftServer(), entityplayer);
      }
  
-     public EnumColor getColor() {
+     public EnumColor h() {
 @@ -126,7 +179,7 @@
-         if (enumcolor != this.getColor()) {
+         if (enumcolor != this.h()) {
              this.color = enumcolor;
              this.update();
 -            this.world.notify(this.getPosition(), this.getBlock(), this.getBlock(), 3);

@@ -18,7 +18,7 @@
          immutablemap.getClass();
          LootCollector lootcollector = new LootCollector(lootcontextparameterset, function, immutablemap::get);
 @@ -62,6 +63,11 @@
-             LootTableRegistry.LOGGER.warn("Found validation problem in " + s + ": " + s1);
+             LootTableRegistry.LOGGER.warn("Found validation problem in {}: {}", s, s1);
          });
          this.c = immutablemap;
 +        // CraftBukkit start - build a reversed registry map

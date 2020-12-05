@@ -11,7 +11,7 @@
 +
  public class BlockSoil extends Block {
  
-     public static final BlockStateInteger MOISTURE = BlockProperties.aw;
+     public static final BlockStateInteger MOISTURE = BlockProperties.ax;
 @@ -58,26 +63,49 @@
  
          if (!a((IWorldReader) worldserver, blockposition) && !worldserver.isRainingAt(blockposition.up())) {

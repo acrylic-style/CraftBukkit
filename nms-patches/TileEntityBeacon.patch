@@ -11,7 +11,7 @@
 +import org.bukkit.potion.PotionEffect;
 +// CraftBukkit end
 +
- public class TileEntityBeacon extends TileEntity implements ITileInventory, ITickable {
+ public class TileEntityBeacon extends TileEntity implements ITileInventory {
  
      public static final MobEffectList[][] a = new MobEffectList[][]{{MobEffects.FASTER_MOVEMENT, MobEffects.FASTER_DIG}, {MobEffects.RESISTANCE, MobEffects.JUMP}, {MobEffects.INCREASE_DAMAGE}, {MobEffects.REGENERATION}};
 @@ -24,6 +31,15 @@
@@ -28,32 +28,48 @@
 +    }
 +    // CraftBukkit end
  
-     public TileEntityBeacon() {
-         super(TileEntityTypes.BEACON);
-@@ -192,39 +208,78 @@
-         super.al_();
+     public TileEntityBeacon(BlockPosition blockposition, IBlockData iblockdata) {
+         super(TileEntityTypes.BEACON, blockposition, iblockdata);
+@@ -127,7 +143,11 @@
+             }
+ 
+             if (tileentitybeacon.levels > 0 && !tileentitybeacon.c.isEmpty()) {
+-                applyEffects(world, blockposition, tileentitybeacon.levels, tileentitybeacon.primaryEffect, tileentitybeacon.secondaryEffect);
++                // CraftBukkit start
++                tileentitybeacon.world = world;
++                tileentitybeacon.position = blockposition;
++                tileentitybeacon.applyEffects();
++                // CraftBukkit end
+                 a(world, blockposition, SoundEffects.BEACON_AMBIENT);
+             }
+         }
+@@ -192,39 +212,79 @@
+         super.ap_();
      }
  
--    private void applyEffects() {
--        if (!this.world.isClientSide && this.primaryEffect != null) {
--            double d0 = (double) (this.levels * 10 + 10);
+-    private static void applyEffects(World world, BlockPosition blockposition, int i, @Nullable MobEffectList mobeffectlist, @Nullable MobEffectList mobeffectlist1) {
+-        if (!world.isClientSide && mobeffectlist != null) {
+-            double d0 = (double) (i * 10 + 10);
 +    // CraftBukkit start - split into components
 +    private byte getAmplification() {
 +        {
              byte b0 = 0;
  
-             if (this.levels >= 4 && this.primaryEffect == this.secondaryEffect) {
+-            if (i >= 4 && mobeffectlist == mobeffectlist1) {
++            if (this.levels >= 4 && primaryEffect == secondaryEffect) {
                  b0 = 1;
              }
  
+-            int j = (9 + i * 2) * 20;
+-            AxisAlignedBB axisalignedbb = (new AxisAlignedBB(blockposition)).g(d0).b(0.0D, (double) world.getMaxBuildHeight(), 0.0D);
 +            return b0;
 +        }
 +    }
 +
 +    private int getLevel() {
 +        {
-             int i = (9 + this.levels * 2) * 20;
-+            return i;
++            int j = (9 + this.levels * 2) * 20;
++            return j;
 +        }
 +    }
 +
@@ -61,8 +77,8 @@
 +        {
 +            double d0 = (double) (this.levels * 10 + 10);
 +
-             AxisAlignedBB axisalignedbb = (new AxisAlignedBB(this.position)).g(d0).b(0.0D, (double) this.world.getBuildHeight(), 0.0D);
-             List<EntityHuman> list = this.world.a(EntityHuman.class, axisalignedbb);
++            AxisAlignedBB axisalignedbb = (new AxisAlignedBB(this.position)).g(d0).b(0.0D, (double) world.getMaxBuildHeight(), 0.0D);
+             List<EntityHuman> list = world.a(EntityHuman.class, axisalignedbb);
 +
 +            return list;
 +        }
@@ -76,21 +92,22 @@
  
              while (iterator.hasNext()) {
                  entityhuman = (EntityHuman) iterator.next();
--                entityhuman.addEffect(new MobEffect(this.primaryEffect, i, b0, true, true));
+-                entityhuman.addEffect(new MobEffect(mobeffectlist, j, b0, true, true));
 +                entityhuman.addEffect(new MobEffect(effects, i, b0, true, true), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.BEACON);
              }
 +        }
 +    }
  
+-            if (i >= 4 && mobeffectlist != mobeffectlist1 && mobeffectlist1 != null) {
+-                iterator = list.iterator();
 +    private boolean hasSecondaryEffect() {
 +        {
-             if (this.levels >= 4 && this.primaryEffect != this.secondaryEffect && this.secondaryEffect != null) {
--                iterator = list.iterator();
--
+ 
 -                while (iterator.hasNext()) {
 -                    entityhuman = (EntityHuman) iterator.next();
--                    entityhuman.addEffect(new MobEffect(this.secondaryEffect, i, 0, true, true));
+-                    entityhuman.addEffect(new MobEffect(mobeffectlist1, j, 0, true, true));
 -                }
++            if (this.levels >= 4 && primaryEffect != secondaryEffect && secondaryEffect != null) {
 +                return true;
              }
  
@@ -116,13 +133,13 @@
 +    }
 +    // CraftBukkit end
 +
-     public void a(SoundEffect soundeffect) {
-         this.world.playSound((EntityHuman) null, this.position, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
+     public static void a(World world, BlockPosition blockposition, SoundEffect soundeffect) {
+         world.playSound((EntityHuman) null, blockposition, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
      }
-@@ -254,8 +309,11 @@
+@@ -250,8 +310,11 @@
      @Override
-     public void load(IBlockData iblockdata, NBTTagCompound nbttagcompound) {
-         super.load(iblockdata, nbttagcompound);
+     public void load(NBTTagCompound nbttagcompound) {
+         super.load(nbttagcompound);
 -        this.primaryEffect = b(nbttagcompound.getInt("Primary"));
 -        this.secondaryEffect = b(nbttagcompound.getInt("Secondary"));
 +        // CraftBukkit start - persist manually set non-default beacon effects (SPIGOT-3598)

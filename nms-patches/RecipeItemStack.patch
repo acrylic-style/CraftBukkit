@@ -21,6 +21,6 @@
 +                        continue;
 +                    }
 +                    // CraftBukkit end
-                     if (itemstack1.getItem() == itemstack.getItem()) {
+                     if (itemstack1.a(itemstack.getItem())) {
                          return true;
                      }

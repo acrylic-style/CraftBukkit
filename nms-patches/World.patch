@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/World.java
 +++ b/net/minecraft/server/World.java
-@@ -14,6 +14,17 @@
+@@ -13,6 +13,17 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -18,7 +18,7 @@
  public abstract class World implements GeneratorAccess, AutoCloseable {
  
      protected static final Logger LOGGER = LogManager.getLogger();
-@@ -45,7 +56,49 @@
+@@ -42,7 +53,49 @@
      private final BiomeManager biomeManager;
      private final ResourceKey<World> dimensionKey;
  
@@ -68,8 +68,8 @@
 +        // CraftBukkit end
          this.methodProfiler = supplier;
          this.worldData = worlddatamutable;
-         this.x = dimensionmanager;
-@@ -55,12 +108,12 @@
+         this.v = dimensionmanager;
+@@ -52,12 +105,12 @@
              this.worldBorder = new WorldBorder() {
                  @Override
                  public double getCenterX() {
@@ -84,7 +84,7 @@
                  }
              };
          } else {
-@@ -70,6 +123,35 @@
+@@ -67,6 +120,35 @@
          this.serverThread = Thread.currentThread();
          this.biomeManager = new BiomeManager(this, i, dimensionmanager.getGenLayerZoomer());
          this.debugWorld = flag1;
@@ -120,7 +120,7 @@
      }
  
      @Override
-@@ -133,6 +215,17 @@
+@@ -122,6 +204,17 @@
  
      @Override
      public boolean a(BlockPosition blockposition, IBlockData iblockdata, int i, int j) {
@@ -135,10 +135,10 @@
 +            return true;
 +        }
 +        // CraftBukkit end
-         if (isOutsideWorld(blockposition)) {
+         if (this.isOutsideWorld(blockposition)) {
              return false;
          } else if (!this.isClientSide && this.isDebugWorld()) {
-@@ -140,9 +233,24 @@
+@@ -129,9 +222,24 @@
          } else {
              Chunk chunk = this.getChunkAtWorldCoords(blockposition);
              Block block = iblockdata.getBlock();
@@ -164,7 +164,7 @@
                  return false;
              } else {
                  IBlockData iblockdata2 = this.getType(blockposition);
-@@ -153,6 +261,7 @@
+@@ -142,6 +250,7 @@
                      this.getMethodProfiler().exit();
                  }
  
@@ -172,7 +172,7 @@
                  if (iblockdata2 == iblockdata) {
                      if (iblockdata1 != iblockdata2) {
                          this.b(blockposition, iblockdata1, iblockdata2);
-@@ -179,12 +288,65 @@
+@@ -168,12 +277,65 @@
  
                      this.a(blockposition, iblockdata1, iblockdata2);
                  }
@@ -238,7 +238,7 @@
      public void a(BlockPosition blockposition, IBlockData iblockdata, IBlockData iblockdata1) {}
  
      @Override
-@@ -266,6 +428,17 @@
+@@ -257,6 +419,17 @@
              IBlockData iblockdata = this.getType(blockposition);
  
              try {
@@ -256,7 +256,7 @@
                  iblockdata.doPhysics(this, blockposition, block, blockposition1, false);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.a(throwable, "Exception while updating neighbours");
-@@ -308,6 +481,14 @@
+@@ -299,6 +472,14 @@
  
      @Override
      public IBlockData getType(BlockPosition blockposition) {
@@ -268,80 +268,47 @@
 +            }
 +        }
 +        // CraftBukkit end
-         if (isOutsideWorld(blockposition)) {
+         if (this.isOutsideWorld(blockposition)) {
              return Blocks.VOID_AIR.getBlockData();
          } else {
-@@ -455,9 +636,11 @@
-                 TileEntity tileentity1 = (TileEntity) this.tileEntityListPending.get(i);
- 
-                 if (!tileentity1.isRemoved()) {
-+                    /* CraftBukkit start - Order matters, moved down
-                     if (!this.tileEntityList.contains(tileentity1)) {
-                         this.a(tileentity1);
-                     }
-+                    // CraftBukkit end */
- 
-                     if (this.isLoaded(tileentity1.getPosition())) {
-                         Chunk chunk = this.getChunkAtWorldCoords(tileentity1.getPosition());
-@@ -465,6 +648,12 @@
- 
-                         chunk.setTileEntity(tileentity1.getPosition(), tileentity1);
-                         this.notify(tileentity1.getPosition(), iblockdata, iblockdata, 3);
-+                        // CraftBukkit start
-+                        // From above, don't screw this up - SPIGOT-1746
-+                        if (!this.tileEntityList.contains(tileentity1)) {
-+                            this.a(tileentity1);
-+                        }
-+                        // CraftBukkit end
-                     }
-                 }
-             }
-@@ -509,12 +698,25 @@
- 
+@@ -412,6 +593,13 @@
      @Nullable
      @Override
-+    // CraftBukkit start
      public TileEntity getTileEntity(BlockPosition blockposition) {
++        // CraftBukkit start
 +        return getTileEntity(blockposition, true);
 +    }
 +
 +    @Nullable
 +    protected TileEntity getTileEntity(BlockPosition blockposition, boolean validate) {
 +        // CraftBukkit end
-         if (isOutsideWorld(blockposition)) {
-             return null;
-         } else if (!this.isClientSide && Thread.currentThread() != this.serverThread) {
-             return null;
-         } else {
-+            // CraftBukkit start
-+            if (capturedTileEntities.containsKey(blockposition)) {
-+                return capturedTileEntities.get(blockposition);
-+            }
-+            // CraftBukkit end
-+
-             TileEntity tileentity = null;
- 
-             if (this.tickingTileEntities) {
-@@ -549,6 +751,13 @@
-     public void setTileEntity(BlockPosition blockposition, @Nullable TileEntity tileentity) {
-         if (!isOutsideWorld(blockposition)) {
-             if (tileentity != null && !tileentity.isRemoved()) {
-+                // CraftBukkit start
-+                if (captureBlockStates) {
-+                    tileentity.setLocation(this, blockposition);
-+                    capturedTileEntities.put(blockposition.immutableCopy(), tileentity);
-+                    return;
-+                }
-+                // CraftBukkit end
-                 if (this.tickingTileEntities) {
-                     tileentity.setLocation(this, blockposition);
-                     Iterator iterator = this.tileEntityListPending.iterator();
-@@ -573,7 +782,7 @@
+         return this.isOutsideWorld(blockposition) ? null : (!this.isClientSide && Thread.currentThread() != this.serverThread ? null : this.getChunkAtWorldCoords(blockposition).a(blockposition, Chunk.b.a));
      }
  
-     public void removeTileEntity(BlockPosition blockposition) {
--        TileEntity tileentity = this.getTileEntity(blockposition);
-+        TileEntity tileentity = this.getTileEntity(blockposition, false); // CraftBukkit
+@@ -522,7 +710,7 @@
  
-         if (tileentity != null && this.tickingTileEntities) {
-             tileentity.al_();
+                 for (int j = 0; j < i; ++j) {
+                     EntityComplexPart entitycomplexpart = aentitycomplexpart[j];
+-                    T t0 = (Entity) entitytypetest.a((Object) entitycomplexpart);
++                    T t0 = entitytypetest.a(entitycomplexpart); // CraftBukkit - decompile fix
+ 
+                     if (t0 != null && predicate.test(t0)) {
+                         list.add(t0);
+@@ -830,4 +1018,17 @@
+     }
+ 
+     protected abstract WorldEntityGetter<Entity> G();
++
++    public boolean isEmpty(BlockPosition blockposition) { return x(blockposition); } // CraftBukkit
++
++    // CraftBukkit start
++    public void setTileEntity(BlockPosition blockposition, TileEntity tileentity) {
++        tileentity.position = blockposition;
++        getChunkAtWorldCoords(blockposition).setTileEntity(tileentity);
++    }
++
++    public void setTileEntity(TileEntity tileentity) {
++        setTileEntity(tileentity.position, tileentity);
++    }
++    // CraftBukkit end
+ }

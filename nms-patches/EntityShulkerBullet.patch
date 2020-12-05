@@ -41,5 +41,5 @@
 +        }
 +        // CraftBukkit end
          if (!this.world.isClientSide) {
-             this.playSound(SoundEffects.ENTITY_SHULKER_BULLET_HURT, 1.0F, 1.0F);
+             this.playSound(SoundEffects.SHULKER_BULLET_HURT, 1.0F, 1.0F);
              ((WorldServer) this.world).a(Particles.CRIT, this.locX(), this.locY(), this.locZ(), 15, 0.2D, 0.2D, 0.2D, 0.0D);

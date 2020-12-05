@@ -67,13 +67,7 @@
      }
  
      public boolean isLoaded(int i, int j) {
-@@ -257,19 +275,19 @@
-     public boolean a(Entity entity) {
-         long i = ChunkCoordIntPair.pair(MathHelper.floor(entity.locX()) >> 4, MathHelper.floor(entity.locZ()) >> 4);
- 
--        return this.a(i, PlayerChunk::b);
-+        return this.a(i, (Function<PlayerChunk, CompletableFuture<Either<Chunk, PlayerChunk.Failure>>>) PlayerChunk::b); // CraftBukkit - decompile error
-     }
+@@ -255,14 +273,14 @@
  
      @Override
      public boolean a(ChunkCoordIntPair chunkcoordintpair) {
@@ -83,14 +77,14 @@
  
      @Override
      public boolean a(BlockPosition blockposition) {
-         long i = ChunkCoordIntPair.pair(blockposition.getX() >> 4, blockposition.getZ() >> 4);
+         long i = ChunkCoordIntPair.pair(SectionPosition.a(blockposition.getX()), SectionPosition.a(blockposition.getZ()));
  
 -        return this.a(i, PlayerChunk::a);
 +        return this.a(i, (Function<PlayerChunk, CompletableFuture<Either<Chunk, PlayerChunk.Failure>>>) PlayerChunk::a); // CraftBukkit - decompile error
      }
  
      private boolean a(long i, Function<PlayerChunk, CompletableFuture<Either<Chunk, PlayerChunk.Failure>>> function) {
-@@ -291,11 +309,31 @@
+@@ -284,11 +302,31 @@
  
      @Override
      public void close() throws IOException {
@@ -123,7 +117,7 @@
      public void tick(BooleanSupplier booleansupplier) {
          this.world.getMethodProfiler().enter("purge");
          this.chunkMapDistance.purgeTickets();
-@@ -315,12 +353,12 @@
+@@ -308,12 +346,12 @@
          this.lastTickTime = i;
          WorldData worlddata = this.world.getWorldData();
          boolean flag = this.world.isDebugWorld();
@@ -138,7 +132,7 @@
  
              this.world.getMethodProfiler().enter("naturalSpawnCount");
              int l = this.chunkMapDistance.b();
-@@ -507,12 +545,18 @@
+@@ -500,12 +538,18 @@
  
          @Override
          protected boolean executeNext() {

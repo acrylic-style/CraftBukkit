@@ -11,7 +11,7 @@
  
 @@ -270,7 +270,7 @@
  
-             for (boolean flag2 = iblockaccess.getType(blockposition_mutableblockposition).isAir(); blockposition_mutableblockposition.getY() > 0; flag2 = flag1) {
+             for (boolean flag2 = iblockaccess.getType(blockposition_mutableblockposition).isAir(); blockposition_mutableblockposition.getY() > iblockaccess.getMinBuildHeight(); flag2 = flag1) {
                  blockposition_mutableblockposition.c(EnumDirection.DOWN);
 -                flag1 = iblockaccess.getType(blockposition_mutableblockposition).isAir();
 +                flag1 = getType(iblockaccess, blockposition_mutableblockposition).isAir(); // CraftBukkit

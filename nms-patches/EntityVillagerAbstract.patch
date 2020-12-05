@@ -22,9 +22,9 @@
 +        return (craftMerchant == null) ? craftMerchant = new CraftMerchant(this) : craftMerchant;
 +    }
 +    // CraftBukkit end
-     private static final DataWatcherObject<Integer> bp = DataWatcher.a(EntityVillagerAbstract.class, DataWatcherRegistry.b);
+     private static final DataWatcherObject<Integer> tradingPlayer = DataWatcher.a(EntityVillagerAbstract.class, DataWatcherRegistry.b);
      @Nullable
-     private EntityHuman tradingPlayer;
+     private EntityHuman bl;
      @Nullable
      protected MerchantRecipeList trades;
 -    private final InventorySubcontainer inventory = new InventorySubcontainer(8);
@@ -32,7 +32,7 @@
  
      public EntityVillagerAbstract(EntityTypes<? extends EntityVillagerAbstract> entitytypes, World world) {
          super(entitytypes, world);
-@@ -213,7 +228,16 @@
+@@ -204,7 +219,16 @@
              MerchantRecipe merchantrecipe = villagertrades_imerchantrecipeoption.a(this, this.random);
  
              if (merchantrecipe != null) {

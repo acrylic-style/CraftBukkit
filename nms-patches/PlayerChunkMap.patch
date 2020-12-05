@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/PlayerChunkMap.java
 +++ b/net/minecraft/server/PlayerChunkMap.java
-@@ -44,6 +44,7 @@
+@@ -43,6 +43,7 @@
  import org.apache.commons.lang3.mutable.MutableBoolean;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -9,7 +9,7 @@
  public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
  
 @@ -75,6 +76,31 @@
-     private final Queue<Runnable> A;
+     private final Queue<Runnable> unloadQueueTasks;
      private int viewDistance;
  
 +    // CraftBukkit start - recursion-safe executor for Chunk loadCallback() and unloadCallback()
@@ -37,10 +37,10 @@
 +    };
 +    // CraftBukkit end
 +
-     public PlayerChunkMap(WorldServer worldserver, Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, DefinedStructureManager definedstructuremanager, Executor executor, IAsyncTaskHandler<Runnable> iasynctaskhandler, ILightAccess ilightaccess, ChunkGenerator chunkgenerator, WorldLoadListener worldloadlistener, Supplier<WorldPersistentData> supplier, int i, boolean flag) {
+     public PlayerChunkMap(WorldServer worldserver, Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, DefinedStructureManager definedstructuremanager, Executor executor, IAsyncTaskHandler<Runnable> iasynctaskhandler, ILightAccess ilightaccess, ChunkGenerator chunkgenerator, WorldLoadListener worldloadlistener, ChunkStatusUpdateListener chunkstatusupdatelistener, Supplier<WorldPersistentData> supplier, int i, boolean flag) {
          super(new File(convertable_conversionsession.a(worldserver.getDimensionKey()), "region"), datafixer, flag);
          this.visibleChunks = this.updatingChunks.clone();
-@@ -195,9 +221,12 @@
+@@ -196,9 +222,12 @@
  
          return completablefuture1.thenApply((list1) -> {
              List<IChunkAccess> list2 = Lists.newArrayList();
@@ -55,8 +55,8 @@
                  final Either<IChunkAccess, PlayerChunk.Failure> either = (Either) iterator.next();
                  Optional<IChunkAccess> optional = either.left();
  
-@@ -300,7 +329,7 @@
-             PlayerChunkMap.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.w.getName());
+@@ -301,7 +330,7 @@
+             PlayerChunkMap.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.x.getName());
          } else {
              this.visibleChunks.values().stream().filter(PlayerChunk::hasBeenLoaded).forEach((playerchunk) -> {
 -                IChunkAccess ichunkaccess = (IChunkAccess) playerchunk.getChunkSave().getNow((Object) null);
@@ -64,7 +64,7 @@
  
                  if (ichunkaccess instanceof ProtoChunkExtension || ichunkaccess instanceof Chunk) {
                      this.saveChunk(ichunkaccess);
-@@ -311,7 +340,6 @@
+@@ -312,7 +341,6 @@
          }
  
      }
@@ -72,7 +72,7 @@
      protected void unloadChunks(BooleanSupplier booleansupplier) {
          GameProfilerFiller gameprofilerfiller = this.world.getMethodProfiler();
  
-@@ -350,7 +378,7 @@
+@@ -351,7 +379,7 @@
  
      private void a(long i, PlayerChunk playerchunk) {
          CompletableFuture<IChunkAccess> completablefuture = playerchunk.getChunkSave();
@@ -81,34 +81,17 @@
              CompletableFuture<IChunkAccess> completablefuture1 = playerchunk.getChunkSave();
  
              if (completablefuture1 != completablefuture) {
-@@ -572,8 +600,15 @@
- 
-                         while (iterator.hasNext()) {
-                             Entity entity = (Entity) iterator.next();
-+                            // CraftBukkit start - these are spawned serialized (DefinedStructure) and we don't call an add event below at the moment due to ordering complexities
-+                            boolean needsRemoval = false;
-+                            if (chunk.needsDecoration && !this.world.getServer().getServer().getSpawnNPCs() && entity instanceof NPC) {
-+                                entity.die();
-+                                needsRemoval = true;
-+                            }
- 
--                            if (!(entity instanceof EntityHuman) && !this.world.addEntityChunk(entity)) {
-+                            if (!(entity instanceof EntityHuman) && (needsRemoval || !this.world.addEntityChunk(entity))) {
-+                                // CraftBukkit end
-                                 if (list == null) {
-                                     list = Lists.newArrayList(new Entity[]{entity});
-                                 } else {
-@@ -784,7 +819,8 @@
+@@ -762,7 +790,8 @@
                  return ichunkaccess instanceof Chunk ? Optional.of((Chunk) ichunkaccess) : Optional.empty();
              });
  
 -            csvwriter.a(chunkcoordintpair.x, chunkcoordintpair.z, playerchunk.getTicketLevel(), optional.isPresent(), optional.map(IChunkAccess::getChunkStatus).orElse((Object) null), optional1.map(Chunk::getState).orElse((Object) null), a(playerchunk.c()), a(playerchunk.a()), a(playerchunk.b()), this.chunkDistanceManager.c(entry.getLongKey()), !this.isOutsideOfRange(chunkcoordintpair), optional1.map((chunk) -> {
 +            // CraftBukkit - decompile error
 +            csvwriter.a(chunkcoordintpair.x, chunkcoordintpair.z, playerchunk.getTicketLevel(), optional.isPresent(), optional.map(IChunkAccess::getChunkStatus).orElse(null), optional1.map(Chunk::getState).orElse(null), a(playerchunk.c()), a(playerchunk.a()), a(playerchunk.b()), this.chunkDistanceManager.c(entry.getLongKey()), !this.isOutsideOfRange(chunkcoordintpair), optional1.map((chunk) -> {
-                 return Stream.of(chunk.getEntitySlices()).mapToInt(EntitySlice::size).sum();
-             }).orElse(0), optional1.map((chunk) -> {
                  return chunk.getTileEntities().size();
-@@ -795,7 +831,7 @@
+             }).orElse(0));
+         }
+@@ -771,7 +800,7 @@
  
      private static String a(CompletableFuture<Either<Chunk, PlayerChunk.Failure>> completablefuture) {
          try {
@@ -117,7 +100,7 @@
  
              return either != null ? (String) either.map((chunk) -> {
                  return "done";
-@@ -813,7 +849,7 @@
+@@ -789,7 +818,7 @@
      private NBTTagCompound readChunkData(ChunkCoordIntPair chunkcoordintpair) throws IOException {
          NBTTagCompound nbttagcompound = this.read(chunkcoordintpair);
  
@@ -126,16 +109,27 @@
      }
  
      boolean isOutsideOfRange(ChunkCoordIntPair chunkcoordintpair) {
-@@ -1145,7 +1181,7 @@
-         public final Set<EntityPlayer> trackedPlayers = Sets.newHashSet();
+@@ -1125,12 +1154,18 @@
+         public final Set<EntityPlayerHolder> trackedPlayers = Sets.newIdentityHashSet();
  
          public EntityTracker(Entity entity, int i, int j, boolean flag) {
 -            this.trackerEntry = new EntityTrackerEntry(PlayerChunkMap.this.world, entity, j, flag, this::broadcast);
-+            this.trackerEntry = new EntityTrackerEntry(PlayerChunkMap.this.world, entity, j, flag, this::broadcast, trackedPlayers); // CraftBukkit
++            this.trackerEntry = new EntityTrackerEntry(PlayerChunkMap.this.world, entity, j, flag, this::broadcast, getTrackedEntityPlayers()); // CraftBukkit
              this.tracker = entity;
              this.trackingDistance = i;
              this.e = SectionPosition.a(entity);
-@@ -1198,7 +1234,7 @@
+         }
+ 
++        public Set<EntityPlayer> getTrackedEntityPlayers() {
++            Set<EntityPlayer> set = Sets.newIdentityHashSet();
++            trackedPlayers.forEach(holder -> set.add(holder.getPlayer()));
++            return set;
++        }
++
+         public boolean equals(Object object) {
+             return object instanceof PlayerChunkMap.EntityTracker ? ((PlayerChunkMap.EntityTracker) object).tracker.getId() == this.tracker.getId() : false;
+         }
+@@ -1178,10 +1213,20 @@
  
          public void updatePlayer(EntityPlayer entityplayer) {
              if (entityplayer != this.tracker) {
@@ -144,21 +138,16 @@
                  int i = Math.min(this.b(), (PlayerChunkMap.this.viewDistance - 1) * 16);
                  boolean flag = vec3d.x >= (double) (-i) && vec3d.x <= (double) i && vec3d.z >= (double) (-i) && vec3d.z <= (double) i && this.tracker.a(entityplayer);
  
-@@ -1214,6 +1250,17 @@
-                         }
-                     }
- 
-+                    // CraftBukkit start - respect vanish API
-+                    if (this.tracker instanceof EntityPlayer) {
-+                        Player player = ((EntityPlayer) this.tracker).getBukkitEntity();
-+                        if (!entityplayer.getBukkitEntity().canSee(player)) {
-+                            flag1 = false;
-+                        }
++                // CraftBukkit start - respect vanish API
++                if (this.tracker instanceof EntityPlayer) {
++                    Player player = ((EntityPlayer) this.tracker).getBukkitEntity();
++                    if (!entityplayer.getBukkitEntity().canSee(player)) {
++                        flag = false;
 +                    }
++                }
 +
-+                    entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
-+                    // CraftBukkit end
-+
-                     if (flag1 && this.trackedPlayers.add(entityplayer)) {
++                entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
++                // CraftBukkit end
+                 if (flag) {
+                     if (this.trackedPlayers.add(entityplayer.playerConnection)) {
                          this.trackerEntry.b(entityplayer);
-                     }

@@ -23,7 +23,7 @@
 +                Entity entity = EntityTypes.ZOMBIFIED_PIGLIN.spawnCreature(worldserver, (NBTTagCompound) null, (IChatBaseComponent) null, (EntityHuman) null, blockposition.up(), EnumMobSpawn.STRUCTURE, false, false, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.NETHER_PORTAL);
  
                  if (entity != null) {
-                     entity.resetPortalCooldown();
+                     entity.ai();
 @@ -54,6 +62,10 @@
      @Override
      public void a(IBlockData iblockdata, World world, BlockPosition blockposition, Entity entity) {

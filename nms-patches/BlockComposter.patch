@@ -11,7 +11,7 @@
  
  public class BlockComposter extends Block implements IInventoryHolder {
  
-     public static final BlockStateInteger a = BlockProperties.as;
+     public static final BlockStateInteger a = BlockProperties.at;
      public static final Object2FloatMap<IMaterial> b = new Object2FloatOpenHashMap();
      private static final VoxelShape c = VoxelShapes.b();
 -    private static final VoxelShape[] d = (VoxelShape[]) SystemUtils.a((Object) (new VoxelShape[9]), (avoxelshape) -> {
@@ -23,7 +23,7 @@
  
              return EnumInteractionResult.a(world.isClientSide);
          } else if (i == 8) {
--            d(iblockdata, world, blockposition);
+-            e(iblockdata, world, blockposition);
 +            d(iblockdata, world, blockposition, (Entity) null); // CraftBukkit - no event for players
              return EnumInteractionResult.a(world.isClientSide);
          } else {
@@ -52,7 +52,7 @@
          }
      }
  
--    public static IBlockData d(IBlockData iblockdata, World world, BlockPosition blockposition) {
+-    public static IBlockData e(IBlockData iblockdata, World world, BlockPosition blockposition) {
 +    // CraftBukkit start
 +    public static IBlockData d(IBlockData iblockdata, World world, BlockPosition blockposition, Entity entity) {
 +        if (entity != null) {

@@ -14,8 +14,8 @@
  public class EntityWither extends EntityMonster implements IRangedEntity {
  
      private static final DataWatcherObject<Integer> b = DataWatcher.a(EntityWither.class, DataWatcherRegistry.b);
-@@ -188,16 +195,40 @@
-             i = this.getInvul() - 1;
+@@ -189,16 +196,40 @@
+             this.bossBattle.setProgress(1.0F - (float) i / 220.0F);
              if (i <= 0) {
                  Explosion.Effect explosion_effect = this.world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) ? Explosion.Effect.DESTROY : Explosion.Effect.NONE;
 +                // CraftBukkit start
@@ -58,10 +58,10 @@
              }
  
          } else {
-@@ -249,9 +280,11 @@
+@@ -250,9 +281,11 @@
                              if (entityliving != this && entityliving.isAlive() && this.hasLineOfSight(entityliving)) {
                                  if (entityliving instanceof EntityHuman) {
-                                     if (!((EntityHuman) entityliving).abilities.isInvulnerable) {
+                                     if (!((EntityHuman) entityliving).eU().isInvulnerable) {
 +                                        if (CraftEventFactory.callEntityTargetLivingEvent(this, entityliving, EntityTargetEvent.TargetReason.CLOSEST_PLAYER).isCancelled()) continue; // CraftBukkit
                                          this.setHeadTarget(i, entityliving.getId());
                                      }
@@ -70,7 +70,7 @@
                                      this.setHeadTarget(i, entityliving.getId());
                                  }
                                  break;
-@@ -287,6 +320,11 @@
+@@ -288,6 +321,11 @@
                                  IBlockData iblockdata = this.world.getType(blockposition);
  
                                  if (c(iblockdata)) {
@@ -82,7 +82,7 @@
                                      flag = this.world.a(blockposition, true, this) || flag;
                                  }
                              }
-@@ -300,7 +338,7 @@
+@@ -301,7 +339,7 @@
              }
  
              if (this.ticksLived % 20 == 0) {

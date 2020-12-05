@@ -70,9 +70,9 @@
          return a(this.containerAccess, entityhuman, Blocks.CRAFTING_TABLE);
      }
  
-@@ -168,4 +182,17 @@
-     public int h() {
-         return this.craftInventory.f();
+@@ -178,4 +192,17 @@
+     public boolean d(int i) {
+         return i != this.f();
      }
 +
 +    // CraftBukkit start

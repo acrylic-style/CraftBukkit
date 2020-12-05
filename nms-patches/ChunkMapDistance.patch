@@ -23,7 +23,7 @@
 +                iter.remove();
 +                expectedSize--;
 +
-                 playerchunk.a(playerchunkmap);
+                 playerchunk.a(playerchunkmap, this.m);
 -            });
 -            this.pendingChunkUpdates.clear();
 +

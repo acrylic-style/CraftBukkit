@@ -6,7 +6,7 @@
          if (entityinsentient.damageEntity(DamageSource.mobAttack(this), (float) (1 + i))) {
 -            entityinsentient.addEffect(new MobEffect(MobEffects.POISON, 60 * i, 0));
 +            entityinsentient.addEffect(new MobEffect(MobEffects.POISON, 60 * i, 0), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.ATTACK); // CraftBukkit
-             this.playSound(SoundEffects.ENTITY_PUFFER_FISH_STING, 1.0F, 1.0F);
+             this.playSound(SoundEffects.PUFFER_FISH_STING, 1.0F, 1.0F);
          }
  
 @@ -129,7 +129,7 @@

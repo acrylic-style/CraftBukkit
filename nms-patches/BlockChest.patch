@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/BlockChest.java
 +++ b/net/minecraft/server/BlockChest.java
-@@ -35,24 +35,7 @@
+@@ -36,24 +36,7 @@
          public Optional<ITileInventory> a(final TileEntityChest tileentitychest, final TileEntityChest tileentitychest1) {
              final InventoryLargeChest inventorylargechest = new InventoryLargeChest(tileentitychest, tileentitychest1);
  
@@ -8,9 +8,9 @@
 -                @Nullable
 -                @Override
 -                public Container createMenu(int i, PlayerInventory playerinventory, EntityHuman entityhuman) {
--                    if (tileentitychest.e(entityhuman) && tileentitychest1.e(entityhuman)) {
--                        tileentitychest.d(playerinventory.player);
--                        tileentitychest1.d(playerinventory.player);
+-                    if (tileentitychest.d(entityhuman) && tileentitychest1.d(entityhuman)) {
+-                        tileentitychest.e(playerinventory.player);
+-                        tileentitychest1.e(playerinventory.player);
 -                        return ContainerChest.b(i, playerinventory, inventorylargechest);
 -                    } else {
 -                        return null;
@@ -26,7 +26,7 @@
          }
  
          public Optional<ITileInventory> a(TileEntityChest tileentitychest) {
-@@ -65,6 +48,38 @@
+@@ -66,6 +49,38 @@
          }
      };
  
@@ -46,9 +46,9 @@
 +        @Nullable
 +        @Override
 +        public Container createMenu(int i, PlayerInventory playerinventory, EntityHuman entityhuman) {
-+            if (tileentitychest.e(entityhuman) && tileentitychest1.e(entityhuman)) {
-+                tileentitychest.d(playerinventory.player);
-+                tileentitychest1.d(playerinventory.player);
++            if (tileentitychest.d(entityhuman) && tileentitychest1.d(entityhuman)) {
++                tileentitychest.e(playerinventory.player);
++                tileentitychest1.e(playerinventory.player);
 +                return ContainerChest.b(i, playerinventory, inventorylargechest);
 +            } else {
 +                return null;
@@ -64,8 +64,8 @@
 +
      protected BlockChest(BlockBase.Info blockbase_info, Supplier<TileEntityTypes<? extends TileEntityChest>> supplier) {
          super(blockbase_info, supplier);
-         this.j((IBlockData) ((IBlockData) ((IBlockData) ((IBlockData) this.blockStateList.getBlockData()).set(BlockChest.FACING, EnumDirection.NORTH)).set(BlockChest.c, BlockPropertyChestType.SINGLE)).set(BlockChest.d, false));
-@@ -218,7 +233,7 @@
+         this.k((IBlockData) ((IBlockData) ((IBlockData) ((IBlockData) this.blockStateList.getBlockData()).set(BlockChest.FACING, EnumDirection.NORTH)).set(BlockChest.c, BlockPropertyChestType.SINGLE)).set(BlockChest.d, false));
+@@ -223,7 +238,7 @@
      }
  
      public DoubleBlockFinder.Result<? extends TileEntityChest> a(IBlockData iblockdata, World world, BlockPosition blockposition, boolean flag) {

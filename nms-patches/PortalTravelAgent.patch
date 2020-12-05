@@ -15,8 +15,8 @@
 +        // CraftBukkit end
  
          villageplace.a(this.world, blockposition, i);
-         Optional<VillagePlaceRecord> optional = villageplace.b((villageplacetype) -> {
-             return villageplacetype == VillagePlaceType.v;
+         Optional<VillagePlaceRecord> optional = villageplace.b((pointofinteresttype) -> {
+             return pointofinteresttype == PointOfInterestType.v;
 -        }, blockposition, i, VillagePlace.Occupancy.ANY).sorted(Comparator.comparingDouble((villageplacerecord) -> {
 +        }, blockposition, i, VillagePlace.Occupancy.ANY).sorted(Comparator.comparingDouble((VillagePlaceRecord villageplacerecord) -> { // CraftBukkit - decompile error
              return villageplacerecord.f().j(blockposition);
@@ -37,12 +37,25 @@
          BlockPosition blockposition1 = null;
 @@ -48,7 +60,7 @@
          WorldBorder worldborder = this.world.getWorldBorder();
-         int i = this.world.getHeight() - 1;
+         int i = this.world.getMinBuildHeight() + this.world.getHeight() - 1;
          BlockPosition.MutableBlockPosition blockposition_mutableblockposition = blockposition.i();
 -        Iterator iterator = BlockPosition.a(blockposition, 16, EnumDirection.EAST, EnumDirection.SOUTH).iterator();
 +        Iterator iterator = BlockPosition.a(blockposition, createRadius, EnumDirection.EAST, EnumDirection.SOUTH).iterator(); // CraftBukkit
  
          int j;
+ 
+@@ -63,10 +75,10 @@
+ 
+                 for (int k = j; k >= this.world.getMinBuildHeight(); --k) {
+                     blockposition_mutableblockposition1.p(k);
+-                    if (this.world.isEmpty(blockposition_mutableblockposition1)) {
++                    if (this.world.x(blockposition_mutableblockposition1)) {
+                         int l;
+ 
+-                        for (l = k; k > this.world.getMinBuildHeight() && this.world.isEmpty(blockposition_mutableblockposition1.c(EnumDirection.DOWN)); --k) {
++                        for (l = k; k > this.world.getMinBuildHeight() && this.world.x(blockposition_mutableblockposition1.c(EnumDirection.DOWN)); --k) {
+                             ;
+                         }
  
 @@ -102,6 +114,7 @@
  
@@ -50,7 +63,7 @@
  
 +        org.bukkit.craftbukkit.util.BlockStateListPopulator blockList = new org.bukkit.craftbukkit.util.BlockStateListPopulator(this.world); // CraftBukkit - Use BlockStateListPopulator
          if (d0 == -1.0D) {
-             blockposition1 = (new BlockPosition(blockposition.getX(), MathHelper.clamp(blockposition.getY(), 70, this.world.getHeight() - 10), blockposition.getZ())).immutableCopy();
+             blockposition1 = (new BlockPosition(blockposition.getX(), MathHelper.clamp(blockposition.getY(), 70, this.world.getMinBuildHeight() + this.world.getHeight() - 10), blockposition.getZ())).immutableCopy();
              EnumDirection enumdirection1 = enumdirection.g();
 @@ -116,7 +129,7 @@
                          IBlockData iblockdata = k1 < 0 ? Blocks.OBSIDIAN.getBlockData() : Blocks.AIR.getBlockData();
@@ -92,3 +105,12 @@
          return Optional.of(new BlockUtil.Rectangle(blockposition1.immutableCopy(), 2, 3));
      }
  
+@@ -153,7 +176,7 @@
+                     return false;
+                 }
+ 
+-                if (k >= 0 && !this.world.isEmpty(blockposition_mutableblockposition)) {
++                if (k >= 0 && !this.world.x(blockposition_mutableblockposition)) {
+                     return false;
+                 }
+             }

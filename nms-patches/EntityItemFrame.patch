@@ -54,14 +54,14 @@
          } else if (!damagesource.isExplosion() && !this.getItem().isEmpty()) {
              if (!this.world.isClientSide) {
 +                // CraftBukkit start - fire EntityDamageEvent
-+                if (org.bukkit.craftbukkit.event.CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f, false) || this.dead) {
++                if (org.bukkit.craftbukkit.event.CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f, false) || this.dead != null) {
 +                    return true;
 +                }
 +                // CraftBukkit end
                  this.b(damagesource.getEntity(), false);
-                 this.playSound(SoundEffects.ENTITY_ITEM_FRAME_REMOVE_ITEM, 1.0F, 1.0F);
+                 this.playSound(SoundEffects.ITEM_FRAME_REMOVE_ITEM, 1.0F, 1.0F);
              }
-@@ -217,6 +234,12 @@
+@@ -219,6 +236,12 @@
      }
  
      public void setItem(ItemStack itemstack, boolean flag) {
@@ -74,12 +74,12 @@
          if (!itemstack.isEmpty()) {
              itemstack = itemstack.cloneItemStack();
              itemstack.setCount(1);
-@@ -224,7 +247,7 @@
+@@ -226,7 +249,7 @@
          }
  
          this.getDataWatcher().set(EntityItemFrame.ITEM, itemstack);
 -        if (!itemstack.isEmpty()) {
 +        if (!itemstack.isEmpty() && playSound) { // CraftBukkit
-             this.playSound(SoundEffects.ENTITY_ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
+             this.playSound(SoundEffects.ITEM_FRAME_ADD_ITEM, 1.0F, 1.0F);
          }
  

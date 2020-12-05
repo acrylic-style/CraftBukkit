@@ -51,9 +51,9 @@
      }
  
      @Override
-@@ -192,4 +210,17 @@
-     public InventoryCrafting j() {
-         return this.craftInventory;
+@@ -202,4 +220,17 @@
+     public boolean d(int i) {
+         return i != this.f();
      }
 +
 +    // CraftBukkit start

@@ -58,7 +58,7 @@
          };
          this.containerAccess = containeraccess;
          this.a(new Slot(this.inventory, 0, 15, 15) {
-@@ -78,10 +114,12 @@
+@@ -76,10 +112,12 @@
              this.a(new Slot(playerinventory, j, 8 + j * 18, 142));
          }
  

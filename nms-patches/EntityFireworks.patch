@@ -37,7 +37,7 @@
 @@ -146,7 +155,11 @@
  
          this.world.getType(blockposition).a(this.world, blockposition, (Entity) this);
-         if (!this.world.s_() && this.hasExplosions()) {
+         if (!this.world.t_() && this.hasExplosions()) {
 -            this.explode();
 +            // CraftBukkit start
 +            if (!org.bukkit.craftbukkit.event.CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {

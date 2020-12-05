@@ -120,7 +120,7 @@
              while (iterator.hasNext()) {
                  BlockPosition blockposition = (BlockPosition) iterator.next();
 @@ -219,8 +286,8 @@
-                         TileEntity tileentity = block.isTileEntity() ? this.world.getTileEntity(blockposition) : null;
+                         TileEntity tileentity = iblockdata.isTileEntity() ? this.world.getTileEntity(blockposition) : null;
                          LootTableInfo.Builder loottableinfo_builder = (new LootTableInfo.Builder((WorldServer) this.world)).a(this.world.random).set(LootContextParameters.ORIGIN, Vec3D.a((BaseBlockPosition) blockposition)).set(LootContextParameters.TOOL, ItemStack.b).setOptional(LootContextParameters.BLOCK_ENTITY, tileentity).setOptional(LootContextParameters.THIS_ENTITY, this.source);
  
 -                        if (this.c == Explosion.Effect.DESTROY) {

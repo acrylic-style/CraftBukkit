@@ -1,0 +1,164 @@
+--- a/net/minecraft/server/CauldronInteraction.java
++++ b/net/minecraft/server/CauldronInteraction.java
+@@ -3,6 +3,7 @@
+ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+ import java.util.Map;
+ import java.util.function.Predicate;
++import org.bukkit.event.block.CauldronLevelChangeEvent; // CraftBukkit
+ 
+ public interface CauldronInteraction {
+ 
+@@ -26,6 +27,10 @@
+             return EnumInteractionResult.PASS;
+         } else {
+             if (!world.isClientSide) {
++                // CraftBukkit start
++                if (!BlockCauldron.changeLevelDecrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.SHULKER_BOX_WASH)) {
++                    return EnumInteractionResult.SUCCESS;
++                }
+                 ItemStack itemstack1 = new ItemStack(Blocks.SHULKER_BOX);
+ 
+                 if (itemstack.hasTag()) {
+@@ -34,7 +39,8 @@
+ 
+                 entityhuman.a(enumhand, itemstack1);
+                 entityhuman.a(StatisticList.CLEAN_SHULKER_BOX);
+-                LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // CraftBukkit end
+             }
+ 
+             return EnumInteractionResult.a(world.isClientSide);
+@@ -45,6 +51,10 @@
+             return EnumInteractionResult.PASS;
+         } else {
+             if (!world.isClientSide) {
++                // CraftBukkit start
++                if (!BlockCauldron.changeLevelDecrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.BANNER_WASH)) {
++                    return EnumInteractionResult.SUCCESS;
++                }
+                 ItemStack itemstack1 = itemstack.cloneItemStack();
+ 
+                 itemstack1.setCount(1);
+@@ -62,7 +72,8 @@
+                 }
+ 
+                 entityhuman.a(StatisticList.CLEAN_BANNER);
+-                LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // CraftBukkit end
+             }
+ 
+             return EnumInteractionResult.a(world.isClientSide);
+@@ -80,9 +91,14 @@
+                 return EnumInteractionResult.PASS;
+             } else {
+                 if (!world.isClientSide) {
++                    // CraftBukkit start
++                    if (!BlockCauldron.changeLevelDecrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.ARMOR_WASH)) {
++                        return EnumInteractionResult.SUCCESS;
++                    }
+                     idyeable.c(itemstack);
+                     entityhuman.a(StatisticList.CLEAN_ARMOR);
+-                    LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                    // LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                    // CraftBukkit end
+                 }
+ 
+                 return EnumInteractionResult.a(world.isClientSide);
+@@ -91,11 +107,11 @@
+     };
+ 
+     static Object2ObjectOpenHashMap<Item, CauldronInteraction> a() {
+-        return (Object2ObjectOpenHashMap) SystemUtils.a((Object) (new Object2ObjectOpenHashMap()), (object2objectopenhashmap) -> {
+-            object2objectopenhashmap.defaultReturnValue((iblockdata, world, blockposition, entityhuman, enumhand, itemstack) -> {
+-                return EnumInteractionResult.PASS;
+-            });
++        // CraftBukkit start - decompile error
++        return (Object2ObjectOpenHashMap) SystemUtils.a( (new Object2ObjectOpenHashMap()), (object2objectopenhashmap) -> {
++            object2objectopenhashmap.defaultReturnValue(EnumInteractionResult.PASS);
+         });
++        // CraftBukkit end
+     }
+ 
+     EnumInteractionResult interact(IBlockData iblockdata, World world, BlockPosition blockposition, EntityHuman entityhuman, EnumHand enumhand, ItemStack itemstack);
+@@ -109,9 +125,14 @@
+                 return EnumInteractionResult.PASS;
+             } else {
+                 if (!world.isClientSide) {
++                    // CraftBukkit start
++                    if (!BlockCauldron.changeLevelIncrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.BOTTLE_EMPTY)) {
++                        return EnumInteractionResult.SUCCESS;
++                    }
+                     entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, new ItemStack(Items.GLASS_BOTTLE)));
+                     entityhuman.a(StatisticList.USE_CAULDRON);
+-                    world.setTypeUpdate(blockposition, Blocks.WATER_CAULDRON.getBlockData());
++                    // world.setTypeUpdate(blockposition, Blocks.WATER_CAULDRON.getBlockData());
++                    // CraftBukkit end
+                     world.playSound((EntityHuman) null, blockposition, SoundEffects.BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                 }
+ 
+@@ -128,9 +149,14 @@
+         });
+         CauldronInteraction.b.put(Items.GLASS_BOTTLE, (iblockdata, world, blockposition, entityhuman, enumhand, itemstack) -> {
+             if (!world.isClientSide) {
++                // CraftBukkit start
++                if (!BlockCauldron.changeLevelDecrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.BOTTLE_FILL)) {
++                    return EnumInteractionResult.SUCCESS;
++                }
+                 entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, PotionUtil.a(new ItemStack(Items.POTION), Potions.WATER)));
+                 entityhuman.a(StatisticList.USE_CAULDRON);
+-                LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
++                // CraftBukkit end
+                 world.playSound((EntityHuman) null, blockposition, SoundEffects.BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+             }
+ 
+@@ -139,9 +165,14 @@
+         CauldronInteraction.b.put(Items.POTION, (iblockdata, world, blockposition, entityhuman, enumhand, itemstack) -> {
+             if ((Integer) iblockdata.get(LayeredCauldronBlock.b) != 3 && PotionUtil.d(itemstack) == Potions.WATER) {
+                 if (!world.isClientSide) {
++                    // CraftBukkit start
++                    if (!BlockCauldron.changeLevelDecrease(world, blockposition, iblockdata, entityhuman, CauldronLevelChangeEvent.ChangeReason.BOTTLE_EMPTY)) {
++                        return EnumInteractionResult.SUCCESS;
++                    }
+                     entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, new ItemStack(Items.GLASS_BOTTLE)));
+                     entityhuman.a(StatisticList.USE_CAULDRON);
+-                    world.setTypeUpdate(blockposition, (IBlockData) iblockdata.a((IBlockState) LayeredCauldronBlock.b));
++                    // world.setTypeUpdate(blockposition, (IBlockData) iblockdata.a((IBlockState) LayeredCauldronBlock.b));
++                    // CraftBukkit end
+                     world.playSound((EntityHuman) null, blockposition, SoundEffects.BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                 }
+ 
+@@ -208,9 +239,14 @@
+             return EnumInteractionResult.PASS;
+         } else {
+             if (!world.isClientSide) {
++                // CraftBukkit start
++                if (!BlockCauldron.changeLevel(world, blockposition, iblockdata, 0, entityhuman, CauldronLevelChangeEvent.ChangeReason.BUCKET_FILL)) {
++                    return EnumInteractionResult.SUCCESS;
++                }
+                 entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, itemstack1));
+                 entityhuman.a(StatisticList.USE_CAULDRON);
+-                world.setTypeUpdate(blockposition, Blocks.CAULDRON.getBlockData());
++                // world.setTypeUpdate(blockposition, Blocks.CAULDRON.getBlockData());
++                // CraftBukkit end
+                 world.playSound((EntityHuman) null, blockposition, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
+             }
+ 
+@@ -220,9 +256,14 @@
+ 
+     static EnumInteractionResult a(World world, BlockPosition blockposition, EntityHuman entityhuman, EnumHand enumhand, ItemStack itemstack, IBlockData iblockdata, SoundEffect soundeffect) {
+         if (!world.isClientSide) {
++            // CraftBukkit start
++            if (!BlockCauldron.changeLevel(world, blockposition, iblockdata, 3, entityhuman, CauldronLevelChangeEvent.ChangeReason.BUCKET_EMPTY)) {
++                return EnumInteractionResult.SUCCESS;
++            }
+             entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, new ItemStack(Items.BUCKET)));
+             entityhuman.a(StatisticList.FILL_CAULDRON);
+-            world.setTypeUpdate(blockposition, iblockdata);
++            // world.setTypeUpdate(blockposition, iblockdata);
++            // CraftBukkit end
+             world.playSound((EntityHuman) null, blockposition, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
+         }
+ 

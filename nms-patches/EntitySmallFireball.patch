@@ -44,7 +44,7 @@
 +            if (isIncendiary) { // CraftBukkit
                  BlockPosition blockposition = movingobjectpositionblock.getBlockPosition().shift(movingobjectpositionblock.getDirection());
  
--                if (this.world.isEmpty(blockposition)) {
+-                if (this.world.x(blockposition)) {
 +                if (this.world.isEmpty(blockposition) && !org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition, this).isCancelled()) { // CraftBukkit
                      this.world.setTypeUpdate(blockposition, BlockFireAbstract.a((IBlockAccess) this.world, blockposition));
                  }

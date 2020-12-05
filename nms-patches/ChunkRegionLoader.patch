@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/ChunkRegionLoader.java
 +++ b/net/minecraft/server/ChunkRegionLoader.java
-@@ -91,7 +91,7 @@
+@@ -92,7 +92,7 @@
  
              if (nbttagcompound1.hasKeyOfType("TileTicks", 9)) {
                  nbttaglist1 = nbttagcompound1.getList("TileTicks", 10);
@@ -9,7 +9,7 @@
                  registryblocks = IRegistry.BLOCK;
                  registryblocks.getClass();
                  object1 = TickListChunk.a(nbttaglist1, function, registryblocks::get);
-@@ -103,7 +103,7 @@
+@@ -104,7 +104,7 @@
  
              if (nbttagcompound1.hasKeyOfType("LiquidTicks", 9)) {
                  nbttaglist1 = nbttagcompound1.getList("LiquidTicks", 10);
@@ -18,10 +18,10 @@
                  registryblocks = IRegistry.FLUID;
                  registryblocks.getClass();
                  object2 = TickListChunk.a(nbttaglist1, function, registryblocks::get);
-@@ -113,6 +113,12 @@
+@@ -114,6 +114,12 @@
  
-             object = new Chunk(worldserver.getMinecraftWorld(), chunkcoordintpair, biomestorage, chunkconverter, (TickList) object1, (TickList) object2, j, achunksection, (chunk) -> {
-                 loadEntities(nbttagcompound1, chunk);
+             object = new Chunk(worldserver.getMinecraftWorld(), chunkcoordintpair, biomestorage, chunkconverter, (TickList) object1, (TickList) object2, k, achunksection, (chunk) -> {
+                 loadEntities(worldserver, nbttagcompound1, chunk);
 +                // CraftBukkit start - load chunk persistent data from nbt
 +                NBTBase persistentBase = nbttagcompound1.get("ChunkBukkitValues");
 +                if (persistentBase instanceof NBTTagCompound) {
@@ -30,28 +30,27 @@
 +                // CraftBukkit end
              });
          } else {
-             ProtoChunk protochunk = new ProtoChunk(chunkcoordintpair, chunkconverter, achunksection, protochunkticklist, protochunkticklist1);
-@@ -246,8 +252,9 @@
-         NBTTagCompound nbttagcompound2;
+             ProtoChunk protochunk = new ProtoChunk(chunkcoordintpair, chunkconverter, achunksection, protochunkticklist, protochunkticklist1, worldserver);
+@@ -181,6 +187,11 @@
+             return new ProtoChunkExtension((Chunk) object);
+         } else {
+             ProtoChunk protochunk1 = (ProtoChunk) object;
++            // CraftBukkit start - store chunk persistent data in nbt
++            if (!protochunk1.persistentDataContainer.isEmpty()) {
++                nbttagcompound1.set("ChunkBukkitValues", protochunk1.persistentDataContainer.toTagCompound());
++            }
++            // CraftBukkit end
  
-         for (int i = -1; i < 17; ++i) {
+             nbttaglist3 = nbttagcompound1.getList("Entities", 10);
+ 
+@@ -245,8 +256,9 @@
+         boolean flag = ichunkaccess.t();
+ 
+         for (int i = lightenginethreaded.c(); i < lightenginethreaded.d(); ++i) {
 +            int finalI = i; // CraftBukkit - decompile errors
              ChunkSection chunksection = (ChunkSection) Arrays.stream(achunksection).filter((chunksection1) -> {
--                return chunksection1 != null && chunksection1.getYPosition() >> 4 == i;
-+                return chunksection1 != null && chunksection1.getYPosition() >> 4 == finalI; // CraftBukkit - decompile errors
+-                return chunksection1 != null && SectionPosition.a(chunksection1.getYPosition()) == i;
++                return chunksection1 != null && SectionPosition.a(chunksection1.getYPosition()) == finalI; // CraftBukkit - decompile errors
              }).findFirst().orElse(Chunk.a);
              NibbleArray nibblearray = lightenginethreaded.a(EnumSkyBlock.BLOCK).a(SectionPosition.a(chunkcoordintpair, i));
              NibbleArray nibblearray1 = lightenginethreaded.a(EnumSkyBlock.SKY).a(SectionPosition.a(chunkcoordintpair, i));
-@@ -302,6 +309,12 @@
-         if (ichunkaccess.getChunkStatus().getType() == ChunkStatus.Type.LEVELCHUNK) {
-             Chunk chunk = (Chunk) ichunkaccess;
- 
-+            // CraftBukkit start - store chunk persistent data in nbt
-+            if (!chunk.persistentDataContainer.isEmpty()) {
-+                nbttagcompound1.set("ChunkBukkitValues", chunk.persistentDataContainer.toTagCompound());
-+            }
-+            // CraftBukkit end
-+
-             chunk.d(false);
- 
-             for (int j = 0; j < chunk.getEntitySlices().length; ++j) {

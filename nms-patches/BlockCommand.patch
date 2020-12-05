@@ -6,10 +6,10 @@
  
 +import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 +
- public class BlockCommand extends BlockTileEntity {
+ public class BlockCommand extends BlockTileEntity implements byl {
  
      private static final Logger LOGGER = LogManager.getLogger();
-@@ -32,6 +34,15 @@
+@@ -34,6 +36,15 @@
                  TileEntityCommand tileentitycommand = (TileEntityCommand) tileentity;
                  boolean flag1 = world.isBlockIndirectlyPowered(blockposition);
                  boolean flag2 = tileentitycommand.f();
@@ -24,4 +24,4 @@
 +                // CraftBukkit end
  
                  tileentitycommand.a(flag1);
-                 if (!flag2 && !tileentitycommand.g() && tileentitycommand.m() != TileEntityCommand.Type.SEQUENCE) {
+                 if (!flag2 && !tileentitycommand.h() && tileentitycommand.u() != TileEntityCommand.Type.SEQUENCE) {

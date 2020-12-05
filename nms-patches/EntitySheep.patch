@@ -12,15 +12,15 @@
 +
  public class EntitySheep extends EntityAnimal implements IShearable {
  
-     private static final DataWatcherObject<Byte> bo = DataWatcher.a(EntitySheep.class, DataWatcherRegistry.a);
--    private static final Map<EnumColor, IMaterial> bp = (Map) SystemUtils.a((Object) Maps.newEnumMap(EnumColor.class), (enummap) -> {
-+    private static final Map<EnumColor, IMaterial> bp = (Map) SystemUtils.a(Maps.newEnumMap(EnumColor.class), (enummap) -> { // CraftBukkit - decompile error
+     private static final DataWatcherObject<Byte> bj = DataWatcher.a(EntitySheep.class, DataWatcherRegistry.a);
+-    private static final Map<EnumColor, IMaterial> bk = (Map) SystemUtils.a((Object) Maps.newEnumMap(EnumColor.class), (enummap) -> {
++    private static final Map<EnumColor, IMaterial> bk = (Map) SystemUtils.a(Maps.newEnumMap(EnumColor.class), (enummap) -> { // CraftBukkit - decompile error
          enummap.put(EnumColor.WHITE, Blocks.WHITE_WOOL);
          enummap.put(EnumColor.ORANGE, Blocks.ORANGE_WOOL);
          enummap.put(EnumColor.MAGENTA, Blocks.MAGENTA_WOOL);
 @@ -138,6 +144,11 @@
  
-         if (itemstack.getItem() == Items.SHEARS) {
+         if (itemstack.a(Items.SHEARS)) {
              if (!this.world.isClientSide && this.canShear()) {
 +                // CraftBukkit start
 +                if (!CraftEventFactory.handlePlayerShearEntityEvent(entityhuman, this, itemstack, enumhand)) {
@@ -35,7 +35,7 @@
  
          for (int j = 0; j < i; ++j) {
 +            this.forceDrops = true; // CraftBukkit
-             EntityItem entityitem = this.a((IMaterial) EntitySheep.bp.get(this.getColor()), 1);
+             EntityItem entityitem = this.a((IMaterial) EntitySheep.bk.get(this.getColor()), 1);
 +            this.forceDrops = false; // CraftBukkit
  
              if (entityitem != null) {

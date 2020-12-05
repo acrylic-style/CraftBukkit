@@ -34,9 +34,9 @@
 @@ -81,7 +87,7 @@
      }
  
-     protected void write(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound) throws IOException {
+     protected void write(ChunkCoordIntPair chunkcoordintpair, @Nullable NBTTagCompound nbttagcompound) throws IOException {
 -        RegionFile regionfile = this.getFile(chunkcoordintpair);
 +        RegionFile regionfile = this.getFile(chunkcoordintpair, false); // CraftBukkit
-         DataOutputStream dataoutputstream = regionfile.c(chunkcoordintpair);
-         Throwable throwable = null;
  
+         if (nbttagcompound == null) {
+             regionfile.d(chunkcoordintpair);

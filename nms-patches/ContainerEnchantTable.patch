@@ -124,7 +124,7 @@
 +                // CraftBukkit start
 +                if (true || !list.isEmpty()) {
 +                    // entityhuman.enchantDone(itemstack, j); // Moved down
-                     boolean flag = itemstack.getItem() == Items.BOOK;
+                     boolean flag = itemstack.a(Items.BOOK);
 +                    Map<org.bukkit.enchantments.Enchantment, Integer> enchants = new java.util.HashMap<org.bukkit.enchantments.Enchantment, Integer>();
 +                    for (Object obj : list) {
 +                        WeightedRandomEnchant instance = (WeightedRandomEnchant) obj;
@@ -136,7 +136,7 @@
 +                    world.getServer().getPluginManager().callEvent(event);
 +
 +                    int level = event.getExpLevelCost();
-+                    if (event.isCancelled() || (level > entityhuman.expLevel && !entityhuman.abilities.canInstantlyBuild) || event.getEnchantsToAdd().isEmpty()) {
++                    if (event.isCancelled() || (level > entityhuman.expLevel && !entityhuman.eU().canInstantlyBuild) || event.getEnchantsToAdd().isEmpty()) {
 +                        return;
 +                    }
  
@@ -175,7 +175,7 @@
 +                    // CraftBukkit end
 +
 +                    // CraftBukkit - TODO: let plugins change this
-                     if (!entityhuman.abilities.canInstantlyBuild) {
+                     if (!entityhuman.eU().canInstantlyBuild) {
                          itemstack1.subtract(j);
                          if (itemstack1.isEmpty()) {
 @@ -238,6 +330,7 @@
