@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/MobSpawnerAbstract.java
 +++ b/net/minecraft/server/MobSpawnerAbstract.java
+@@ -30,7 +30,7 @@
+     public MobSpawnerAbstract() {}
+ 
+     @Nullable
+-    private MinecraftKey getMobName(@Nullable World world, BlockPosition blockposition) {
++    public MinecraftKey getMobName(@Nullable World world, BlockPosition blockposition) { // CraftBukkit - private -> public
+         String s = this.spawnData.getEntity().getString("id");
+ 
+         try {
 @@ -43,6 +43,7 @@
  
      public void setMobName(EntityTypes<?> entitytypes) {

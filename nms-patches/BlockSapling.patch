@@ -23,7 +23,7 @@
 @@ -22,7 +30,30 @@
      @Override
      public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
-         if (worldserver.C(blockposition.up()) >= 9 && random.nextInt(7) == 0) {
+         if (worldserver.getLightLevel(blockposition.up()) >= 9 && random.nextInt(7) == 0) {
 +            // CraftBukkit start
 +            worldserver.captureTreeGeneration = true;
 +            // CraftBukkit end

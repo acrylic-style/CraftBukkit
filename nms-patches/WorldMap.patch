@@ -16,7 +16,7 @@
  public class WorldMap extends PersistentBase {
  
 @@ -29,6 +37,12 @@
-     private final Map<String, MapIcon> decorations = Maps.newLinkedHashMap();
+     public Map<String, MapIcon> decorations = Maps.newLinkedHashMap();
      private final Map<String, WorldMapFrame> n = Maps.newHashMap();
  
 +    // CraftBukkit start

@@ -44,19 +44,6 @@
  
          int j;
  
-@@ -63,10 +75,10 @@
- 
-                 for (int k = j; k >= this.world.getMinBuildHeight(); --k) {
-                     blockposition_mutableblockposition1.p(k);
--                    if (this.world.isEmpty(blockposition_mutableblockposition1)) {
-+                    if (this.world.x(blockposition_mutableblockposition1)) {
-                         int l;
- 
--                        for (l = k; k > this.world.getMinBuildHeight() && this.world.isEmpty(blockposition_mutableblockposition1.c(EnumDirection.DOWN)); --k) {
-+                        for (l = k; k > this.world.getMinBuildHeight() && this.world.x(blockposition_mutableblockposition1.c(EnumDirection.DOWN)); --k) {
-                             ;
-                         }
- 
 @@ -102,6 +114,7 @@
  
          int j1;
@@ -105,12 +92,3 @@
          return Optional.of(new BlockUtil.Rectangle(blockposition1.immutableCopy(), 2, 3));
      }
  
-@@ -153,7 +176,7 @@
-                     return false;
-                 }
- 
--                if (k >= 0 && !this.world.isEmpty(blockposition_mutableblockposition)) {
-+                if (k >= 0 && !this.world.x(blockposition_mutableblockposition)) {
-                     return false;
-                 }
-             }

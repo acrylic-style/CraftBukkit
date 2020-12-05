@@ -112,7 +112,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         random.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
 
         // Get default biome data for chunk
-        CustomBiomeGrid biomegrid = new CustomBiomeGrid(new BiomeStorage(world.r().b(IRegistry.ay), ichunkaccess.getPos(), this.getWorldChunkManager()));
+        CustomBiomeGrid biomegrid = new CustomBiomeGrid(new BiomeStorage(world.r().b(IRegistry.aE), ichunkaccess.getPos(), this.getWorldChunkManager()));
 
         ChunkData data;
         if (generator.isParallelCapable()) {
@@ -150,9 +150,9 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 int tz = pos.getZ();
                 Block block = craftData.getTypeId(tx, ty, tz).getBlock();
 
-                if (block.isTileEntity()) {
-                    TileEntity tile = ((ITileEntity) block).createTile(world);
-                    ichunkaccess.setTileEntity(new BlockPosition((x << 4) + tx, ty, (z << 4) + tz), tile);
+                if (block.getBlockData().isTileEntity()) {
+                    TileEntity tile = ((ITileEntity) block).createTile(new BlockPosition((x << 4) + tx, ty, (z << 4) + tz), block.getBlockData());
+                    ichunkaccess.setTileEntity(tile);
                 }
             }
         }

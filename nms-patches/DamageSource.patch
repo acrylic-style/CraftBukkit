@@ -3,7 +3,7 @@
 @@ -36,6 +36,18 @@
      private boolean E;
      private boolean F;
-     public final String w;
+     public final String translationIndex;
 +    // CraftBukkit start
 +    private boolean sweep;
 +

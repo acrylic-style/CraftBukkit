@@ -1,0 +1,10 @@
+--- a/net/minecraft/server/PersistentBase.java
++++ b/net/minecraft/server/PersistentBase.java
+@@ -9,6 +9,7 @@
+ 
+     private static final Logger LOGGER = LogManager.getLogger();
+     private boolean id;
++    public String data; // CraftBukkit - add field to store data
+ 
+     public PersistentBase() {}
+ 

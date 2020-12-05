@@ -74,7 +74,7 @@
          BlockPropertyChestType blockpropertychesttype = (BlockPropertyChestType) iblockdata.get(BlockChest.c);
  
          if (blockpropertychesttype != BlockPropertyChestType.LEFT) {
-@@ -92,7 +131,7 @@
+@@ -92,10 +131,19 @@
                  d2 += (double) enumdirection.getAdjacentZ() * 0.5D;
              }
  
@@ -83,7 +83,19 @@
          }
      }
  
-@@ -109,7 +148,20 @@
++    // CraftBukkit start
++    public void playOpenSound(SoundEffect soundeffect) {
++        double d0 = (double) position.getX() + 0.5D;
++        double d1 = (double) position.getY() + 0.5D;
++        double d2 = (double) position.getZ() + 0.5D;
++        world.playSound((EntityHuman) null, d0, d1, d2, soundeffect, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
++    }
++    // CraftBukkit end
++
+     @Override
+     public boolean setProperty(int i, int j) {
+         if (i == 1) {
+@@ -109,7 +157,20 @@
      @Override
      public void startOpen(EntityHuman entityhuman) {
          if (!entityhuman.isSpectator()) {
@@ -104,7 +116,7 @@
          }
  
      }
-@@ -117,7 +169,18 @@
+@@ -117,7 +178,18 @@
      @Override
      public void closeContainer(EntityHuman entityhuman) {
          if (!entityhuman.isSpectator()) {
@@ -123,7 +135,7 @@
          }
  
      }
-@@ -165,6 +228,13 @@
+@@ -165,6 +237,13 @@
      protected void a(World world, BlockPosition blockposition, IBlockData iblockdata, int i, int j) {
          Block block = iblockdata.getBlock();
  

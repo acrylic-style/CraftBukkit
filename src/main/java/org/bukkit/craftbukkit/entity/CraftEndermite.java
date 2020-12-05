@@ -28,11 +28,11 @@ public class CraftEndermite extends CraftMonster implements Endermite {
 
     @Override
     public boolean isPlayerSpawned() {
-        return getHandle().isPlayerSpawned();
+        throw new UnsupportedOperationException("Not supported. Unless you can fix it, this is not a bug :)");
     }
 
     @Override
     public void setPlayerSpawned(boolean playerSpawned) {
-        getHandle().setPlayerSpawned(playerSpawned);
+        throw new UnsupportedOperationException("Not supported. Unless you can fix it, this is not a bug :)");
     }
 }

@@ -48,7 +48,7 @@
          super.initDatawatcher();
 @@ -201,7 +224,7 @@
          } else {
-             Entity entity = damagesource.getEntity();
+             Entity entity = damagesource.k();
  
 -            this.setWillSit(false);
 +            // this.setWillSit(false); // CraftBukkit - moved into EntityLiving.damageEntity(DamageSource, float)

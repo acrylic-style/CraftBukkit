@@ -467,11 +467,10 @@
                  return itemstack;
              }
          }));
-@@ -436,7 +730,31 @@
+@@ -436,6 +730,30 @@
                  EnumDirection enumdirection = (EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING);
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift(enumdirection);
  
--                if (worldserver.x(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
 +                // CraftBukkit start
 +                org.bukkit.block.Block bukkitBlock = worldserver.getWorld().getBlockAt(isourceblock.getBlockPosition().getX(), isourceblock.getBlockPosition().getY(), isourceblock.getBlockPosition().getZ());
 +                CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack);
@@ -496,10 +495,9 @@
 +                }
 +                // CraftBukkit end
 +
-+                if (worldserver.isEmpty(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
+                 if (worldserver.isEmpty(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
                      worldserver.setTypeAndData(blockposition, (IBlockData) Blocks.WITHER_SKELETON_SKULL.getBlockData().set(BlockSkull.a, enumdirection.n() == EnumDirection.EnumAxis.Y ? 0 : enumdirection.opposite().get2DRotationValue() * 4), 3);
                      TileEntity tileentity = worldserver.getTileEntity(blockposition);
- 
 @@ -460,6 +778,30 @@
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
                  BlockPumpkinCarved blockpumpkincarved = (BlockPumpkinCarved) Blocks.CARVED_PUMPKIN;
@@ -528,7 +526,7 @@
 +                }
 +                // CraftBukkit end
 +
-                 if (worldserver.x(blockposition) && blockpumpkincarved.a((IWorldReader) worldserver, blockposition)) {
+                 if (worldserver.isEmpty(blockposition) && blockpumpkincarved.a((IWorldReader) worldserver, blockposition)) {
                      if (!worldserver.isClientSide) {
                          worldserver.setTypeAndData(blockposition, blockpumpkincarved.getBlockData(), 3);
 @@ -507,6 +849,30 @@

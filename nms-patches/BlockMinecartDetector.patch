@@ -8,7 +8,7 @@
 +
  public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
  
-     public static final BlockStateEnum<BlockPropertyTrackPosition> POWERED = BlockProperties.ad;
+     public static final BlockStateEnum<BlockPropertyTrackPosition> SHAPE = BlockProperties.ad;
 @@ -59,6 +61,16 @@
              }
  
@@ -25,4 +25,4 @@
 +            // CraftBukkit end
  
              if (flag1 && !flag) {
-                 iblockdata1 = (IBlockData) iblockdata.set(BlockMinecartDetector.e, true);
+                 iblockdata1 = (IBlockData) iblockdata.set(BlockMinecartDetector.POWERED, true);

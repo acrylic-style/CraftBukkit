@@ -582,7 +582,7 @@ public class CraftBlock implements Block {
     }
 
     private static int getPower(int i, IBlockData iblockdata) {
-        if (!iblockdata.getBlock().a(Blocks.REDSTONE_WIRE)) {
+        if (!iblockdata.a(Blocks.REDSTONE_WIRE)) {
             return i;
         } else {
             int j = iblockdata.get(BlockRedstoneWire.POWER);

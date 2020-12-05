@@ -227,7 +227,7 @@
 +                net.minecraft.server.Main.convertWorld(worldSession, DataConverterRegistry.a(), options.has("eraseCache"), () -> {
 +                    return true;
 +                }, worlddata.getGeneratorSettings().d().d().stream().map((entry) -> {
-+                    return ResourceKey.a(IRegistry.O, ((ResourceKey) entry.getKey()).a());
++                    return ResourceKey.a(IRegistry.N, ((ResourceKey) entry.getKey()).a());
 +                }).collect(ImmutableSet.toImmutableSet()));
 +            }
 +
@@ -456,7 +456,7 @@
  
      protected void loadResourcesZip() {
 @@ -461,12 +661,16 @@
-             worldserver.save((IProgressUpdate) null, flag1, worldserver.tickingEntities && !flag2);
+             worldserver.save((IProgressUpdate) null, flag1, worldserver.savingDisabled && !flag2);
          }
  
 +        // CraftBukkit start - moved to WorldServer.save

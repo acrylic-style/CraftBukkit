@@ -59,7 +59,7 @@
              }
          } else {
 -            IRecipe<?> irecipe = (IRecipe) world.getCraftingManager().craft(tileentityfurnace.n, tileentityfurnace, world).orElse((Object) null);
-+            IRecipe<?> irecipe = (IRecipe) world.getCraftingManager().craft(tileentityfurnace.n, tileentityfurnace, world).orElse(null); // CraftBukkit - decompile error
++            IRecipe<?> irecipe = (IRecipe) world.getCraftingManager().craft((Recipes) tileentityfurnace.n, tileentityfurnace, world).orElse(null); // CraftBukkit - decompile error
              int i = tileentityfurnace.getMaxStackSize();
  
              if (!tileentityfurnace.isBurning() && canBurn(irecipe, tileentityfurnace.items, i)) {
@@ -144,7 +144,7 @@
 -    private static int getRecipeCookingTime(World world, Recipes<? extends RecipeCooking> recipes, IInventory iinventory) {
 -        return (Integer) world.getCraftingManager().craft(recipes, iinventory, world).map(RecipeCooking::getCookingTime).orElse(200);
 +    private static int getRecipeCookingTime(@Nullable World world, Recipes<? extends RecipeCooking> recipes, IInventory iinventory) {
-+        return world != null ? (Integer) world.getCraftingManager().craft(recipes, iinventory, world).map(RecipeCooking::getCookingTime).orElse(200) : 200; // CraftBukkit - SPIGOT-4302 // Eclipse fail
++        return world != null ? (Integer) world.getCraftingManager().craft((Recipes<RecipeCooking>) recipes, iinventory, world).map(RecipeCooking::getCookingTime).orElse(200) : 200; // CraftBukkit - SPIGOT-4302 // Eclipse fail
      }
  
      public static boolean isFuel(ItemStack itemstack) {

@@ -310,7 +310,7 @@
 -            } else {
 +            if (this.persist && this.dead == null && s != null) { // CraftBukkit - persist flag
                  nbttagcompound.setString("id", s);
-                 this.f(nbttagcompound);
+                 this.save(nbttagcompound);
                  return true;
 -            }
 +            } else { return false; } // CraftBukkit
@@ -567,17 +567,16 @@
          this.setFlag(4, flag);
      }
  
-@@ -1831,8 +2152,12 @@
-         return this.getScoreboardTeam() != null ? this.getScoreboardTeam().isAlly(scoreboardteambase) : false;
+@@ -1832,7 +2153,11 @@
      }
  
-+    // CraftBukkit - start
-     public void i(boolean flag) {
+     public void setInvisible(boolean flag) {
 -        this.setFlag(5, flag);
++        // CraftBukkit start
 +        if (!this.persistentInvisibility) { // Prevent Minecraft from removing our invisibility flag
 +            this.setFlag(5, flag);
 +        }
-+        // CraftBukkit - end
++        // CraftBukkit end
      }
  
      public boolean getFlag(int i) {
@@ -643,7 +642,7 @@
 +        // CraftBukkit end
      }
  
-     public void setInvisible(boolean flag) {
+     public void j(boolean flag) {
 @@ -2040,15 +2405,31 @@
  
      @Nullable

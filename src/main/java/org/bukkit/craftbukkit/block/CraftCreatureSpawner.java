@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.block;
 
 import com.google.common.base.Preconditions;
+import net.minecraft.server.BlockPosition;
 import net.minecraft.server.EntityTypes;
 import net.minecraft.server.MinecraftKey;
 import net.minecraft.server.TileEntityMobSpawner;
@@ -21,7 +22,7 @@ public class CraftCreatureSpawner extends CraftBlockEntityState<TileEntityMobSpa
 
     @Override
     public EntityType getSpawnedType() {
-        MinecraftKey key = this.getSnapshot().getSpawner().getMobName();
+        MinecraftKey key = this.getSnapshot().getSpawner().getMobName(world.getHandle(), new BlockPosition(getLocation().getBlockX(), getLocation().getBlockY(), getLocation().getBlockZ()));
         return (key == null) ? EntityType.PIG : EntityType.fromName(key.getKey());
     }
 
@@ -36,7 +37,7 @@ public class CraftCreatureSpawner extends CraftBlockEntityState<TileEntityMobSpa
 
     @Override
     public String getCreatureTypeName() {
-        return this.getSnapshot().getSpawner().getMobName().getKey();
+        return this.getSnapshot().getSpawner().getMobName(world.getHandle(), new BlockPosition(getLocation().getBlockX(), getLocation().getBlockY(), getLocation().getBlockZ())).getKey();
     }
 
     @Override

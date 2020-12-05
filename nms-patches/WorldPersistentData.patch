@@ -1,0 +1,41 @@
+--- a/net/minecraft/server/WorldPersistentData.java
++++ b/net/minecraft/server/WorldPersistentData.java
+@@ -38,7 +38,7 @@
+         if (t0 != null) {
+             return t0;
+         } else {
+-            T t1 = (PersistentBase) supplier.get();
++            T t1 = supplier.get(); // CraftBukkit - decompile error
+ 
+             this.a(s, t1);
+             return t1;
+@@ -54,18 +54,18 @@
+             this.data.put(s, persistentbase);
+         }
+ 
+-        return persistentbase;
++        return (T) persistentbase; // CraftBukkit - decompile error
+     }
+ 
+     @Nullable
+-    private <T extends PersistentBase> T b(Function<NBTTagCompound, T> function, String s) {
++    public <T extends PersistentBase> T b(Function<NBTTagCompound, T> function, String s) { // CraftBukkit - private -> public
+         try {
+             File file = this.a(s);
+ 
+             if (file.exists()) {
+                 NBTTagCompound nbttagcompound = this.a(s, SharedConstants.getGameVersion().getWorldVersion());
+ 
+-                return (PersistentBase) function.apply(nbttagcompound.getCompound("data"));
++                return function.apply(nbttagcompound.getCompound("data")); // CraftBukkit - decompile error
+             }
+         } catch (Exception exception) {
+             WorldPersistentData.LOGGER.error("Error loading saved data: {}", s, exception);
+@@ -75,6 +75,7 @@
+     }
+ 
+     public void a(String s, PersistentBase persistentbase) {
++        persistentbase.data = s; // CraftBukkit
+         this.data.put(s, persistentbase);
+     }
+ 

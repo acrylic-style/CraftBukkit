@@ -37,7 +37,7 @@
 +                // CraftBukkit End - Call BatToggleSleepEvent
              }
          } else {
-             if (this.d != null && (!this.world.x(this.d) || this.d.getY() <= this.world.getMinBuildHeight())) {
+             if (this.d != null && (!this.world.isEmpty(this.d) || this.d.getY() <= this.world.getMinBuildHeight())) {
 @@ -138,7 +147,11 @@
              this.aO = 0.5F;
              this.yaw += f1;

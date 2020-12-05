@@ -28,6 +28,7 @@ import net.minecraft.server.BiomeDecoratorGroups;
 import net.minecraft.server.BlockChorusFlower;
 import net.minecraft.server.BlockDiodeAbstract;
 import net.minecraft.server.BlockPosition;
+import net.minecraft.server.BlockSapling;
 import net.minecraft.server.Blocks;
 import net.minecraft.server.ChunkCoordIntPair;
 import net.minecraft.server.ChunkMapDistance;
@@ -923,7 +924,7 @@ public class CraftWorld implements World {
 
     @Override
     public Biome getBiome(int x, int y, int z) {
-        return CraftBlock.biomeBaseToBiome(getHandle().r().b(IRegistry.ay), this.world.getBiome(x >> 2, y >> 2, z >> 2));
+        return CraftBlock.biomeBaseToBiome(getHandle().r().b(IRegistry.aE), this.world.getBiome(x >> 2, y >> 2, z >> 2));
     }
 
     @Override
@@ -935,7 +936,7 @@ public class CraftWorld implements World {
 
     @Override
     public void setBiome(int x, int y, int z, Biome bio) {
-        BiomeBase bb = CraftBlock.biomeToBiomeBase(getHandle().r().b(IRegistry.ay), bio);
+        BiomeBase bb = CraftBlock.biomeToBiomeBase(getHandle().r().b(IRegistry.aE), bio);
         BlockPosition pos = new BlockPosition(x, 0, z);
         if (this.world.isLoaded(pos)) {
             net.minecraft.server.Chunk chunk = this.world.getChunkAtWorldCoords(pos);
@@ -973,7 +974,7 @@ public class CraftWorld implements World {
     public List<Entity> getEntities() {
         List<Entity> list = new ArrayList<Entity>();
 
-        for (Object o : world.entitiesById.values()) {
+        for (Object o : world.getEntities().iterable()) {
             if (o instanceof net.minecraft.server.Entity) {
                 net.minecraft.server.Entity mcEnt = (net.minecraft.server.Entity) o;
                 Entity bukkitEntity = mcEnt.getBukkitEntity();
@@ -992,7 +993,7 @@ public class CraftWorld implements World {
     public List<LivingEntity> getLivingEntities() {
         List<LivingEntity> list = new ArrayList<LivingEntity>();
 
-        for (Object o : world.entitiesById.values()) {
+        for (Object o : world.getEntities().iterable()) {
             if (o instanceof net.minecraft.server.Entity) {
                 net.minecraft.server.Entity mcEnt = (net.minecraft.server.Entity) o;
                 Entity bukkitEntity = mcEnt.getBukkitEntity();
@@ -1019,7 +1020,7 @@ public class CraftWorld implements World {
     public <T extends Entity> Collection<T> getEntitiesByClass(Class<T> clazz) {
         Collection<T> list = new ArrayList<T>();
 
-        for (Object entity: world.entitiesById.values()) {
+        for (Object entity: world.getEntities().iterable()) {
             if (entity instanceof net.minecraft.server.Entity) {
                 Entity bukkitEntity = ((net.minecraft.server.Entity) entity).getBukkitEntity();
 
@@ -1042,7 +1043,7 @@ public class CraftWorld implements World {
     public Collection<Entity> getEntitiesByClasses(Class<?>... classes) {
         Collection<Entity> list = new ArrayList<Entity>();
 
-        for (Object entity: world.entitiesById.values()) {
+        for (Object entity: world.getEntities().iterable()) {
             if (entity instanceof net.minecraft.server.Entity) {
                 Entity bukkitEntity = ((net.minecraft.server.Entity) entity).getBukkitEntity();
 
@@ -1755,7 +1756,6 @@ public class CraftWorld implements World {
 
             if (LeashHitch.class.isAssignableFrom(clazz)) {
                 entity = new EntityLeash(world, new BlockPosition(x, y, z));
-                entity.attachedToPlayer = true;
             } else {
                 // No valid face found
                 Preconditions.checkArgument(face != BlockFace.SELF, "Cannot spawn hanging entity for %s at %s (no free face)", clazz.getName(), location);
@@ -1839,7 +1839,7 @@ public class CraftWorld implements World {
 
     @Override
     public int getMaxHeight() {
-        return world.getBuildHeight();
+        return world.getMaxBuildHeight();
     }
 
     @Override

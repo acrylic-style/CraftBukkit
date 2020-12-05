@@ -21,7 +21,7 @@
      @Nullable
      protected World world;
 -    protected final BlockPosition position;
-+    protected BlockPosition position; // CraftBukkit - remove final
++    public BlockPosition position; // CraftBukkit - remove final, protected -> public
      protected boolean f;
      private IBlockData c;
  

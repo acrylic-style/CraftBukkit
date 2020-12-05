@@ -102,30 +102,15 @@ public class CraftChunk implements Chunk {
 
     @Override
     public Entity[] getEntities() {
-        if (!isLoaded()) {
-            getWorld().getChunkAt(x, z); // Transient load for this tick
-        }
-        int count = 0, index = 0;
-        net.minecraft.server.Chunk chunk = getHandle();
-
-        for (int i = 0; i < 16; i++) {
-            count += chunk.entitySlices[i].size();
-        }
-
-        Entity[] entities = new Entity[count];
-
-        for (int i = 0; i < 16; i++) {
-
-            for (Object obj : chunk.entitySlices[i].toArray()) {
-                if (!(obj instanceof net.minecraft.server.Entity)) {
-                    continue;
-                }
-
-                entities[index++] = ((net.minecraft.server.Entity) obj).getBukkitEntity();
+        java.util.List<Entity> entities = new java.util.ArrayList<>();
+        worldServer.getEntities().iterable().forEach(entity -> {
+            int chunkX = entity.getChunkCoordinates().getX() >> 4;
+            int chunkZ = entity.getChunkCoordinates().getZ() >> 4;
+            if (chunkX == x && chunkZ == z) {
+                entities.add(entity.getBukkitEntity());
             }
-        }
-
-        return entities;
+        });
+        return entities.toArray(new Entity[0]);
     }
 
     @Override
@@ -307,7 +292,7 @@ public class CraftChunk implements Chunk {
 
         if (includeBiome || includeBiomeTempRain) {
             WorldChunkManager wcm = world.getHandle().getChunkProvider().getChunkGenerator().getWorldChunkManager();
-            biome = new BiomeStorage(world.getHandle().r().b(IRegistry.ay), new ChunkCoordIntPair(x, z), wcm);
+            biome = new BiomeStorage(world.getHandle().r().b(IRegistry.aE), new ChunkCoordIntPair(x, z), wcm);
         }
 
         /* Fill with empty data */

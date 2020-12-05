@@ -29,7 +29,7 @@
 +            // CraftBukkit end
              int i = nbttagcompound.hasKeyOfType("DataVersion", 3) ? nbttagcompound.getInt("DataVersion") : -1;
  
-             entityhuman.g(GameProfileSerializer.a(this.a, DataFixTypes.PLAYER, nbttagcompound, i));
+             entityhuman.load(GameProfileSerializer.a(this.a, DataFixTypes.PLAYER, nbttagcompound, i));
 @@ -57,6 +73,22 @@
          return nbttagcompound;
      }

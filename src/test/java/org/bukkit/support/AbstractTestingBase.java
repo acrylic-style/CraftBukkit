@@ -5,12 +5,17 @@ import com.google.common.util.concurrent.MoreExecutors;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import com.mojang.bridge.game.PackType;
+import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.DispenserRegistry;
 import net.minecraft.server.EnumResourcePackType;
 import net.minecraft.server.LootPredicateManager;
 import net.minecraft.server.LootTableRegistry;
 import net.minecraft.server.ResourceManager;
+import net.minecraft.server.ResourcePackInfo;
 import net.minecraft.server.ResourcePackVanilla;
+import net.minecraft.server.SharedConstants;
 import net.minecraft.server.TagRegistry;
 import net.minecraft.server.Unit;
 import org.bukkit.Material;
@@ -40,7 +45,7 @@ public abstract class AbstractTestingBase {
         resourceManager.a(TAG_REGISTRY = new TagRegistry());
         resourceManager.a(LOOT_TABLE_REGISTRY = new LootTableRegistry(new LootPredicateManager()));
         // Register vanilla pack
-        resourceManager.a(MoreExecutors.directExecutor(), MoreExecutors.directExecutor(), Collections.singletonList(new ResourcePackVanilla("minecraft")), CompletableFuture.completedFuture(Unit.INSTANCE)).join();
+        resourceManager.a(MoreExecutors.directExecutor(), MoreExecutors.directExecutor(), Collections.singletonList(new ResourcePackVanilla(new ResourcePackInfo(new ChatComponentText("resourcePack.broken_assets"), SharedConstants.getGameVersion().getPackVersion(PackType.RESOURCE)), "minecraft")), CompletableFuture.completedFuture(Unit.INSTANCE)).join();
         // Bind tags
         TAG_REGISTRY.a().bind();
 

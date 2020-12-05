@@ -40,6 +40,15 @@
      protected int bl;
      public float bm;
      public float bn;
+@@ -44,7 +57,7 @@
+     public double bu;
+     public int sleepTicks;
+     protected boolean bv;
+-    private final PlayerAbilities abilities = new PlayerAbilities();
++    public final PlayerAbilities abilities = new PlayerAbilities(); // CraftBukkit - private -> public
+     public int expLevel;
+     public int expTotal;
+     public float exp;
 @@ -57,6 +70,16 @@
      @Nullable
      public EntityFishingHook hookedFish;

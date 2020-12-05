@@ -29,6 +29,7 @@ import net.minecraft.server.AdvancementProgress;
 import net.minecraft.server.AttributeMapBase;
 import net.minecraft.server.AttributeModifiable;
 import net.minecraft.server.BlockPosition;
+import net.minecraft.server.Blocks;
 import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.ChatMessageType;
 import net.minecraft.server.Container;
@@ -568,8 +569,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         }
 
         IChatBaseComponent[] components = CraftSign.sanitizeLines(lines);
-        TileEntitySign sign = new TileEntitySign();
-        sign.setPosition(new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        TileEntitySign sign = new TileEntitySign(new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), Blocks.OAK_SIGN.getBlockData());
         sign.setColor(EnumColor.fromColorIndex(dyeColor.getWoolData()));
         System.arraycopy(components, 0, sign.lines, 0, sign.lines.length);
 
@@ -622,7 +622,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             }
         }
 
-        PacketPlayOutMap packet = new PacketPlayOutMap(map.getId(), map.getScale().getValue(), true, map.isLocked(), icons, data.buffer, 0, 0, 128, 128);
+        PacketPlayOutMap packet = new PacketPlayOutMap(map.getId(), map.getScale().getValue(), map.isLocked(), icons, new net.minecraft.server.WorldMap.b(0, 0, 128, 128, data.buffer));
         getHandle().playerConnection.sendPacket(packet);
     }
 
@@ -639,7 +639,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
         EntityPlayer entity = getHandle();
 
-        if (getHealth() == 0 || entity.dead) {
+        if (getHealth() == 0 || entity.dead != null) {
             return false;
         }
 
@@ -1287,7 +1287,14 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public void setResourcePack(String url) {
         Validate.notNull(url, "Resource pack URL cannot be null");
 
-        getHandle().setResourcePack(url, "null");
+        getHandle().setResourcePack(url, "null", false);
+    }
+
+    @Override
+    public void setResourcePack(String url, boolean force) {
+        Validate.notNull(url, "Resource pack URL cannot be null");
+
+        getHandle().setResourcePack(url, "null", force);
     }
 
     @Override
@@ -1296,7 +1303,16 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         Validate.notNull(hash, "Resource pack hash cannot be null");
         Validate.isTrue(hash.length == 20, "Resource pack hash should be 20 bytes long but was " + hash.length);
 
-        getHandle().setResourcePack(url, BaseEncoding.base16().lowerCase().encode(hash));
+        getHandle().setResourcePack(url, BaseEncoding.base16().lowerCase().encode(hash), false);
+    }
+
+    @Override
+    public void setResourcePack(String url, byte[] hash, boolean force) {
+        Validate.notNull(url, "Resource pack URL cannot be null");
+        Validate.notNull(hash, "Resource pack hash cannot be null");
+        Validate.isTrue(hash.length == 20, "Resource pack hash should be 20 bytes long but was " + hash.length);
+
+        getHandle().setResourcePack(url, BaseEncoding.base16().lowerCase().encode(hash), force);
     }
 
     public void addChannel(String channel) {

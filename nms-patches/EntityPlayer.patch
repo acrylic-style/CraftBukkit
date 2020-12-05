@@ -248,7 +248,7 @@
      }
  
      private void a(IScoreboardCriteria iscoreboardcriteria, int i) {
--        this.fh().getObjectivesForCriteria(iscoreboardcriteria, this.getName(), (scoreboardscore) -> {
+-        this.getScoreboard().getObjectivesForCriteria(iscoreboardcriteria, this.getName(), (scoreboardscore) -> {
 +        // CraftBukkit - Use our scores instead
 +        this.world.getServer().getScoreboardManager().getScoreboardScores(iscoreboardcriteria, this.getName(), (scoreboardscore) -> {
              scoreboardscore.setScore(i);
@@ -316,7 +316,7 @@
 +            this.inventory.clear();
          }
  
--        this.fh().getObjectivesForCriteria(IScoreboardCriteria.DEATH_COUNT, this.getName(), ScoreboardScore::incrementScore);
+-        this.getScoreboard().getObjectivesForCriteria(IScoreboardCriteria.DEATH_COUNT, this.getName(), ScoreboardScore::incrementScore);
 +        this.setSpectatorTarget(this); // Remove spectated target
 +        // CraftBukkit end
 +
@@ -329,12 +329,12 @@
              String s = this.getName();
              String s1 = entity.getName();
  
--            this.fh().getObjectivesForCriteria(IScoreboardCriteria.TOTAL_KILL_COUNT, s, ScoreboardScore::incrementScore);
+-            this.getScoreboard().getObjectivesForCriteria(IScoreboardCriteria.TOTAL_KILL_COUNT, s, ScoreboardScore::incrementScore);
 +            // CraftBukkit - Get our scores instead
 +            this.world.getServer().getScoreboardManager().getScoreboardScores(IScoreboardCriteria.TOTAL_KILL_COUNT, s, ScoreboardScore::incrementScore);
              if (entity instanceof EntityHuman) {
                  this.a(StatisticList.PLAYER_KILLS);
--                this.fh().getObjectivesForCriteria(IScoreboardCriteria.PLAYER_KILL_COUNT, s, ScoreboardScore::incrementScore);
+-                this.getScoreboard().getObjectivesForCriteria(IScoreboardCriteria.PLAYER_KILL_COUNT, s, ScoreboardScore::incrementScore);
 +                // CraftBukkit - Get our scores instead
 +                this.world.getServer().getScoreboardManager().getScoreboardScores(IScoreboardCriteria.PLAYER_KILL_COUNT, s, ScoreboardScore::incrementScore);
              } else {
@@ -344,7 +344,7 @@
              int i = scoreboardteam.getColor().b();
  
              if (i >= 0 && i < aiscoreboardcriteria.length) {
--                this.fh().getObjectivesForCriteria(aiscoreboardcriteria[i], s, ScoreboardScore::incrementScore);
+-                this.getScoreboard().getObjectivesForCriteria(aiscoreboardcriteria[i], s, ScoreboardScore::incrementScore);
 +                // CraftBukkit - Get our scores instead
 +                this.world.getServer().getScoreboardManager().getScoreboardScores(aiscoreboardcriteria[i], s, ScoreboardScore::incrementScore);
              }
@@ -692,7 +692,7 @@
      @Override
      public void a(Statistic<?> statistic, int i) {
          this.serverStatisticManager.b(this, statistic, i);
--        this.fh().getObjectivesForCriteria(statistic, this.getName(), (scoreboardscore) -> {
+-        this.getScoreboard().getObjectivesForCriteria(statistic, this.getName(), (scoreboardscore) -> {
 +        this.world.getServer().getScoreboardManager().getScoreboardScores(statistic, this.getName(), (scoreboardscore) -> { // CraftBukkit - Get our scores instead
              scoreboardscore.addScore(i);
          });
@@ -701,7 +701,7 @@
      @Override
      public void a(Statistic<?> statistic) {
          this.serverStatisticManager.setStatistic(this, statistic, 0);
--        this.fh().getObjectivesForCriteria(statistic, this.getName(), ScoreboardScore::c);
+-        this.getScoreboard().getObjectivesForCriteria(statistic, this.getName(), ScoreboardScore::c);
 +        this.world.getServer().getScoreboardManager().getScoreboardScores(statistic, this.getName(), ScoreboardScore::c); // CraftBukkit - Get our scores instead
      }
  

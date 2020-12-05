@@ -145,7 +145,7 @@ public final class CraftChunkData implements ChunkGenerator.ChunkData {
         ChunkSection section = getChunkSection(y, true);
         section.setType(x, y & 0xf, z, type);
 
-        if (type.getBlock().isTileEntity()) {
+        if (type.isTileEntity()) {
             if (tiles == null) {
                 tiles = new HashSet<>();
             }

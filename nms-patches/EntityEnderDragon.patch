@@ -32,8 +32,8 @@
                          d1 = vec3d1.y - this.locY();
                          d2 = vec3d1.z - this.locZ();
 @@ -313,7 +320,14 @@
-             if (this.bp.cU()) {
-                 this.bp = null;
+             if (this.currentEnderCrystal.cU()) {
+                 this.currentEnderCrystal = null;
              } else if (this.ticksLived % 10 == 0 && this.getHealth() < this.getMaxHealth()) {
 -                this.setHealth(this.getHealth() + 1.0F);
 +                // CraftBukkit start

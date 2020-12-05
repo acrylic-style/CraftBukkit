@@ -389,7 +389,7 @@ public class CraftBlockData implements BlockData {
         register(net.minecraft.server.BlockFire.class, org.bukkit.craftbukkit.block.impl.CraftFire::new);
         register(net.minecraft.server.BlockFloorSign.class, org.bukkit.craftbukkit.block.impl.CraftFloorSign::new);
         register(net.minecraft.server.BlockFluids.class, org.bukkit.craftbukkit.block.impl.CraftFluids::new);
-        register(net.minecraft.server.BlockFurnaceFurace.class, org.bukkit.craftbukkit.block.impl.CraftFurnaceFurace::new);
+        register(net.minecraft.server.BlockFurnaceFurnace.class, org.bukkit.craftbukkit.block.impl.CraftFurnaceFurace::new);
         register(net.minecraft.server.BlockGlazedTerracotta.class, org.bukkit.craftbukkit.block.impl.CraftGlazedTerracotta::new);
         register(net.minecraft.server.BlockGrass.class, org.bukkit.craftbukkit.block.impl.CraftGrass::new);
         register(net.minecraft.server.BlockGrindstone.class, org.bukkit.craftbukkit.block.impl.CraftGrindstone::new);

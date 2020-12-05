@@ -17,7 +17,7 @@
 @@ -56,6 +63,14 @@
                      }
  
-                     if (world.x(blockposition2.up()) && this.b(world, blockposition2)) {
+                     if (world.isEmpty(blockposition2.up()) && this.b(world, blockposition2)) {
 +                        // CraftBukkit start - Prevent lava putting something on fire
 +                        BlockPosition up = blockposition2.up();
 +                        if (world.getType(up).getBlock() != Blocks.FIRE) {

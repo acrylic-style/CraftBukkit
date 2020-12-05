@@ -318,7 +318,7 @@
 +            return (float) ((EntityPlayer) this).getBukkitEntity().getHealth();
 +        }
 +        // CraftBukkit end
-         return (Float) this.datawatcher.get(EntityLiving.f);
+         return (Float) this.datawatcher.get(EntityLiving.HEALTH);
      }
  
      public void setHealth(float f) {
@@ -338,7 +338,7 @@
 +            return;
 +        }
 +        // CraftBukkit end
-         this.datawatcher.set(EntityLiving.f, MathHelper.a(f, 0.0F, this.getMaxHealth()));
+         this.datawatcher.set(EntityLiving.HEALTH, MathHelper.a(f, 0.0F, this.getMaxHealth()));
      }
  
 @@ -898,7 +1093,7 @@
@@ -413,7 +413,7 @@
 +            // CraftBukkit end
 +
              this.ak = 0.0F;
-             Entity entity1 = damagesource.getEntity();
+             Entity entity1 = damagesource.k();
  
 @@ -1076,19 +1292,29 @@
              EnumHand[] aenumhand = EnumHand.values();
@@ -471,12 +471,13 @@
          }
      }
  
-@@ -1220,21 +1448,45 @@
+@@ -1220,22 +1448,45 @@
  
          boolean flag = this.lastDamageByPlayerTime > 0;
  
+-        if (this.do_() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
 +        this.dropInventory(); // CraftBukkit - from below
-         if (this.isHandRaised() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
++        if (this.isHandRaised() && this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
              this.a(damagesource, flag);
              this.dropDeathLoot(damagesource, i, flag);
          }
@@ -486,7 +487,7 @@
 +        // CraftBukkit end
  
 -        this.dropInventory();
-+        // this.dropInventory();// CraftBukkit - moved up
++        // this.dropInventory(); // CraftBukkit - moved up
          this.dropExperience();
      }
  
@@ -500,10 +501,10 @@
 +            return this.getExpValue(this.killer);
 +        } else {
 +            return 0;
-+        }
+         }
 +    }
 +    // CraftBukkit end
-+
+ 
 +    protected void dropExperience() {
 +        // CraftBukkit start - Update getExpReward() above if the removed if() changes!
 +        if (true) {
@@ -515,12 +516,12 @@
 +                this.world.addEntity(new EntityExperienceOrb(this.world, this.locX(), this.locY(), this.locZ(), j));
 +            }
 +            this.expToDrop = 0;
-         }
++        }
 +        // CraftBukkit end
- 
      }
  
-@@ -1354,9 +1606,14 @@
+     protected void dropDeathLoot(DamageSource damagesource, int i, boolean flag) {}
+@@ -1354,9 +1605,14 @@
          int i = this.e(f, f1);
  
          if (i > 0) {
@@ -536,7 +537,7 @@
              return true;
          } else {
              return flag;
-@@ -1396,7 +1653,7 @@
+@@ -1396,7 +1652,7 @@
  
      protected float applyArmorModifier(DamageSource damagesource, float f) {
          if (!damagesource.ignoresArmor()) {
@@ -545,7 +546,7 @@
              f = CombatMath.a(f, (float) this.getArmorStrength(), (float) this.b(GenericAttributes.ARMOR_TOUGHNESS));
          }
  
-@@ -1409,7 +1666,8 @@
+@@ -1409,7 +1665,8 @@
          } else {
              int i;
  
@@ -555,18 +556,17 @@
                  i = (this.getEffect(MobEffects.RESISTANCE).getAmplifier() + 1) * 5;
                  int j = 25 - i;
                  float f1 = f * (float) j;
-@@ -1440,28 +1698,173 @@
+@@ -1440,28 +1697,174 @@
          }
      }
  
 -    protected void damageEntity0(DamageSource damagesource, float f) {
--        if (!this.isInvulnerable(damagesource)) {
++    // CraftBukkit start
++    protected boolean damageEntity0(final DamageSource damagesource, float f) { // void -> boolean, add final
+         if (!this.isInvulnerable(damagesource)) {
 -            f = this.applyArmorModifier(damagesource, f);
 -            f = this.applyMagicModifier(damagesource, f);
 -            float f1 = f;
-+    // CraftBukkit start
-+    protected boolean damageEntity0(final DamageSource damagesource, float f) { // void -> boolean, add final
-+       if (!this.isInvulnerable(damagesource)) {
 +            final boolean human = this instanceof EntityHuman;
 +            float originalDamage = f;
 +            Function<Double, Double> hardHat = new Function<Double, Double>() {
@@ -574,10 +574,7 @@
 +                public Double apply(Double f) {
 +                    if ((damagesource == DamageSource.ANVIL || damagesource == DamageSource.FALLING_BLOCK) && !EntityLiving.this.getEquipment(EnumItemSlot.HEAD).isEmpty()) {
 +                        return -(f - (f * 0.75F));
- 
--            f = Math.max(f - this.getAbsorptionHearts(), 0.0F);
--            this.setAbsorptionHearts(this.getAbsorptionHearts() - (f1 - f));
--            float f2 = f1 - f;
++
 +                    }
 +                    return -0.0;
 +                }
@@ -670,11 +667,14 @@
 +                this.damageArmor(damagesource, armorDamage);
 +            }
  
+-            f = Math.max(f - this.getAbsorptionHearts(), 0.0F);
+-            this.setAbsorptionHearts(this.getAbsorptionHearts() - (f1 - f));
+-            float f2 = f1 - f;
 +            // Apply blocking code // PAIL: steal from above
 +            if (event.getDamage(DamageModifier.BLOCKING) < 0) {
 +                this.world.broadcastEntityEffect(this, (byte) 29); // SPIGOT-4635 - shield damage sound
 +                this.damageShield((float) -event.getDamage(DamageModifier.BLOCKING));
-+                Entity entity = damagesource.j();
++                Entity entity = damagesource.getEntity();
 +
 +                if (entity instanceof EntityLiving) {
 +                    this.shieldBlock((EntityLiving) entity);
@@ -688,8 +688,9 @@
 +            if (f2 > 0.0F && f2 < 3.4028235E37F && this instanceof EntityHuman) {
 +                ((EntityHuman) this).a(StatisticList.DAMAGE_ABSORBED, Math.round(f2 * 10.0F));
 +            }
-             if (f2 > 0.0F && f2 < 3.4028235E37F && damagesource.getEntity() instanceof EntityPlayer) {
-                 ((EntityPlayer) damagesource.getEntity()).a(StatisticList.DAMAGE_DEALT_ABSORBED, Math.round(f2 * 10.0F));
+ 
+             if (f2 > 0.0F && f2 < 3.4028235E37F && damagesource.k() instanceof EntityPlayer) {
+                 ((EntityPlayer) damagesource.k()).a(StatisticList.DAMAGE_DEALT_ABSORBED, Math.round(f2 * 10.0F));
              }
  
 -            if (f != 0.0F) {
@@ -810,7 +811,7 @@
          this.velocityChanged = this.random.nextDouble() >= this.b(GenericAttributes.KNOCKBACK_RESISTANCE);
 @@ -2692,7 +3115,25 @@
          } else {
-             if (!this.activeItem.isEmpty() && this.eo()) {
+             if (!this.activeItem.isEmpty() && this.isHandRaised()) {
                  this.b(this.activeItem, 16);
 -                ItemStack itemstack = this.activeItem.a(this.world, this);
 +                // CraftBukkit start - fire PlayerItemConsumeEvent

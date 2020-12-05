@@ -474,7 +474,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         Preconditions.checkArgument(location != null, "location");
         location.checkFinite();
 
-        if (entity.isVehicle() || entity.dead) {
+        if (entity.isVehicle() || entity.dead != null) {
             return false;
         }
 

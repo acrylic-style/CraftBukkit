@@ -1,6 +1,19 @@
 --- a/net/minecraft/server/EntityDamageSourceIndirect.java
 +++ b/net/minecraft/server/EntityDamageSourceIndirect.java
-@@ -32,4 +32,10 @@
+@@ -17,12 +17,6 @@
+         return this.x;
+     }
+ 
+-    @Nullable
+-    @Override
+-    public Entity getEntity() {
+-        return this.x;
+-    }
+-
+     @Override
+     public IChatBaseComponent getLocalizedDeathMessage(EntityLiving entityliving) {
+         IChatBaseComponent ichatbasecomponent = this.owner == null ? this.x.getScoreboardDisplayName() : this.owner.getScoreboardDisplayName();
+@@ -32,4 +26,10 @@
  
          return !itemstack.isEmpty() && itemstack.hasName() ? new ChatMessage(s1, new Object[]{entityliving.getScoreboardDisplayName(), ichatbasecomponent, itemstack.G()}) : new ChatMessage(s, new Object[]{entityliving.getScoreboardDisplayName(), ichatbasecomponent});
      }

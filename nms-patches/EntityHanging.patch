@@ -126,7 +126,7 @@
 +
                  this.killEntity();
                  this.velocityChanged();
-                 this.a(damagesource.getEntity());
+                 this.a(damagesource.k());
 @@ -155,6 +207,18 @@
      @Override
      public void move(EnumMoveType enummovetype, Vec3D vec3d) {

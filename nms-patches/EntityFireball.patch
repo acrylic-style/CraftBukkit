@@ -42,7 +42,7 @@
  
              this.checkBlockCollisions();
 @@ -133,6 +149,11 @@
-             Entity entity = damagesource.getEntity();
+             Entity entity = damagesource.k();
  
              if (entity != null) {
 +                // CraftBukkit start

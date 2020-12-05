@@ -27,7 +27,7 @@
 +    public final WorldDataServer worldDataServer; // CraftBukkit - type
      private final EntityTickList x = new EntityTickList();
      private final PersistentEntitySectionManager<Entity> y;
-     public boolean tickingEntities;
+     public boolean savingDisabled;
 @@ -62,8 +74,23 @@
      private final StructureManager structureManager;
      private final boolean L;
@@ -219,7 +219,7 @@
          }
  
 @@ -377,12 +476,12 @@
-             BiomeBase biomebase = this.w(blockposition);
+             BiomeBase biomebase = this.getBiome(blockposition);
  
              if (biomebase.a(this, blockposition1)) {
 -                this.setTypeUpdate(blockposition1, Blocks.ICE.getBlockData());

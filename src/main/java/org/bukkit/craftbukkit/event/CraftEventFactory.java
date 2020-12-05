@@ -564,7 +564,7 @@ public class CraftEventFactory {
 
             if (spawnReason != SpawnReason.CUSTOM) {
                 if (isAnimal && !world.getWorld().getAllowAnimals() || isMonster && !world.getWorld().getAllowMonsters() || isNpc && !world.getServer().getServer().getSpawnNPCs()) {
-                    entity.dead = true;
+                    entity.killEntity();
                     return false;
                 }
             }
@@ -581,15 +581,15 @@ public class CraftEventFactory {
             event = CraftEventFactory.callEntitySpawnEvent(entity);
         }
 
-        if (event != null && (event.isCancelled() || entity.dead)) {
+        if (event != null && (event.isCancelled() || entity.dead != null)) {
             Entity vehicle = entity.getVehicle();
             if (vehicle != null) {
-                vehicle.dead = true;
+                vehicle.killEntity();
             }
             for (Entity passenger : entity.getAllPassengers()) {
-                passenger.dead = true;
+                passenger.killEntity();
             }
-            entity.dead = true;
+            entity.killEntity();
             return false;
         }
 

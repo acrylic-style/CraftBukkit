@@ -100,7 +100,7 @@ public class CraftMerchantCustom extends CraftMerchant {
 
         @Override
         public SoundEffect getTradeSound() {
-            return SoundEffects.ENTITY_VILLAGER_YES;
+            return SoundEffects.VILLAGER_YES;
         }
     }
 }

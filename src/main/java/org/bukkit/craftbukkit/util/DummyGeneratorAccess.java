@@ -13,6 +13,7 @@ import net.minecraft.server.DifficultyDamageScaler;
 import net.minecraft.server.DimensionManager;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityTypeTest;
 import net.minecraft.server.Fluid;
 import net.minecraft.server.FluidType;
 import net.minecraft.server.GeneratorAccess;
@@ -100,7 +101,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     }
 
     @Override
-    public <T extends Entity> List<T> a(Class<? extends T> type, AxisAlignedBB aabb, Predicate<? super T> prdct) {
+    public <T extends Entity> List<T> a(EntityTypeTest<Entity, T> entityTypeTest, AxisAlignedBB axisAlignedBB, Predicate<? super T> predicate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -135,7 +136,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     }
 
     @Override
-    public boolean s_() {
+    public boolean t_() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -192,5 +193,15 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     @Override
     public boolean a(BlockPosition blockposition, boolean flag, Entity entity, int i) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int w_() {
+        return 0;
+    }
+
+    @Override
+    public int n() {
+        return 0;
     }
 }

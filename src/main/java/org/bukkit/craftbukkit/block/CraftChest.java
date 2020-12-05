@@ -61,8 +61,8 @@ public class CraftChest extends CraftLootable<TileEntityChest> implements Chest 
         requirePlaced();
         if (!getTileEntity().opened) {
             net.minecraft.server.Block block = getTileEntity().getBlock().getBlock();
-            getTileEntity().getWorld().playBlockAction(getTileEntity().getPosition(), block, 1, getTileEntity().viewingCount + 1);
-            getTileEntity().playOpenSound(SoundEffects.BLOCK_CHEST_OPEN);
+            getTileEntity().getWorld().playBlockAction(getTileEntity().getPosition(), block, 1, getTileEntity().getViewers().size() + 1);
+            getTileEntity().playOpenSound(SoundEffects.CHEST_OPEN);
         }
         getTileEntity().opened = true;
     }
@@ -73,7 +73,7 @@ public class CraftChest extends CraftLootable<TileEntityChest> implements Chest 
         if (getTileEntity().opened) {
             net.minecraft.server.Block block = getTileEntity().getBlock().getBlock();
             getTileEntity().getWorld().playBlockAction(getTileEntity().getPosition(), block, 1, 0);
-            getTileEntity().playOpenSound(SoundEffects.BLOCK_CHEST_CLOSE);
+            getTileEntity().playOpenSound(SoundEffects.CHEST_CLOSE);
         }
         getTileEntity().opened = false;
     }

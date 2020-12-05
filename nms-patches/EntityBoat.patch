@@ -51,7 +51,7 @@
              this.b(10);
              this.setDamage(this.getDamage() + f * 10.0F);
 @@ -114,6 +143,15 @@
-             boolean flag = damagesource.getEntity() instanceof EntityHuman && ((EntityHuman) damagesource.getEntity()).eU().canInstantlyBuild;
+             boolean flag = damagesource.k() instanceof EntityHuman && ((EntityHuman) damagesource.k()).eU().canInstantlyBuild;
  
              if (flag || this.getDamage() > 40.0F) {
 +                // CraftBukkit start

@@ -15,8 +15,8 @@
  public abstract class EntityMinecartContainer extends EntityMinecartAbstract implements IInventory, ITileInventory {
  
 @@ -10,14 +17,55 @@
-     private MinecraftKey c;
-     public long lootTable;
+     public MinecraftKey lootTable;
+     public long lootTableSeed;
  
 +    // CraftBukkit start
 +    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
