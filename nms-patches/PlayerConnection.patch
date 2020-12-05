@@ -207,10 +207,10 @@
 +                    allowedPlayerTicks = 20;
 +                }
 +                double speed;
-+                if (player.abilities.isFlying) {
-+                    speed = player.abilities.flySpeed * 20f;
++                if (player.eU().isFlying) {
++                    speed = player.eU().flySpeed * 20f;
 +                } else {
-+                    speed = player.abilities.walkSpeed * 10f;
++                    speed = player.eU().walkSpeed * 10f;
 +                }
 +                speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
 +
@@ -452,10 +452,10 @@
 +                                allowedPlayerTicks = 20;
 +                            }
 +                            double speed;
-+                            if (player.abilities.isFlying) {
-+                                speed = player.abilities.flySpeed * 20f;
++                            if (player.eU().isFlying) {
++                                speed = player.eU().flySpeed * 20f;
 +                            } else {
-+                                speed = player.abilities.walkSpeed * 10f;
++                                speed = player.eU().walkSpeed * 10f;
 +                            }
 +
                              if (!this.player.H() && (!this.player.getWorldServer().getGameRules().getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK) || !this.player.isGliding())) {
@@ -1385,7 +1385,7 @@
 +                                action = InventoryAction.NOTHING;
 +                            } else {
 +                                Slot slot = this.player.activeContainer.getSlot(packetplayinwindowclick.c());
-+                                if (slot != null && slot.hasItem() && player.abilities.canInstantlyBuild && player.inventory.getCarried().isEmpty()) {
++                                if (slot != null && slot.hasItem() && player.eU().canInstantlyBuild && player.inventory.getCarried().isEmpty()) {
 +                                    action = InventoryAction.CLONE_STACK;
 +                                } else {
 +                                    action = InventoryAction.NOTHING;
@@ -1468,7 +1468,7 @@
 +                    if (this.player.activeContainer != oldContainer) {
 +                        return;
 +                    }
- 
++
 +                    switch (event.getResult()) {
 +                        case ALLOW:
 +                        case DEFAULT:
@@ -1477,7 +1477,7 @@
 +                        case DENY:
 +                            /* Needs enum constructor in InventoryAction
 +                            if (action.modifiesOtherSlots()) {
-+
+ 
 +                            } else {
 +                                if (action.modifiesCursor()) {
 +                                    this.player.playerConnection.sendPacket(new Packet103SetSlot(-1, -1, this.player.inventory.getCarried()));
@@ -1713,3 +1713,10 @@
  
      @Override
      public void a(PacketPlayInDifficultyChange packetplayindifficultychange) {
+@@ -1448,4 +2591,6 @@
+     public EntityPlayer getEntityPlayer() {
+         return this.player;
+     }
++
++    @Override public void a(Packet<?> packet) { sendPacket(packet); } // CraftBukkit
+ }

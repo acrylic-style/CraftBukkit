@@ -26,7 +26,7 @@
  public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTask> implements IMojangStatistics, ICommandListener, AutoCloseable {
  
 @@ -123,6 +134,20 @@
-     private final DefinedStructureManager aj;
+     private final DefinedStructureManager definedStructureManager;
      protected SaveData saveData;
  
 +    // CraftBukkit start
@@ -72,7 +72,7 @@
          this.h = new long[100];
          this.K = "";
 @@ -172,7 +197,34 @@
-         this.aj = new DefinedStructureManager(datapackresources.i(), convertable_conversionsession, datafixer);
+         this.definedStructureManager = new DefinedStructureManager(datapackresources.i(), convertable_conversionsession, datafixer);
          this.serverThread = thread;
          this.executorService = SystemUtils.f();
 +        // CraftBukkit start
@@ -204,7 +204,7 @@
 -        this.a(worldloadlistener);
 +            IRegistryCustom.Dimension iregistrycustom_dimension = this.customRegistry;
 +
-+            RegistryReadOps<NBTBase> registryreadops = RegistryReadOps.a((DynamicOps) DynamicOpsNBT.a, this.dataPackResources.h(), iregistrycustom_dimension);
++            RegistryReadOps<NBTBase> registryreadops = RegistryReadOps.a((DynamicOps) DynamicOpsNBT.a, this.dataPackResources.i(), iregistrycustom_dimension); // CraftBukkit - decompile error
 +            worlddata = (WorldDataServer) worldSession.a((DynamicOps) registryreadops, datapackconfiguration);
 +            if (worlddata == null) {
 +                WorldSettings worldsettings;
@@ -227,7 +227,7 @@
 +                net.minecraft.server.Main.convertWorld(worldSession, DataConverterRegistry.a(), options.has("eraseCache"), () -> {
 +                    return true;
 +                }, worlddata.getGeneratorSettings().d().d().stream().map((entry) -> {
-+                    return ResourceKey.a(IRegistry.N, ((ResourceKey) entry.getKey()).a());
++                    return ResourceKey.a(IRegistry.O, ((ResourceKey) entry.getKey()).a());
 +                }).collect(ImmutableSet.toImmutableSet()));
 +            }
 +
@@ -428,7 +428,7 @@
 +
 +        if (true) {
 +            WorldServer worldserver1 = worldserver;
-+            ForcedChunk forcedchunk = (ForcedChunk) worldserver.getWorldPersistentData().b(ForcedChunk::new, "chunks");
++            ForcedChunk forcedchunk = (ForcedChunk) worldserver.getWorldPersistentData().b(ForcedChunk::b, "chunks"); // CraftBukkit - decompile error
 +            // CraftBukkit end
  
              if (forcedchunk != null) {
@@ -631,9 +631,9 @@
          }, this).thenCompose((immutablelist) -> {
              return DataPackResources.a(immutablelist, this.j() ? CommandDispatcher.ServerType.DEDICATED : CommandDispatcher.ServerType.INTEGRATED, this.h(), this.executorService, this);
          }).thenAcceptAsync((datapackresources) -> {
-             this.ai.close();
-             this.ai = datapackresources;
-+            this.server.syncCommands(); // SPIGOT-5884: Lost on reload
+             this.dataPackResources.close();
+             this.dataPackResources = datapackresources;
++            this.server.syncCommands();
              this.resourcePackRepository.a(collection);
              this.saveData.a(a(this.resourcePackRepository));
              datapackresources.j();

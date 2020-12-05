@@ -82,7 +82,7 @@
 -                                            spawnercreature_a.run(entityinsentient, ichunkaccess);
 +                                            // CraftBukkit start
 +                                            worldserver.addAllEntities(entityinsentient, SpawnReason.NATURAL);
-+                                            if (!entityinsentient.dead) {
++                                            if (entityinsentient.dead == null) {
 +                                                ++j;
 +                                                ++k1;
 +                                                spawnercreature_a.run(entityinsentient, ichunkaccess);

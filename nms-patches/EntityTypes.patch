@@ -33,7 +33,7 @@
          if (t0 != null) {
 -            worldserver.addAllEntities(t0);
 +            worldserver.addAllEntities(t0, spawnReason);
-+            return !t0.dead ? t0 : null; // Don't return an entity when CreatureSpawnEvent is canceled
++            return t0.dead == null ? t0 : null; // Don't return an entity when CreatureSpawnEvent is canceled
 +            // CraftBukkit end
          }
  
@@ -56,6 +56,15 @@
      }
  
      public static Stream<Entity> a(final List<? extends NBTBase> list, final World world) {
+@@ -412,7 +420,7 @@
+ 
+     @Nullable
+     public T a(Entity entity) {
+-        return entity.getEntityType() == this ? entity : null;
++        return entity.getEntityType() == this ? (T) entity : null; // CraftBukkit - decompile error
+     }
+ 
+     @Override
 @@ -444,7 +452,7 @@
              this.g = enumcreaturetype == EnumCreatureType.CREATURE || enumcreaturetype == EnumCreatureType.MISC;
          }

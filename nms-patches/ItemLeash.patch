@@ -19,7 +19,7 @@
 +                    world.getServer().getPluginManager().callEvent(event);
 +
 +                    if (event.isCancelled()) {
-+                        entityleash.die();
++                        entityleash.killEntity();
 +                        return EnumInteractionResult.PASS;
 +                    }
 +                    // CraftBukkit end

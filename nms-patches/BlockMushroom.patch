@@ -11,7 +11,7 @@
  public class BlockMushroom extends BlockPlant implements IBlockFragilePlantElement {
  
      protected static final VoxelShape a = Block.a(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
-@@ -40,15 +44,15 @@
+@@ -40,7 +44,7 @@
              BlockPosition blockposition2 = blockposition.b(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
  
              for (int j = 0; j < 4; ++j) {
@@ -20,13 +20,29 @@
                      blockposition = blockposition2;
                  }
  
-                 blockposition2 = blockposition.b(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+@@ -48,7 +52,7 @@
              }
  
--            if (worldserver.isEmpty(blockposition2) && iblockdata.canPlace(worldserver, blockposition2)) {
+             if (worldserver.isEmpty(blockposition2) && iblockdata.canPlace(worldserver, blockposition2)) {
 -                worldserver.setTypeAndData(blockposition2, iblockdata, 2);
-+            if (worldserver.x(blockposition2) && iblockdata.canPlace(worldserver, blockposition2)) {
 +                org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockSpreadEvent(worldserver, blockposition, blockposition2, iblockdata, 2); // CraftBukkit
              }
          }
  
+@@ -69,7 +73,15 @@
+ 
+     public boolean a(WorldServer worldserver, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+         worldserver.a(blockposition, false);
+-        if (((WorldGenFeatureConfigured) this.b.get()).a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), random, blockposition)) {
++        // CraftBukkit start
++        WorldGenFeatureConfigured s = this.b.get();
++        if (s == BiomeDecoratorGroups.HUGE_RED_MUSHROOM) {
++            BlockSapling.treeType = org.bukkit.TreeType.RED_MUSHROOM;
++        } else if (s == BiomeDecoratorGroups.HUGE_BROWN_MUSHROOM) {
++            BlockSapling.treeType = org.bukkit.TreeType.BROWN_MUSHROOM;
++        }
++        if (s.a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), random, blockposition)) {
++            // CraftBukkit end
+             return true;
+         } else {
+             worldserver.setTypeAndData(blockposition, iblockdata, 3);

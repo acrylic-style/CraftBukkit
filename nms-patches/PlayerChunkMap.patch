@@ -109,7 +109,7 @@
      }
  
      boolean isOutsideOfRange(ChunkCoordIntPair chunkcoordintpair) {
-@@ -1125,12 +1154,18 @@
+@@ -1125,12 +1154,20 @@
          public final Set<EntityPlayerHolder> trackedPlayers = Sets.newIdentityHashSet();
  
          public EntityTracker(Entity entity, int i, int j, boolean flag) {
@@ -120,16 +120,18 @@
              this.e = SectionPosition.a(entity);
          }
  
++        // CraftBukkit start
 +        public Set<EntityPlayer> getTrackedEntityPlayers() {
 +            Set<EntityPlayer> set = Sets.newIdentityHashSet();
-+            trackedPlayers.forEach(holder -> set.add(holder.getPlayer()));
++            trackedPlayers.forEach(holder -> set.add(holder.getEntityPlayer()));
 +            return set;
 +        }
++        // CraftBukkit end
 +
          public boolean equals(Object object) {
              return object instanceof PlayerChunkMap.EntityTracker ? ((PlayerChunkMap.EntityTracker) object).tracker.getId() == this.tracker.getId() : false;
          }
-@@ -1178,10 +1213,20 @@
+@@ -1178,10 +1215,20 @@
  
          public void updatePlayer(EntityPlayer entityplayer) {
              if (entityplayer != this.tracker) {

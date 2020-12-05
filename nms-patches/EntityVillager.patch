@@ -106,7 +106,7 @@
      public void entitySleep(BlockPosition blockposition) {
          super.entitySleep(blockposition);
 -        this.bb.setMemory(MemoryModuleType.LAST_SLEPT, (Object) this.world.getTime());
-+        this.bg.setMemory(MemoryModuleType.LAST_SLEPT, this.world.getTime()); // CraftBukkit - decompile error
++        this.bb.setMemory(MemoryModuleType.LAST_SLEPT, this.world.getTime()); // CraftBukkit - decompile error
          this.bb.removeMemory(MemoryModuleType.WALK_TARGET);
          this.bb.removeMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
      }
@@ -115,7 +115,7 @@
      public void entityWakeup() {
          super.entityWakeup();
 -        this.bb.setMemory(MemoryModuleType.LAST_WOKEN, (Object) this.world.getTime());
-+        this.bg.setMemory(MemoryModuleType.LAST_WOKEN, this.world.getTime()); // CraftBukkit - decompile error
++        this.bb.setMemory(MemoryModuleType.LAST_WOKEN, this.world.getTime()); // CraftBukkit - decompile error
      }
  
      private boolean b(long i) {

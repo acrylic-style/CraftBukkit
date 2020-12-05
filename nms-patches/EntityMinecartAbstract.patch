@@ -21,7 +21,7 @@
      private static final ImmutableMap<EntityPose, ImmutableList<Integer>> ab = ImmutableMap.of(EntityPose.STANDING, ImmutableList.of(0, 1, -1), EntityPose.CROUCHING, ImmutableList.of(0, 1, -1), EntityPose.SWIMMING, ImmutableList.of(0, 1));
      private boolean ac;
 -    private static final Map<BlockPropertyTrackPosition, Pair<BaseBlockPosition, BaseBlockPosition>> ad = (Map) SystemUtils.a((Object) Maps.newEnumMap(BlockPropertyTrackPosition.class), (enummap) -> {
-+    private static final Map<BlockPropertyTrackPosition, Pair<BaseBlockPosition, BaseBlockPosition>> ai = (Map) SystemUtils.a(Maps.newEnumMap(BlockPropertyTrackPosition.class), (enummap) -> { // CraftBukkit - decompile error
++    private static final Map<BlockPropertyTrackPosition, Pair<BaseBlockPosition, BaseBlockPosition>> ad = (Map) SystemUtils.a(Maps.newEnumMap(BlockPropertyTrackPosition.class), (enummap) -> { // CraftBukkit - decompile error
          BaseBlockPosition baseblockposition = EnumDirection.WEST.p();
          BaseBlockPosition baseblockposition1 = EnumDirection.EAST.p();
          BaseBlockPosition baseblockposition2 = EnumDirection.NORTH.p();

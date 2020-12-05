@@ -48,7 +48,8 @@
 -            String s = (String) Optional.ofNullable(optionset.valueOf(optionspec10)).orElse(dedicatedserversettings.getProperties().levelName);
 +            String s = (String) Optional.ofNullable(optionset.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              Convertable convertable = Convertable.a(file.toPath());
-             Convertable.ConversionSession convertable_conversionsession = convertable.c(s);
+-            Convertable.ConversionSession convertable_conversionsession = convertable.c(s);
++            Convertable.ConversionSession convertable_conversionsession = convertable.c(s, WorldDimension.OVERWORLD);
  
              MinecraftServer.convertWorld(convertable_conversionsession);
              DataPackConfiguration datapackconfiguration = convertable_conversionsession.e();
@@ -136,7 +137,7 @@
  
 -    public static void convertWorld(Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, boolean flag, BooleanSupplier booleansupplier, ImmutableSet<ResourceKey<World>> immutableset) {
 -        Main.LOGGER.info("Forcing world upgrade!");
-+    public static void convertWorld(Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, boolean flag, BooleanSupplier booleansupplier, ImmutableSet<ResourceKey<DimensionManager>> immutableset) { // CraftBukkit
++    public static void convertWorld(Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, boolean flag, BooleanSupplier booleansupplier, ImmutableSet<ResourceKey<World>> immutableset) { // CraftBukkit
 +        Main.LOGGER.info("Forcing world upgrade! {}", convertable_conversionsession.getLevelName()); // CraftBukkit
          WorldUpgrader worldupgrader = new WorldUpgrader(convertable_conversionsession, datafixer, immutableset, flag);
          IChatBaseComponent ichatbasecomponent = null;

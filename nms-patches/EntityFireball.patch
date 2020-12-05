@@ -34,7 +34,7 @@
                  this.a(movingobjectposition);
 +
 +                // CraftBukkit start - Fire ProjectileHitEvent
-+                if (this.dead) {
++                if (this.dead != null) {
 +                    CraftEventFactory.callProjectileHitEvent(this, movingobjectposition);
 +                }
 +                // CraftBukkit end

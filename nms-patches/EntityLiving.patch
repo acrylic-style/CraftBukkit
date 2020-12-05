@@ -849,7 +849,7 @@
 +                if (!teleport.isCancelled()) {
 +                    Location to = teleport.getTo();
 +                    this.enderTeleportTo(to.getX(), to.getY(), to.getZ());
-+                    if (world.getCubes(this) && !world.containsLiquid(this.getBoundingBox())) {
++                    if (world.g(this) && !world.containsLiquid(this.getBoundingBox())) {
 +                        flag1 = true;
 +                    }
                  }

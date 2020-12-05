@@ -31,19 +31,22 @@
              });
          } else {
              ProtoChunk protochunk = new ProtoChunk(chunkcoordintpair, chunkconverter, achunksection, protochunkticklist, protochunkticklist1, worldserver);
-@@ -181,6 +187,11 @@
-             return new ProtoChunkExtension((Chunk) object);
+@@ -178,7 +184,13 @@
+         }
+ 
+         if (chunkstatus_type == ChunkStatus.Type.LEVELCHUNK) {
+-            return new ProtoChunkExtension((Chunk) object);
++            // CraftBukkit start - store chunk persistent data in nbt
++            Chunk chunk = (Chunk) object;
++            if (!chunk.persistentDataContainer.isEmpty()) {
++                nbttagcompound1.set("ChunkBukkitValues", chunk.persistentDataContainer.toTagCompound());
++            }
++            return new ProtoChunkExtension(chunk);
++            // CraftBukkit end
          } else {
              ProtoChunk protochunk1 = (ProtoChunk) object;
-+            // CraftBukkit start - store chunk persistent data in nbt
-+            if (!protochunk1.persistentDataContainer.isEmpty()) {
-+                nbttagcompound1.set("ChunkBukkitValues", protochunk1.persistentDataContainer.toTagCompound());
-+            }
-+            // CraftBukkit end
  
-             nbttaglist3 = nbttagcompound1.getList("Entities", 10);
- 
-@@ -245,8 +256,9 @@
+@@ -245,8 +257,9 @@
          boolean flag = ichunkaccess.t();
  
          for (int i = lightenginethreaded.c(); i < lightenginethreaded.d(); ++i) {

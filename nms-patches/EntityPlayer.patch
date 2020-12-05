@@ -58,8 +58,8 @@
 +        this.displayName = this.getName();
 +        this.canPickUpLoot = true;
 +        this.maxHealthCache = this.getMaxHealth();
-     }
- 
++    }
++
 +    // Yes, this doesn't match Vanilla, but it's the best we can do for now.
 +    // If this is an issue, PRs are welcome
 +    public final BlockPosition getSpawnPoint(WorldServer worldserver) {
@@ -80,7 +80,7 @@
 +            long k = (long) (i * 2 + 1);
 +            long l = k * k;
 +            int i1 = l > 2147483647L ? Integer.MAX_VALUE : (int) l;
-+            int j1 = this.u(i1);
++            int j1 = this.w(i1);
 +            int k1 = (new Random()).nextInt(i1);
 +
 +            for (int l1 = 0; l1 < i1; ++l1) {
@@ -96,9 +96,9 @@
 +        }
 +
 +        return blockposition;
-+    }
+     }
 +    // CraftBukkit end
-+
+ 
      private void d(WorldServer worldserver) {
          BlockPosition blockposition = worldserver.getSpawn();
  
@@ -171,7 +171,7 @@
 +    public void spawnIn(World world) {
 +        super.spawnIn(world);
 +        if (world == null) {
-+            this.dead = false;
++            this.dead = null;
 +            Vec3D position = null;
 +            if (this.spawnDimension != null) {
 +                world = this.getWorldServer().getServer().getHandle().getServer().getWorldServer(this.spawnDimension);
@@ -259,7 +259,7 @@
      public void die(DamageSource damagesource) {
          boolean flag = this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES);
 +        // CraftBukkit start - fire PlayerDeathEvent
-+        if (this.dead) {
++        if (this.dead != null) {
 +            return;
 +        }
 +        java.util.List<org.bukkit.inventory.ItemStack> loot = new java.util.ArrayList<org.bukkit.inventory.ItemStack>(this.inventory.getSize());
