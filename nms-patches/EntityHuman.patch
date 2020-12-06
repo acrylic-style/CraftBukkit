@@ -66,6 +66,15 @@
      public EntityHuman(World world, BlockPosition blockposition, float f, GameProfile gameprofile) {
          super(EntityTypes.PLAYER, world);
          this.bG = ItemStack.b;
+@@ -72,7 +95,7 @@
+     public boolean a(World world, BlockPosition blockposition, EnumGamemode enumgamemode) {
+         if (!enumgamemode.isCreative()) {
+             return false;
+-        } else if (enumgamemode == EnumGamemode.ADVENTURE) {
++        } else if (enumgamemode == EnumGamemode.SPECTATOR) {
+             return true;
+         } else if (this.fe()) {
+             return false;
 @@ -194,7 +217,7 @@
          ItemStack itemstack = this.getEquipment(EnumItemSlot.HEAD);
  

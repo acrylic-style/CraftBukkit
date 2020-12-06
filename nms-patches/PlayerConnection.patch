@@ -475,6 +475,15 @@
                              double d12 = d8;
  
                              d7 = d4 - this.player.locX();
+@@ -786,7 +1024,7 @@
+                             d11 = d7 * d7 + d8 * d8 + d9 * d9;
+                             boolean flag1 = false;
+ 
+-                            if (!this.player.H() && d11 > 0.0625D && !this.player.isSleeping() && !this.player.playerInteractManager.isCreative() && this.player.playerInteractManager.getGameMode() != EnumGamemode.ADVENTURE) {
++                            if (!this.player.H() && d11 > 0.0625D && !this.player.isSleeping() && !this.player.playerInteractManager.isCreative() && this.player.playerInteractManager.getGameMode() != EnumGamemode.SPECTATOR) {
+                                 flag1 = true;
+                                 PlayerConnection.LOGGER.warn("{} moved wrongly!", this.player.getDisplayName().getString());
+                             }
 @@ -795,10 +1033,74 @@
                              if (!this.player.noclip && !this.player.isSleeping() && (flag1 && worldserver.getCubes(this.player, axisalignedbb) || this.a((IWorldReader) worldserver, axisalignedbb))) {
                                  this.a(d0, d1, d2, f, f1);
@@ -1235,6 +1244,15 @@
                  }
  
                  if (optional.isPresent() && ((EnumInteractionResult) optional.get()).a()) {
+@@ -1228,7 +1990,7 @@
+ 
+                     this.player = this.minecraftServer.getPlayerList().moveToWorld(this.player, false);
+                     if (this.minecraftServer.isHardcore()) {
+-                        this.player.a(EnumGamemode.ADVENTURE);
++                        this.player.setGameMode(EnumGamemode.SPECTATOR);
+                         ((GameRules.GameRuleBoolean) this.player.getWorldServer().getGameRules().get(GameRules.SPECTATORS_GENERATE_CHUNKS)).a(false, this.minecraftServer);
+                     }
+                 }
 @@ -1242,15 +2004,21 @@
      @Override
      public void a(PacketPlayInCloseWindow packetplayinclosewindow) {

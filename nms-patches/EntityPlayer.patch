@@ -58,8 +58,8 @@
 +        this.displayName = this.getName();
 +        this.canPickUpLoot = true;
 +        this.maxHealthCache = this.getMaxHealth();
-+    }
-+
+     }
+ 
 +    // Yes, this doesn't match Vanilla, but it's the best we can do for now.
 +    // If this is an issue, PRs are welcome
 +    public final BlockPosition getSpawnPoint(WorldServer worldserver) {
@@ -96,9 +96,9 @@
 +        }
 +
 +        return blockposition;
-     }
++    }
 +    // CraftBukkit end
- 
++
      private void d(WorldServer worldserver) {
          BlockPosition blockposition = worldserver.getSpawn();
  
@@ -159,13 +159,13 @@
              Logger logger = EntityPlayer.LOGGER;
  
              logger.getClass();
-@@ -198,9 +299,33 @@
+@@ -198,8 +299,32 @@
                  nbttagcompound.set("SpawnDimension", nbtbase);
              });
          }
 +        this.getBukkitEntity().setExtraData(nbttagcompound); // CraftBukkit
- 
-     }
++
++    }
  
 +    // CraftBukkit start - World fallback code, either respawn location or global spawn
 +    public void spawnIn(World world) {
@@ -187,12 +187,11 @@
 +            this.setPosition(position.getX(), position.getY(), position.getZ());
 +        }
 +        this.playerInteractManager.a((WorldServer) world);
-+    }
+     }
 +    // CraftBukkit end
-+
+ 
      public void a(int i) {
          float f = (float) this.getExpToLevel();
-         float f1 = (f - 1.0F) / f;
 @@ -254,6 +379,11 @@
  
      @Override
@@ -733,10 +732,12 @@
          this.removeQueue.addAll(entityplayer.removeQueue);
          this.bW = entityplayer.bW;
          this.cb = entityplayer.cb;
-@@ -1121,6 +1450,18 @@
+@@ -1120,12 +1449,23 @@
+         return (WorldServer) this.world;
      }
  
-     public boolean a(EnumGamemode enumgamemode) {
+-    public boolean a(EnumGamemode enumgamemode) {
++    public boolean setGameMode(EnumGamemode enumgamemode) {
 +        // CraftBukkit start
 +        if (enumgamemode == this.playerInteractManager.getGameMode()) {
 +            return false;
@@ -748,11 +749,31 @@
 +            return false;
 +        }
 +        // CraftBukkit end
-+
          if (!this.playerInteractManager.setGameMode(enumgamemode)) {
              return false;
          } else {
-@@ -1174,7 +1515,20 @@
+             this.playerConnection.sendPacket(new PacketPlayOutGameStateChange(PacketPlayOutGameStateChange.d, (float) enumgamemode.getId()));
+-            if (enumgamemode == EnumGamemode.ADVENTURE) {
++            if (enumgamemode == EnumGamemode.SPECTATOR) {
+                 this.releaseShoulderEntities();
+                 this.stopRiding();
+             } else {
+@@ -1140,12 +1480,12 @@
+ 
+     @Override
+     public boolean isSpectator() {
+-        return this.playerInteractManager.getGameMode() == EnumGamemode.ADVENTURE;
++        return this.playerInteractManager.getGameMode() == EnumGamemode.SPECTATOR;
+     }
+ 
+     @Override
+     public boolean isCreative() {
+-        return this.playerInteractManager.getGameMode() == EnumGamemode.SURVIVAL;
++        return this.playerInteractManager.getGameMode() == EnumGamemode.CREATIVE;
+     }
+ 
+     @Override
+@@ -1174,7 +1514,20 @@
          return s;
      }
  
@@ -773,7 +794,7 @@
          this.bR = packetplayinsettings.d();
          this.bS = packetplayinsettings.e();
          this.getDataWatcher().set(EntityPlayer.bd, (byte) packetplayinsettings.f());
-@@ -1210,13 +1564,14 @@
+@@ -1210,13 +1563,14 @@
          if (entity instanceof EntityHuman) {
              this.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(new int[]{entity.getId()}));
          } else {
@@ -789,7 +810,7 @@
      }
  
      @Override
-@@ -1240,7 +1595,7 @@
+@@ -1240,7 +1594,7 @@
          this.spectatedEntity = (Entity) (entity == null ? this : entity);
          if (entity1 != this.spectatedEntity) {
              this.playerConnection.sendPacket(new PacketPlayOutCamera(this.spectatedEntity));
@@ -798,7 +819,16 @@
          }
  
      }
-@@ -1269,7 +1624,7 @@
+@@ -1255,7 +1609,7 @@
+ 
+     @Override
+     public void attack(Entity entity) {
+-        if (this.playerInteractManager.getGameMode() == EnumGamemode.ADVENTURE) {
++        if (this.playerInteractManager.getGameMode() == EnumGamemode.SPECTATOR) {
+             this.setSpectatorTarget(entity);
+         } else {
+             super.attack(entity);
+@@ -1269,7 +1623,7 @@
  
      @Nullable
      public IChatBaseComponent getPlayerListName() {
@@ -807,7 +837,7 @@
      }
  
      @Override
-@@ -1290,9 +1645,16 @@
+@@ -1290,9 +1644,16 @@
          return this.advancementDataPlayer;
      }
  
@@ -824,7 +854,7 @@
          if (worldserver == this.world) {
              this.playerConnection.a(d0, d1, d2, f, f1);
          } else {
-@@ -1312,6 +1674,9 @@
+@@ -1312,6 +1673,9 @@
              this.server.getPlayerList().a(this, worldserver);
              this.server.getPlayerList().updateClient(this);
          }
@@ -834,7 +864,7 @@
  
      }
  
-@@ -1439,4 +1804,144 @@
+@@ -1439,4 +1803,144 @@
          }
  
      }

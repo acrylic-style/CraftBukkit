@@ -949,7 +949,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             throw new IllegalArgumentException("Mode cannot be null");
         }
 
-        getHandle().a(EnumGamemode.getById(mode.getValue()));
+        getHandle().setGameMode(EnumGamemode.getById(mode.getValue()));
     }
 
     @Override

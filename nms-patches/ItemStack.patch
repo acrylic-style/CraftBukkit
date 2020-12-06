@@ -25,7 +25,7 @@
  public final class ItemStack {
  
      public static final Codec<ItemStack> a = RecordCodecBuilder.create((instance) -> {
-@@ -32,7 +50,7 @@
+@@ -32,14 +50,14 @@
      });
      private static final Logger LOGGER = LogManager.getLogger();
      public static final ItemStack b = new ItemStack((Item) null);
@@ -34,6 +34,14 @@
          decimalformat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
      });
      private static final ChatModifier e = ChatModifier.a.setColor(EnumChatFormat.DARK_PURPLE).setItalic(true);
+     private int count;
+     private int g;
+     @Deprecated
+-    private Item item;
++    public Item item;
+     private NBTTagCompound tag;
+     private boolean j;
+     private Entity k;
 @@ -67,23 +85,42 @@
          this.checkEmpty();
      }

@@ -9,7 +9,7 @@
  import io.netty.buffer.ByteBuf;
  import io.netty.buffer.ByteBufOutputStream;
  import io.netty.buffer.Unpooled;
-@@ -54,6 +56,15 @@
+@@ -54,12 +56,21 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -25,6 +25,13 @@
  
  public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTask> implements IMojangStatistics, ICommandListener, AutoCloseable {
  
+     public static final Logger LOGGER = LogManager.getLogger();
+     public static final File b = new File("usercache.json");
+-    public static final WorldSettings c = new WorldSettings("Demo World", EnumGamemode.NOT_SET, false, EnumDifficulty.NORMAL, false, new GameRules(), DataPackConfiguration.a);
++    public static final WorldSettings c = new WorldSettings("Demo World", EnumGamemode.SURVIVAL, false, EnumDifficulty.NORMAL, false, new GameRules(), DataPackConfiguration.a);
+     public Convertable.ConversionSession convertable;
+     public final WorldNBTStorage worldNBTStorage;
+     private final EntityListener snooper = new EntityListener("server", this, SystemUtils.getMonotonicMillis());
 @@ -123,6 +134,20 @@
      private final DefinedStructureManager definedStructureManager;
      protected SaveData saveData;
@@ -384,8 +391,12 @@
  
              if (blockposition == null) {
                  MinecraftServer.LOGGER.warn("Unable to find spawn biome");
-@@ -374,8 +556,15 @@
-         iworlddataserver.setGameType(EnumGamemode.ADVENTURE);
+@@ -371,11 +553,18 @@
+         iworlddataserver.setThundering(false);
+         iworlddataserver.a(1000000000);
+         iworlddataserver.setDayTime(6000L);
+-        iworlddataserver.setGameType(EnumGamemode.ADVENTURE);
++        iworlddataserver.setGameType(EnumGamemode.SPECTATOR);
      }
  
 -    public void loadSpawn(WorldLoadListener worldloadlistener) {

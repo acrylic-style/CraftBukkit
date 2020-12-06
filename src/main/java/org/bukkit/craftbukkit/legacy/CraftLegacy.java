@@ -45,7 +45,7 @@ import org.bukkit.material.MaterialData;
 public final class CraftLegacy {
 
     private static final Map<Byte, Material> SPAWN_EGGS = new HashMap<>();
-    private static final Set<String> whitelistedStates = new HashSet<>(Arrays.asList("explode", "check_decay", "decayable", "facing"));
+    private static final Set<String> whitelistedStates = new HashSet<>(Arrays.asList("explode", "check_decay", "decayable", "facing", "axis", "level"));
     private static final Map<MaterialData, Item> materialToItem = new HashMap<>(16384);
     private static final Map<Item, MaterialData> itemToMaterial = new HashMap<>(1024);
     private static final Map<MaterialData, IBlockData> materialToData = new HashMap<>(4096);
@@ -354,7 +354,7 @@ public final class CraftLegacy {
                             Preconditions.checkState(!properties.getString(dataKey).isEmpty(), "Empty data string");
                             Optional opt = state.b(properties.getString(dataKey));
                             if (!opt.isPresent()) {
-                                throw new IllegalStateException("No state value " + properties.getString(dataKey) + " for " + dataKey);
+                                throw new IllegalStateException("No state value " + properties.getString(dataKey) + " for " + dataKey + "(" + state.getClass().getSimpleName() + ")");
                             }
 
                             blockData = blockData.set(state, (Comparable) opt.get());

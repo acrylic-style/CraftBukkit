@@ -93,11 +93,22 @@ public final class CraftMagicNumbers implements UnsafeValues {
 
     static {
         for (Block block : IRegistry.BLOCK) {
-            BLOCK_MATERIAL.put(block, Material.getMaterial(IRegistry.BLOCK.getKey(block).getKey().toUpperCase(Locale.ROOT)));
+            String key = IRegistry.BLOCK.getKey(block).getKey().toUpperCase(Locale.ROOT);
+            Material material = Material.getMaterial(key);
+            if (material == null) {
+                System.err.println("No Material found for " + key + " (Block)");
+            }
+            BLOCK_MATERIAL.put(block, material);
         }
 
         for (Item item : IRegistry.ITEM) {
-            ITEM_MATERIAL.put(item, Material.getMaterial(IRegistry.ITEM.getKey(item).getKey().toUpperCase(Locale.ROOT)));
+            String key = IRegistry.ITEM.getKey(item).getKey().toUpperCase(Locale.ROOT);
+            Material material = Material.getMaterial(key);
+            if (material == null) {
+                System.err.println("No Material found for " + key + " (Item)");
+                continue;
+            }
+            ITEM_MATERIAL.put(item, material);
         }
 
         for (FluidType fluid : IRegistry.FLUID) {
@@ -290,7 +301,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
         return file.delete();
     }
 
-    private static final List<String> SUPPORTED_API = Arrays.asList("1.13", "1.14", "1.15", "1.16");
+    private static final List<String> SUPPORTED_API = Arrays.asList("1.13", "1.14", "1.15", "1.16", "1.17");
 
     @Override
     public void checkSupported(PluginDescriptionFile pdf) throws InvalidPluginException {
