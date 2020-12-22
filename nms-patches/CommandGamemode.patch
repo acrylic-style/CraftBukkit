@@ -1,11 +1,9 @@
 --- a/net/minecraft/server/CommandGamemode.java
 +++ b/net/minecraft/server/CommandGamemode.java
-@@ -51,7 +51,13 @@
-         while (iterator.hasNext()) {
+@@ -52,6 +52,12 @@
              EntityPlayer entityplayer = (EntityPlayer) iterator.next();
  
--            if (entityplayer.a(enumgamemode)) {
-+            if (entityplayer.setGameMode(enumgamemode)) {
+             if (entityplayer.setGameMode(enumgamemode)) {
 +                // CraftBukkit start - handle event cancelling the change
 +                if (entityplayer.playerInteractManager.getGameMode() != enumgamemode) {
 +                    commandcontext.getSource().sendFailureMessage(new ChatComponentText("Failed to set the gamemode of '" + entityplayer.getName() + "'"));

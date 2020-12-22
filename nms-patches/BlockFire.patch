@@ -76,7 +76,7 @@
                      }
                  }
 @@ -150,12 +174,14 @@
-                 boolean flag1 = worldserver.u(blockposition);
+                 boolean flag1 = worldserver.s(blockposition);
                  int k = flag1 ? -50 : 0;
  
 -                this.trySpread(worldserver, blockposition.east(), 300 + k, random, i);

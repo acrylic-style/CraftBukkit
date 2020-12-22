@@ -53,8 +53,8 @@
 +                ((EntityPlayer) entityhuman).playerConnection.sendPacket(new PacketPlayOutUpdateHealth(((EntityPlayer) entityhuman).getBukkitEntity().getScaledHealth(), entityhuman.getFoodData().foodLevel, entityhuman.getFoodData().saturationLevel));
 +                // CraftBukkit end
              }
-         } else if ((this != MobEffects.HEAL || entityliving.dB()) && (this != MobEffects.HARM || !entityliving.dB())) {
-             if (this == MobEffects.HARM && !entityliving.dB() || this == MobEffects.HEAL && entityliving.dB()) {
+         } else if ((this != MobEffects.HEAL || entityliving.dE()) && (this != MobEffects.HARM || !entityliving.dE())) {
+             if (this == MobEffects.HARM && !entityliving.dE() || this == MobEffects.HEAL && entityliving.dE()) {
                  entityliving.damageEntity(DamageSource.MAGIC, (float) (6 << i));
              }
          } else {

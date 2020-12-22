@@ -5,7 +5,7 @@
          IBlockData iblockdata = world.getType(blockposition);
  
 -        if (!BlockCampfire.h(iblockdata) && !BlockCandle.g(iblockdata) && !BlockCandleCake.g(iblockdata)) {
-+        if (BlockCampfire.h(iblockdata) && !BlockCandle.g(iblockdata) && !BlockCandleCake.g(iblockdata) && !org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition, entityhuman).isCancelled()) { // CraftBukkit
++        if (!BlockCampfire.h(iblockdata) && !BlockCandle.g(iblockdata) && !BlockCandleCake.g(iblockdata) && !org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition, entityhuman).isCancelled()) { // CraftBukkit
              BlockPosition blockposition1 = blockposition.shift(itemactioncontext.getClickedFace());
  
              if (BlockFireAbstract.a(world, blockposition1, itemactioncontext.g())) {
@@ -18,5 +18,5 @@
 +                }
 +                // CraftBukkit end
                  world.playSound(entityhuman, blockposition1, SoundEffects.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
+                 world.a((Entity) entityhuman, ckz.F, blockposition);
                  IBlockData iblockdata1 = BlockFireAbstract.a((IBlockAccess) world, blockposition1);
- 

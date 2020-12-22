@@ -25,7 +25,7 @@
                  itemstack.damage(1, entityhuman, (entityhuman1) -> {
 @@ -121,7 +130,7 @@
          this.world.playSound((EntityHuman) null, (Entity) this, SoundEffects.MOOSHROOM_SHEAR, soundcategory, 1.0F, 1.0F);
-         if (!this.world.t_()) {
+         if (!this.world.g()) {
              ((WorldServer) this.world).a(Particles.EXPLOSION, this.locX(), this.e(0.5D), this.locZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 -            this.ab();
 +            // this.ab(); // CraftBukkit - moved down

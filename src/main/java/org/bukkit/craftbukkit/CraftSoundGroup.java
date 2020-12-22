@@ -24,17 +24,17 @@ public class CraftSoundGroup implements SoundGroup {
 
     @Override
     public float getVolume() {
-        return getHandle().ah; // PAIL rename volume
+        return getHandle().ai; // PAIL rename volume
     }
 
     @Override
     public float getPitch() {
-        return getHandle().ai; // PAIL rename pitch
+        return getHandle().aj; // PAIL rename pitch
     }
 
     @Override
     public Sound getBreakSound() {
-        return CraftSound.getBukkit(getHandle().aj);
+        return CraftSound.getBukkit(getHandle().ak);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CraftSoundGroup implements SoundGroup {
 
     @Override
     public Sound getHitSound() {
-        return CraftSound.getBukkit(getHandle().am);
+        return CraftSound.getBukkit(getHandle().an);
     }
 
     @Override

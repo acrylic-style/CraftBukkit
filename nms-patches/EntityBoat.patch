@@ -34,7 +34,7 @@
 @@ -107,6 +124,18 @@
          if (this.isInvulnerable(damagesource)) {
              return false;
-         } else if (!this.world.isClientSide && !this.cU()) {
+         } else if (!this.world.isClientSide && !this.cW()) {
 +            // CraftBukkit start
 +            Vehicle vehicle = (Vehicle) this.getBukkitEntity();
 +            org.bukkit.entity.Entity attacker = (damagesource.getEntity() == null) ? null : damagesource.getEntity().getBukkitEntity();
@@ -47,11 +47,11 @@
 +            }
 +            // f = event.getDamage(); // TODO Why don't we do this?
 +            // CraftBukkit end
+             this.a(damagesource.getEntity(), ckz.i);
              this.c(-this.o());
              this.b(10);
-             this.setDamage(this.getDamage() + f * 10.0F);
-@@ -114,6 +143,15 @@
-             boolean flag = damagesource.k() instanceof EntityHuman && ((EntityHuman) damagesource.k()).eU().canInstantlyBuild;
+@@ -115,6 +144,15 @@
+             boolean flag = damagesource.getEntity() instanceof EntityHuman && ((EntityHuman) damagesource.getEntity()).eX().canInstantlyBuild;
  
              if (flag || this.getDamage() > 40.0F) {
 +                // CraftBukkit start
@@ -66,7 +66,7 @@
                  if (!flag && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                      this.a((IMaterial) this.g());
                  }
-@@ -148,9 +186,29 @@
+@@ -150,9 +188,29 @@
      public void collide(Entity entity) {
          if (entity instanceof EntityBoat) {
              if (entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
@@ -96,7 +96,7 @@
              super.collide(entity);
          }
  
-@@ -184,6 +242,7 @@
+@@ -186,6 +244,7 @@
          return this.getDirection().g();
      }
  
@@ -104,7 +104,7 @@
      @Override
      public void tick() {
          this.at = this.as;
-@@ -224,6 +283,22 @@
+@@ -226,6 +285,22 @@
              this.setMot(Vec3D.ORIGIN);
          }
  
@@ -127,10 +127,10 @@
          this.q();
  
          for (int i = 0; i <= 1; ++i) {
-@@ -710,6 +785,11 @@
+@@ -713,6 +788,11 @@
  
                      this.b(this.fallDistance, 1.0F);
-                     if (!this.world.isClientSide && !this.cU()) {
+                     if (!this.world.isClientSide && !this.cW()) {
 +                        // CraftBukkit start
 +                        Vehicle vehicle = (Vehicle) this.getBukkitEntity();
 +                        VehicleDestroyEvent destroyEvent = new VehicleDestroyEvent(vehicle, null);
@@ -139,7 +139,7 @@
                          this.killEntity();
                          if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                              int i;
-@@ -723,6 +803,7 @@
+@@ -726,6 +806,7 @@
                              }
                          }
                      }

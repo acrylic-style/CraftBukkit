@@ -11,6 +11,6 @@
 +    @Override
 +    public boolean addEntity(Entity entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason reason) {
 +        // CraftBukkit end
-         int i = SectionPosition.a(entity.cJ());
-         int j = SectionPosition.a(entity.cP());
+         int i = SectionPosition.a(entity.cL());
+         int j = SectionPosition.a(entity.cR());
  

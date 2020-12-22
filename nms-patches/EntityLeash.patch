@@ -26,12 +26,12 @@
  
              if (!flag) {
 -                this.ab();
--                if (entityhuman.eU().canInstantlyBuild) {
+-                if (entityhuman.eX().canInstantlyBuild) {
 +                // CraftBukkit start - Move below
 +                // this.die();
 +                boolean die = true;
 +                // CraftBukkit end
-+                if (true || entityhuman.eU().canInstantlyBuild) { // CraftBukkit - Process for non-creative as well
++                if (true || entityhuman.eX().canInstantlyBuild) { // CraftBukkit - Process for non-creative as well
                      iterator = list.iterator();
  
                      while (iterator.hasNext()) {
@@ -43,7 +43,7 @@
 +                                die = false;
 +                                continue;
 +                            }
-+                            entityinsentient.unleash(true, !entityhuman.eU().canInstantlyBuild); // false -> survival mode boolean
++                            entityinsentient.unleash(true, !entityhuman.eX().canInstantlyBuild); // false -> survival mode boolean
 +                            // CraftBukkit end
                          }
                      }

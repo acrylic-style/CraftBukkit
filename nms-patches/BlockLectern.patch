@@ -3,7 +3,7 @@
 @@ -164,12 +164,13 @@
      }
  
-     private void e(IBlockData iblockdata, World world, BlockPosition blockposition) {
+     private void d(IBlockData iblockdata, World world, BlockPosition blockposition) {
 -        TileEntity tileentity = world.getTileEntity(blockposition);
 +        TileEntity tileentity = world.getTileEntity(blockposition, false); // CraftBukkit - don't validate, type may be changed already
  

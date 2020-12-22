@@ -61,7 +61,7 @@
 @@ -250,9 +281,11 @@
                              if (entityliving != this && entityliving.isAlive() && this.hasLineOfSight(entityliving)) {
                                  if (entityliving instanceof EntityHuman) {
-                                     if (!((EntityHuman) entityliving).eU().isInvulnerable) {
+                                     if (!((EntityHuman) entityliving).eX().isInvulnerable) {
 +                                        if (CraftEventFactory.callEntityTargetLivingEvent(this, entityliving, EntityTargetEvent.TargetReason.CLOSEST_PLAYER).isCancelled()) continue; // CraftBukkit
                                          this.setHeadTarget(i, entityliving.getId());
                                      }

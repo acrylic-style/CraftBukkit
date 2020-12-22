@@ -23,7 +23,7 @@
  
              return EnumInteractionResult.a(world.isClientSide);
          } else if (i == 8) {
--            e(iblockdata, world, blockposition);
+-            d(iblockdata, world, blockposition);
 +            d(iblockdata, world, blockposition, (Entity) null); // CraftBukkit - no event for players
              return EnumInteractionResult.a(world.isClientSide);
          } else {
@@ -52,7 +52,7 @@
          }
      }
  
--    public static IBlockData e(IBlockData iblockdata, World world, BlockPosition blockposition) {
+-    public static IBlockData d(IBlockData iblockdata, World world, BlockPosition blockposition) {
 +    // CraftBukkit start
 +    public static IBlockData d(IBlockData iblockdata, World world, BlockPosition blockposition, Entity entity) {
 +        if (entity != null) {

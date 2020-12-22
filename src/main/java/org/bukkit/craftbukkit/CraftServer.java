@@ -1008,7 +1008,7 @@ public final class CraftServer implements Server {
             net.minecraft.server.Main.convertWorld(worldSession, DataConverterRegistry.a(), console.options.has("eraseCache"), () -> {
                 return true;
             }, worlddata.getGeneratorSettings().d().d().stream().map((entry) -> {
-                return ResourceKey.a(IRegistry.N, ((ResourceKey) entry.getKey()).a());
+                return ResourceKey.a(IRegistry.P, ((ResourceKey) entry.getKey()).a());
             }).collect(ImmutableSet.toImmutableSet()));
         }
 
@@ -1020,14 +1020,14 @@ public final class CraftServer implements Server {
         net.minecraft.server.ChunkGenerator chunkgenerator;
 
         if (worlddimension == null) {
-            dimensionmanager = (DimensionManager) console.customRegistry.a().d(DimensionManager.OVERWORLD);
-            chunkgenerator = GeneratorSettings.a(console.customRegistry.b(IRegistry.aE), console.customRegistry.b(IRegistry.ax), (new Random()).nextLong());
+            dimensionmanager = (DimensionManager) console.customRegistry.b(IRegistry.P).d(DimensionManager.OVERWORLD);
+            chunkgenerator = GeneratorSettings.a(console.customRegistry.b(IRegistry.aI), console.customRegistry.b(IRegistry.aB), (new Random()).nextLong());
         } else {
             dimensionmanager = worlddimension.b();
             chunkgenerator = worlddimension.c();
         }
 
-        ResourceKey<net.minecraft.server.World> worldKey = ResourceKey.a(IRegistry.O, new MinecraftKey(name.toLowerCase(java.util.Locale.ENGLISH)));
+        ResourceKey<net.minecraft.server.World> worldKey = ResourceKey.a(IRegistry.Q, new MinecraftKey(name.toLowerCase(java.util.Locale.ENGLISH)));
 
         WorldServer internal = (WorldServer) new WorldServer(console, console.executorService, worldSession, worlddata, worldKey, dimensionmanager, getServer().worldLoadListenerFactory.create(11),
                 chunkgenerator, worlddata.getGeneratorSettings().isDebugWorld(), j, creator.environment() == Environment.NORMAL ? list : ImmutableList.of(), true, creator.environment(), generator);
@@ -1950,15 +1950,15 @@ public final class CraftServer implements Server {
             case org.bukkit.Tag.REGISTRY_BLOCKS:
                 Preconditions.checkArgument(clazz == org.bukkit.Material.class, "Block namespace must have material type");
 
-                return (org.bukkit.Tag<T>) new CraftBlockTag(console.getTagRegistry().getBlockTags(), key);
+                return (org.bukkit.Tag<T>) new CraftBlockTag(console.getTagRegistry().a(IRegistry.j), key);
             case org.bukkit.Tag.REGISTRY_ITEMS:
                 Preconditions.checkArgument(clazz == org.bukkit.Material.class, "Item namespace must have material type");
 
-                return (org.bukkit.Tag<T>) new CraftItemTag(console.getTagRegistry().getItemTags(), key);
+                return (org.bukkit.Tag<T>) new CraftItemTag(console.getTagRegistry().a(IRegistry.m), key);
             case org.bukkit.Tag.REGISTRY_FLUIDS:
                 Preconditions.checkArgument(clazz == org.bukkit.Fluid.class, "Fluid namespace must have fluid type");
 
-                return (org.bukkit.Tag<T>) new CraftFluidTag(console.getTagRegistry().getFluidTags(), key);
+                return (org.bukkit.Tag<T>) new CraftFluidTag(console.getTagRegistry().a(IRegistry.h), key);
             default:
                 throw new IllegalArgumentException();
         }
@@ -1971,17 +1971,17 @@ public final class CraftServer implements Server {
             case org.bukkit.Tag.REGISTRY_BLOCKS:
                 Preconditions.checkArgument(clazz == org.bukkit.Material.class, "Block namespace must have material type");
 
-                Tags<Block> blockTags = console.getTagRegistry().getBlockTags();
+                Tags<Block> blockTags = console.getTagRegistry().a(IRegistry.j);
                 return blockTags.a().keySet().stream().map(key -> (org.bukkit.Tag<T>) new CraftBlockTag(blockTags, key)).collect(ImmutableList.toImmutableList());
             case org.bukkit.Tag.REGISTRY_ITEMS:
                 Preconditions.checkArgument(clazz == org.bukkit.Material.class, "Item namespace must have material type");
 
-                Tags<Item> itemTags = console.getTagRegistry().getItemTags();
+                Tags<Item> itemTags = console.getTagRegistry().a(IRegistry.m);
                 return itemTags.a().keySet().stream().map(key -> (org.bukkit.Tag<T>) new CraftItemTag(itemTags, key)).collect(ImmutableList.toImmutableList());
             case org.bukkit.Tag.REGISTRY_FLUIDS:
                 Preconditions.checkArgument(clazz == org.bukkit.Material.class, "Fluid namespace must have fluid type");
 
-                Tags<FluidType> fluidTags = console.getTagRegistry().getFluidTags();
+                Tags<FluidType> fluidTags = console.getTagRegistry().a(IRegistry.h);
                 return fluidTags.a().keySet().stream().map(key -> (org.bukkit.Tag<T>) new CraftFluidTag(fluidTags, key)).collect(ImmutableList.toImmutableList());
             default:
                 throw new IllegalArgumentException();

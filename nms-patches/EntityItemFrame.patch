@@ -58,7 +58,7 @@
 +                    return true;
 +                }
 +                // CraftBukkit end
-                 this.b(damagesource.k(), false);
+                 this.b(damagesource.getEntity(), false);
                  this.playSound(SoundEffects.ITEM_FRAME_REMOVE_ITEM, 1.0F, 1.0F);
              }
 @@ -219,6 +236,12 @@

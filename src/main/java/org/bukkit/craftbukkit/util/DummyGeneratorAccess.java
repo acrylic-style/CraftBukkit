@@ -32,6 +32,9 @@ import net.minecraft.server.TileEntity;
 import net.minecraft.server.WorldBorder;
 import net.minecraft.server.WorldData;
 import net.minecraft.server.WorldServer;
+import net.minecraft.server.ckz;
+
+import javax.annotation.Nullable;
 
 public class DummyGeneratorAccess implements GeneratorAccess {
 
@@ -86,12 +89,17 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     }
 
     @Override
+    public void a(@Nullable Entity entity, ckz ckz, BlockPosition blockposition) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public WorldServer getMinecraftWorld() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public IRegistryCustom r() {
+    public IRegistryCustom t() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -126,7 +134,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     }
 
     @Override
-    public BiomeManager d() {
+    public BiomeManager v_() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -136,7 +144,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     }
 
     @Override
-    public boolean t_() {
+    public boolean g() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -193,15 +201,5 @@ public class DummyGeneratorAccess implements GeneratorAccess {
     @Override
     public boolean a(BlockPosition blockposition, boolean flag, Entity entity, int i) {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int w_() {
-        return 0;
-    }
-
-    @Override
-    public int n() {
-        return 0;
     }
 }

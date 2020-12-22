@@ -26,5 +26,5 @@
 +        // CraftBukkit end
 +
          entityhuman.b(StatisticList.ITEM_USED.b(this));
-         if (!entityhuman.eU().canInstantlyBuild) {
+         if (!entityhuman.eX().canInstantlyBuild) {
              itemstack.subtract(1);

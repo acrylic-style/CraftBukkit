@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/BlockCake.java
 +++ b/net/minecraft/server/BlockCake.java
-@@ -49,7 +49,18 @@
+@@ -53,7 +53,18 @@
              return EnumInteractionResult.PASS;
          } else {
              entityhuman.a(StatisticList.EAT_CAKE_SLICE);

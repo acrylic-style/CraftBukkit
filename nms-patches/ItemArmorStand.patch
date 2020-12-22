@@ -11,4 +11,4 @@
 +                    // CraftBukkit end
                      worldserver.addAllEntities(entityarmorstand);
                      world.playSound((EntityHuman) null, entityarmorstand.locX(), entityarmorstand.locY(), entityarmorstand.locZ(), SoundEffects.ARMOR_STAND_PLACE, SoundCategory.BLOCKS, 0.75F, 0.8F);
-                 }
+                     world.a((Entity) itemactioncontext.getEntity(), ckz.j, (Entity) entityarmorstand);

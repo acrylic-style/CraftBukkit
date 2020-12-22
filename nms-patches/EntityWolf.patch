@@ -46,16 +46,16 @@
      @Override
      protected void initDatawatcher() {
          super.initDatawatcher();
-@@ -201,7 +224,7 @@
+@@ -202,7 +225,7 @@
          } else {
-             Entity entity = damagesource.k();
+             Entity entity = damagesource.getEntity();
  
 -            this.setWillSit(false);
 +            // this.setWillSit(false); // CraftBukkit - moved into EntityLiving.damageEntity(DamageSource, float)
              if (entity != null && !(entity instanceof EntityHuman) && !(entity instanceof EntityArrow)) {
                  f = (f + 1.0F) / 2.0F;
              }
-@@ -226,7 +249,7 @@
+@@ -227,7 +250,7 @@
          super.setTamed(flag);
          if (flag) {
              this.getAttributeInstance(GenericAttributes.MAX_HEALTH).setValue(20.0D);
@@ -64,7 +64,7 @@
          } else {
              this.getAttributeInstance(GenericAttributes.MAX_HEALTH).setValue(8.0D);
          }
-@@ -250,7 +273,7 @@
+@@ -251,7 +274,7 @@
                          itemstack.subtract(1);
                      }
  
@@ -73,7 +73,7 @@
                      return EnumInteractionResult.SUCCESS;
                  }
  
-@@ -261,7 +284,7 @@
+@@ -262,7 +285,7 @@
                          this.setWillSit(!this.isWillSit());
                          this.jumping = false;
                          this.navigation.o();
@@ -82,7 +82,7 @@
                          return EnumInteractionResult.SUCCESS;
                      }
  
-@@ -283,7 +306,8 @@
+@@ -284,7 +307,8 @@
                      itemstack.subtract(1);
                  }
  

@@ -14,7 +14,7 @@
              entitysnowball.a(entityhuman, entityhuman.pitch, entityhuman.yaw, 0.0F, 1.5F, 1.0F);
 -            world.addEntity(entitysnowball);
 +            if (world.addEntity(entitysnowball)) {
-+                if (!entityhuman.eU().canInstantlyBuild) {
++                if (!entityhuman.eX().canInstantlyBuild) {
 +                    itemstack.subtract(1);
 +                }
 +
@@ -28,10 +28,10 @@
          entityhuman.b(StatisticList.ITEM_USED.b(this));
 +        // CraftBukkit start - moved up
 +        /*
-         if (!entityhuman.eU().canInstantlyBuild) {
+         if (!entityhuman.eX().canInstantlyBuild) {
              itemstack.subtract(1);
          }
 +        */
  
-         return InteractionResultWrapper.a(itemstack, world.t_());
+         return InteractionResultWrapper.a(itemstack, world.g());
      }

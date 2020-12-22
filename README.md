@@ -2,6 +2,10 @@ CraftBukkit
 ======
 An implementation of the [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit) plugin API for [Minecraft](https://minecraft.net/) servers, currently maintained by [SpigotMC](http://www.spigotmc.org/).
 
+[stash](https://hub.spigotmc.org/stash/projects/spigot/repos/craftbukkit/browse)
+
+This repository is not owned by SpigotMC, and is not supported by SpigotMC. Do not ask questions on their forums, etc.
+
 #### Index
 
 * [Bug Reporting](#bug-reporting)

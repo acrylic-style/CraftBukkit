@@ -126,7 +126,7 @@
          if (!this.getOnlineMode()) {
              DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
-@@ -125,7 +193,7 @@
+@@ -125,14 +193,14 @@
          if (!NameReferencingFileConverter.e(this)) {
              return false;
          } else {
@@ -134,8 +134,7 @@
 +            // this.a((PlayerList) (new DedicatedPlayerList(this, this.customRegistry, this.worldNBTStorage))); // CraftBukkit - moved up
              long i = SystemUtils.getMonotonicNanos();
  
-             this.c(dedicatedserverproperties.maxBuildHeight);
-@@ -133,7 +201,7 @@
+             TileEntitySkull.a(this.getUserCache());
              TileEntitySkull.a(this.getMinecraftSessionService());
              UserCache.a(this.getOnlineMode());
              DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getWorld());
@@ -144,7 +143,7 @@
              long j = SystemUtils.getMonotonicNanos() - i;
              String s = String.format(Locale.ROOT, "%.3fs", (double) j / 1.0E9D);
  
-@@ -150,6 +218,7 @@
+@@ -149,6 +217,7 @@
              if (dedicatedserverproperties.enableRcon) {
                  DedicatedServer.LOGGER.info("Starting remote control listener");
                  this.remoteControlListener = RemoteControlListener.a((IMinecraftServer) this);

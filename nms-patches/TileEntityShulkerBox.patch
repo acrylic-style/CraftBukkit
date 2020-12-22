@@ -56,12 +56,12 @@
 +            if (opened) return; // CraftBukkit - only animate if the ShulkerBox hasn't been forced open already by an API call.
              this.world.playBlockAction(this.position, this.getBlock().getBlock(), 1, this.viewingCount);
              if (this.viewingCount == 1) {
-                 this.world.playSound((EntityHuman) null, this.position, SoundEffects.SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
-@@ -186,6 +222,7 @@
+                 this.world.a((Entity) entityhuman, ckz.v, this.position);
+@@ -187,6 +223,7 @@
      public void closeContainer(EntityHuman entityhuman) {
          if (!entityhuman.isSpectator()) {
              --this.viewingCount;
 +            if (opened) return; // CraftBukkit - only animate if the ShulkerBox hasn't been forced open already by an API call.
              this.world.playBlockAction(this.position, this.getBlock().getBlock(), 1, this.viewingCount);
              if (this.viewingCount <= 0) {
-                 this.world.playSound((EntityHuman) null, this.position, SoundEffects.SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+                 this.world.a((Entity) entityhuman, ckz.w, this.position);

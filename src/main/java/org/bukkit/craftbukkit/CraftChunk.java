@@ -292,7 +292,7 @@ public class CraftChunk implements Chunk {
 
         if (includeBiome || includeBiomeTempRain) {
             WorldChunkManager wcm = world.getHandle().getChunkProvider().getChunkGenerator().getWorldChunkManager();
-            biome = new BiomeStorage(world.getHandle().r().b(IRegistry.aE), new ChunkCoordIntPair(x, z), wcm);
+            biome = new BiomeStorage(world.getHandle().t().b(IRegistry.aI), world.getHandle(), new ChunkCoordIntPair(x, z), wcm);
         }
 
         /* Fill with empty data */

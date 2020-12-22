@@ -126,7 +126,7 @@
  
 -    public void a(Consumer<Packet<?>> consumer) {
 +    public void a(Consumer<Packet<?>> consumer, EntityPlayer entityplayer) { // CraftBukkit - add player
-         if (this.tracker.cU()) {
+         if (this.tracker.cW()) {
 -            EntityTrackerEntry.LOGGER.warn("Fetching packet for removed entity {}", this.tracker);
 +            // CraftBukkit start - Remove useless error spam, just return
 +            // EntityTrackerEntry.LOGGER.warn("Fetching packet for removed entity " + this.tracker);

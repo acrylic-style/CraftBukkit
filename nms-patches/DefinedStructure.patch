@@ -18,7 +18,7 @@
              return !(entity instanceof EntityHuman);
          });
  
-@@ -431,11 +431,13 @@
+@@ -422,11 +422,13 @@
      }
  
      private static Optional<Entity> a(WorldAccess worldaccess, NBTTagCompound nbttagcompound) {
@@ -36,7 +36,7 @@
      }
  
      public BlockPosition a(EnumBlockRotation enumblockrotation) {
-@@ -870,7 +872,7 @@
+@@ -861,7 +863,7 @@
          public IBlockData a(int i) {
              IBlockData iblockdata = (IBlockData) this.b.fromId(i);
  

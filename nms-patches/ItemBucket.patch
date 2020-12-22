@@ -30,16 +30,16 @@
                          IFluidSource ifluidsource = (IFluidSource) iblockdata.getBlock();
                          ItemStack itemstack1 = ifluidsource.removeFluid(world, blockposition, iblockdata);
  
-@@ -39,7 +55,7 @@
-                             ifluidsource.c().ifPresent((soundeffect) -> {
+@@ -40,7 +56,7 @@
                                  entityhuman.playSound(soundeffect, 1.0F, 1.0F);
                              });
+                             world.a((Entity) entityhuman, ckz.m, blockposition);
 -                            ItemStack itemstack2 = ItemLiquidUtil.a(itemstack, entityhuman, itemstack1);
 +                            ItemStack itemstack2 = ItemLiquidUtil.a(itemstack, entityhuman, CraftItemStack.asNMSCopy(event.getItemStack())); // CraftBukkit
  
                              if (!world.isClientSide) {
                                  CriterionTriggers.j.a((EntityPlayer) entityhuman, itemstack1);
-@@ -54,7 +70,7 @@
+@@ -55,7 +71,7 @@
                      iblockdata = world.getType(blockposition);
                      BlockPosition blockposition2 = iblockdata.getBlock() instanceof IFluidContainer && this.fluidType == FluidTypes.WATER ? blockposition : blockposition1;
  
@@ -48,7 +48,7 @@
                          this.a(world, itemstack, blockposition2);
                          if (entityhuman instanceof EntityPlayer) {
                              CriterionTriggers.y.a((EntityPlayer) entityhuman, blockposition2, itemstack);
-@@ -81,6 +97,11 @@
+@@ -82,6 +98,11 @@
  
      @Override
      public boolean a(@Nullable EntityHuman entityhuman, World world, BlockPosition blockposition, @Nullable MovingObjectPositionBlock movingobjectpositionblock) {
@@ -60,7 +60,7 @@
          if (!(this.fluidType instanceof FluidTypeFlowing)) {
              return false;
          } else {
-@@ -90,8 +111,18 @@
+@@ -91,8 +112,18 @@
              boolean flag = iblockdata.a(this.fluidType);
              boolean flag1 = iblockdata.isAir() || flag || block instanceof IFluidContainer && ((IFluidContainer) block).canPlace(world, blockposition, iblockdata, this.fluidType);
  

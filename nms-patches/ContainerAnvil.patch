@@ -67,8 +67,8 @@
 +                this.levelCost.set(maximumRepairCost - 1); // CraftBukkit
              }
  
--            if (this.levelCost.get() >= 40 && !this.player.eU().canInstantlyBuild) {
-+            if (this.levelCost.get() >= maximumRepairCost && !this.player.eU().canInstantlyBuild) { // CraftBukkit
+-            if (this.levelCost.get() >= 40 && !this.player.eX().canInstantlyBuild) {
++            if (this.levelCost.get() >= maximumRepairCost && !this.player.eX().canInstantlyBuild) { // CraftBukkit
                  itemstack1 = ItemStack.b;
              }
  

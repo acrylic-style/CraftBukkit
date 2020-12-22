@@ -30,7 +30,7 @@
      @Override
      public void updateSize() {
          double d0 = this.locX();
-@@ -353,6 +369,21 @@
+@@ -355,6 +371,21 @@
              return false;
          } else {
              ItemStack itemstack2;
@@ -50,11 +50,11 @@
 +            }
 +            // CraftBukkit end
  
-             if (entityhuman.eU().canInstantlyBuild && itemstack1.isEmpty() && !itemstack.isEmpty()) {
+             if (entityhuman.eX().canInstantlyBuild && itemstack1.isEmpty() && !itemstack.isEmpty()) {
                  itemstack2 = itemstack.cloneItemStack();
-@@ -381,9 +412,19 @@
+@@ -383,9 +414,19 @@
      public boolean damageEntity(DamageSource damagesource, float f) {
-         if (!this.world.isClientSide && !this.cU()) {
+         if (!this.world.isClientSide && !this.cW()) {
              if (DamageSource.OUT_OF_WORLD.equals(damagesource)) {
 -                this.killEntity();
 +                // CraftBukkit start
@@ -74,7 +74,7 @@
                  if (damagesource.isExplosion()) {
                      this.g(damagesource);
                      this.killEntity();
-@@ -457,13 +498,13 @@
+@@ -461,14 +502,14 @@
      }
  
      private void f(DamageSource damagesource) {
@@ -85,12 +85,13 @@
  
      private void g(DamageSource damagesource) {
          this.F();
+         this.a(damagesource.getEntity(), ckz.k);
 -        this.d(damagesource);
 +        // this.d(damagesource); // CraftBukkit - moved down
  
          ItemStack itemstack;
          int i;
-@@ -471,7 +512,7 @@
+@@ -476,7 +517,7 @@
          for (i = 0; i < this.handItems.size(); ++i) {
              itemstack = (ItemStack) this.handItems.get(i);
              if (!itemstack.isEmpty()) {
@@ -99,7 +100,7 @@
                  this.handItems.set(i, ItemStack.b);
              }
          }
-@@ -479,10 +520,11 @@
+@@ -484,10 +525,11 @@
          for (i = 0; i < this.armorItems.size(); ++i) {
              itemstack = (ItemStack) this.armorItems.get(i);
              if (!itemstack.isEmpty()) {
@@ -112,7 +113,7 @@
  
      }
  
-@@ -741,4 +783,11 @@
+@@ -746,4 +788,11 @@
      private EntitySize s(boolean flag) {
          return flag ? EntityArmorStand.bk : (this.isBaby() ? EntityArmorStand.bl : this.getEntityType().m());
      }

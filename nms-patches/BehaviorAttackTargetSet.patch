@@ -12,7 +12,7 @@
  
  public class BehaviorAttackTargetSet<E extends EntityInsentient> extends Behavior<E> {
  
-@@ -33,13 +38,21 @@
+@@ -39,13 +44,21 @@
      }
  
      protected void a(WorldServer worldserver, E e0, long i) {

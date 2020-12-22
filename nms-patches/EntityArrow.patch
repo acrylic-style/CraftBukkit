@@ -30,7 +30,7 @@
 @@ -458,9 +469,23 @@
      @Override
      public void pickup(EntityHuman entityhuman) {
-         if (!this.world.isClientSide && (this.inGround || this.t()) && this.shake <= 0) {
+         if (!this.world.isClientSide && (this.inGround || this.s()) && this.shake <= 0) {
 +            // CraftBukkit start
 +            ItemStack itemstack = this.getItemStack();
 +            if (this.fromPlayer == PickupStatus.ALLOWED && !itemstack.isEmpty() && entityhuman.inventory.canHold(itemstack) > 0) {
@@ -44,9 +44,9 @@
 +                }
 +                itemstack = item.getItemStack();
 +            }
-             boolean flag = this.fromPlayer == EntityArrow.PickupStatus.ALLOWED || this.fromPlayer == EntityArrow.PickupStatus.CREATIVE_ONLY && entityhuman.eU().canInstantlyBuild || this.t() && this.getShooter().getUniqueID() == entityhuman.getUniqueID();
+             boolean flag = this.fromPlayer == EntityArrow.PickupStatus.ALLOWED || this.fromPlayer == EntityArrow.PickupStatus.CREATIVE_ONLY && entityhuman.eX().canInstantlyBuild || this.s() && this.getShooter().getUniqueID() == entityhuman.getUniqueID();
  
--            if (this.fromPlayer == EntityArrow.PickupStatus.ALLOWED && !entityhuman.eT().pickup(this.getItemStack())) {
+-            if (this.fromPlayer == EntityArrow.PickupStatus.ALLOWED && !entityhuman.eW().pickup(this.getItemStack())) {
 +            if (this.fromPlayer == EntityArrow.PickupStatus.ALLOWED && !entityhuman.inventory.pickup(itemstack)) {
 +                // CraftBukkit end
                  flag = false;

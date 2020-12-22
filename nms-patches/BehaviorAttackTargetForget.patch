@@ -12,7 +12,7 @@
  
  public class BehaviorAttackTargetForget<E extends EntityInsentient> extends Behavior<E> {
  
-@@ -54,6 +59,17 @@
+@@ -58,6 +63,17 @@
      }
  
      private void d(E e0) {

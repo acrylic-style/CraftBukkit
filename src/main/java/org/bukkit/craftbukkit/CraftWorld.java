@@ -924,7 +924,7 @@ public class CraftWorld implements World {
 
     @Override
     public Biome getBiome(int x, int y, int z) {
-        return CraftBlock.biomeBaseToBiome(getHandle().r().b(IRegistry.aE), this.world.getBiome(x >> 2, y >> 2, z >> 2));
+        return CraftBlock.biomeBaseToBiome(getHandle().t().b(IRegistry.aI), this.world.getBiome(x >> 2, y >> 2, z >> 2));
     }
 
     @Override
@@ -936,7 +936,7 @@ public class CraftWorld implements World {
 
     @Override
     public void setBiome(int x, int y, int z, Biome bio) {
-        BiomeBase bb = CraftBlock.biomeToBiomeBase(getHandle().r().b(IRegistry.aE), bio);
+        BiomeBase bb = CraftBlock.biomeToBiomeBase(getHandle().t().b(IRegistry.aI), bio);
         BlockPosition pos = new BlockPosition(x, 0, z);
         if (this.world.isLoaded(pos)) {
             net.minecraft.server.Chunk chunk = this.world.getChunkAtWorldCoords(pos);

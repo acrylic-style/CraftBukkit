@@ -26,8 +26,8 @@
 +                return;
 +            }
              entity.extinguish();
--            e(iblockdata, world, blockposition);
-+            // e(iblockdata, world, blockposition);
+-            d(iblockdata, world, blockposition);
++            // d(iblockdata, world, blockposition);
 +            // CraftBukkit end
          }
  

@@ -8,12 +8,13 @@
  public class ItemFishingRod extends Item implements ItemVanishable {
  
      public ItemFishingRod(Item.Info item_info) {
-@@ -21,12 +23,23 @@
- 
+@@ -22,13 +24,24 @@
              world.playSound((EntityHuman) null, entityhuman.locX(), entityhuman.locY(), entityhuman.locZ(), SoundEffects.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+             world.a((Entity) entityhuman, ckz.B, (Entity) entityhuman);
          } else {
 -            world.playSound((EntityHuman) null, entityhuman.locX(), entityhuman.locY(), entityhuman.locZ(), SoundEffects.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-+            // world.playSound((EntityHuman) null, entityhuman.locX(), entityhuman.locY(), entityhuman.locZ(), SoundEffects.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
++            // world.playSound((EntityHuman) null, entityhuman.locX(), entityhuman.locY(), entityhuman.locZ(), SoundEffects.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F)); // CraftBukkit
+             world.a((Entity) entityhuman, ckz.C, (Entity) entityhuman);
              if (!world.isClientSide) {
                  i = EnchantmentManager.c(itemstack);
                  int j = EnchantmentManager.b(itemstack);

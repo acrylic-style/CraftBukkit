@@ -282,7 +282,7 @@
                  } else {
                      return this.b.dispense(isourceblock, itemstack);
                  }
-@@ -334,13 +500,39 @@
+@@ -335,7 +501,7 @@
                  Block block = iblockdata.getBlock();
  
                  if (block instanceof IFluidSource) {
@@ -291,7 +291,8 @@
  
                      if (itemstack1.isEmpty()) {
                          return super.a(isourceblock, itemstack);
-                     } else {
+@@ -343,6 +509,32 @@
+                         worldserver.a((Entity) null, ckz.m, blockposition);
                          Item item = itemstack1.getItem();
  
 +                        // CraftBukkit start
@@ -323,7 +324,7 @@
                          itemstack.subtract(1);
                          if (itemstack.isEmpty()) {
                              return new ItemStack(item);
-@@ -362,13 +554,41 @@
+@@ -364,13 +556,41 @@
              protected ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
                  WorldServer worldserver = isourceblock.getWorld();
  
@@ -366,7 +367,7 @@
                  } else if (!BlockCampfire.h(iblockdata) && !BlockCandle.g(iblockdata) && !BlockCandleCake.g(iblockdata)) {
                      if (iblockdata.getBlock() instanceof BlockTNT) {
                          BlockTNT.a((World) worldserver, blockposition);
-@@ -393,12 +613,57 @@
+@@ -398,12 +618,57 @@
                  this.a(true);
                  WorldServer worldserver = isourceblock.getWorld();
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
@@ -424,7 +425,7 @@
  
                  return itemstack;
              }
-@@ -408,11 +673,40 @@
+@@ -413,11 +678,40 @@
              protected ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
                  WorldServer worldserver = isourceblock.getWorld();
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
@@ -467,7 +468,7 @@
                  return itemstack;
              }
          }));
-@@ -436,6 +730,30 @@
+@@ -441,6 +735,30 @@
                  EnumDirection enumdirection = (EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING);
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift(enumdirection);
  
@@ -498,7 +499,7 @@
                  if (worldserver.isEmpty(blockposition) && BlockWitherSkull.b((World) worldserver, blockposition, itemstack)) {
                      worldserver.setTypeAndData(blockposition, (IBlockData) Blocks.WITHER_SKELETON_SKULL.getBlockData().set(BlockSkull.a, enumdirection.n() == EnumDirection.EnumAxis.Y ? 0 : enumdirection.opposite().get2DRotationValue() * 4), 3);
                      TileEntity tileentity = worldserver.getTileEntity(blockposition);
-@@ -460,6 +778,30 @@
+@@ -465,6 +783,30 @@
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
                  BlockPumpkinCarved blockpumpkincarved = (BlockPumpkinCarved) Blocks.CARVED_PUMPKIN;
  
@@ -529,7 +530,7 @@
                  if (worldserver.isEmpty(blockposition) && blockpumpkincarved.a((IWorldReader) worldserver, blockposition)) {
                      if (!worldserver.isClientSide) {
                          worldserver.setTypeAndData(blockposition, blockpumpkincarved.getBlockData(), 3);
-@@ -507,6 +849,30 @@
+@@ -512,6 +854,30 @@
                  BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
                  IBlockData iblockdata = worldserver.getType(blockposition);
  

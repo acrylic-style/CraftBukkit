@@ -51,7 +51,7 @@
 +                this.heal(1.0F, RegainReason.REGEN); // CraftBukkit
              }
  
-             if (this.fD()) {
+             if (this.fG()) {
 @@ -717,6 +719,7 @@
          if (this.getOwnerUUID() != null) {
              nbttagcompound.a("Owner", this.getOwnerUUID());
@@ -89,5 +89,5 @@
 +        }
 +        // CraftBukkit end
          this.canSlide = true;
-         this.fm();
-         this.fF();
+         this.fp();
+         this.fI();

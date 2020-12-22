@@ -6,7 +6,7 @@
              if (BlockFireAbstract.a(world, blockposition, itemactioncontext.g())) {
 +                // CraftBukkit start - fire BlockIgniteEvent
 +                if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition, org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, itemactioncontext.getEntity()).isCancelled()) {
-+                    if (!itemactioncontext.getEntity().eU().canInstantlyBuild) {
++                    if (!itemactioncontext.getEntity().eX().canInstantlyBuild) {
 +                        itemactioncontext.getItemStack().subtract(1);
 +                    }
 +                    return EnumInteractionResult.PASS;
@@ -19,7 +19,7 @@
          } else {
 +            // CraftBukkit start - fire BlockIgniteEvent
 +            if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition, org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, itemactioncontext.getEntity()).isCancelled()) {
-+                if (!itemactioncontext.getEntity().eU().canInstantlyBuild) {
++                if (!itemactioncontext.getEntity().eX().canInstantlyBuild) {
 +                    itemactioncontext.getItemStack().subtract(1);
 +                }
 +                return EnumInteractionResult.PASS;

@@ -8,14 +8,14 @@
 +            this.sendAll(new PacketPlayOutScoreboardScore(ScoreboardServer.Action.CHANGE, scoreboardscore.getObjective().getName(), scoreboardscore.getPlayerName(), scoreboardscore.getScore()));
          }
  
-         this.b();
+         this.a();
 @@ -31,7 +31,7 @@
      @Override
      public void handlePlayerRemoved(String s) {
          super.handlePlayerRemoved(s);
 -        this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardScore(ScoreboardServer.Action.REMOVE, (String) null, s, 0));
 +        this.sendAll(new PacketPlayOutScoreboardScore(ScoreboardServer.Action.REMOVE, (String) null, s, 0));
-         this.b();
+         this.a();
      }
  
 @@ -39,7 +39,7 @@
@@ -26,7 +26,7 @@
 +            this.sendAll(new PacketPlayOutScoreboardScore(ScoreboardServer.Action.REMOVE, scoreboardobjective.getName(), s, 0));
          }
  
-         this.b();
+         this.a();
 @@ -52,7 +52,7 @@
          super.setDisplaySlot(i, scoreboardobjective);
          if (scoreboardobjective1 != scoreboardobjective && scoreboardobjective1 != null) {
@@ -51,7 +51,7 @@
          if (super.addPlayerToTeam(s, scoreboardteam)) {
 -            this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, Arrays.asList(s), 3));
 +            this.sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, Arrays.asList(s), 3));
-             this.b();
+             this.a();
              return true;
          } else {
 @@ -83,7 +83,7 @@
@@ -60,7 +60,7 @@
          super.removePlayerFromTeam(s, scoreboardteam);
 -        this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, Arrays.asList(s), 4));
 +        this.sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, Arrays.asList(s), 4));
-         this.b();
+         this.a();
      }
  
 @@ -97,7 +97,7 @@
@@ -71,14 +71,14 @@
 +            this.sendAll(new PacketPlayOutScoreboardObjective(scoreboardobjective, 2));
          }
  
-         this.b();
+         this.a();
 @@ -116,21 +116,21 @@
      @Override
      public void handleTeamAdded(ScoreboardTeam scoreboardteam) {
          super.handleTeamAdded(scoreboardteam);
 -        this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 0));
 +        this.sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 0));
-         this.b();
+         this.a();
      }
  
      @Override
@@ -86,7 +86,7 @@
          super.handleTeamChanged(scoreboardteam);
 -        this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 2));
 +        this.sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 2));
-         this.b();
+         this.a();
      }
  
      @Override
@@ -94,7 +94,7 @@
          super.handleTeamRemoved(scoreboardteam);
 -        this.a.getPlayerList().sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 1));
 +        this.sendAll(new PacketPlayOutScoreboardTeam(scoreboardteam, 1));
-         this.b();
+         this.a();
      }
  
 @@ -177,6 +177,7 @@
@@ -114,7 +114,7 @@
  
              while (iterator1.hasNext()) {
 @@ -244,6 +246,16 @@
-         return this.c().b(nbttagcompound);
+         return this.b().b(nbttagcompound);
      }
  
 +    // CraftBukkit start - Send to players

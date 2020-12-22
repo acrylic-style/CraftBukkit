@@ -100,7 +100,7 @@
      public void startOpen(EntityHuman entityhuman) {
          if (!entityhuman.isSpectator()) {
 +            int oldPower = Math.max(0, Math.min(15, this.getViewers().size())); // CraftBukkit - Get power before new viewer is added
-             this.g.c(this.getWorld(), this.getPosition(), this.getBlock());
+             this.g.a(entityhuman, this.getWorld(), this.getPosition(), this.getBlock());
 +            onOpen(entityhuman.getBukkitEntity());
 +            if (this.world == null) return; // CraftBukkit
 +
@@ -121,7 +121,7 @@
      public void closeContainer(EntityHuman entityhuman) {
          if (!entityhuman.isSpectator()) {
 +            int oldPower = Math.max(0, Math.min(15, this.getViewers().size())); // CraftBukkit - Get power before new viewer is added
-             this.g.d(this.getWorld(), this.getPosition(), this.getBlock());
+             this.g.b(entityhuman, this.getWorld(), this.getPosition(), this.getBlock());
 +            onClose(entityhuman.getBukkitEntity());
 +            // CraftBukkit start - Call redstone event
 +            if (this.getBlock().getBlock() == Blocks.TRAPPED_CHEST) {

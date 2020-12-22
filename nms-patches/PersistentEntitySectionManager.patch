@@ -9,24 +9,7 @@
  
  public class PersistentEntitySectionManager<T extends EntityAccess> implements AutoCloseable {
  
-@@ -34,14 +36,14 @@
-     private final cjo<T> f;
-     private final WorldEntityGetter<T> worldEntityGetter;
-     private final Long2ObjectMap<Visibility> h = new Long2ObjectOpenHashMap();
--    private final Long2ObjectMap<PersistentEntitySectionManager.b> i = new Long2ObjectOpenHashMap();
-+    private final Long2ObjectMap<b> i = new Long2ObjectOpenHashMap();
-     private final LongSet j = new LongOpenHashSet();
-     private final Queue<ChunkEntities<T>> k = Queues.newConcurrentLinkedQueue();
- 
-     public PersistentEntitySectionManager(Class<T> oclass, WorldCallback<T> worldcallback, EntityPersistentStorage<T> entitypersistentstorage) {
-         this.f = new cjo<>(oclass, this.h);
-         this.h.defaultReturnValue(Visibility.a);
--        this.i.defaultReturnValue(PersistentEntitySectionManager.b.a);
-+        this.i.defaultReturnValue(b.a);
-         this.worldCallback = worldcallback;
-         this.entityPersistentStorage = entitypersistentstorage;
-         this.worldEntityGetter = new WorldEntityGetterAdapter<>(this.entityLookup, this.f);
-@@ -68,14 +70,23 @@
+@@ -68,13 +70,22 @@
      }
  
      private boolean a(T t0, boolean flag) {
@@ -42,63 +25,14 @@
 +                return false;
 +            }
 +            // CraftBukkit end
-             long i = cjo.a(t0.getChunkCoordinates());
-             cjn<T> cjn = this.f.c(i);
+             long i = EntitySectionStorage.a(t0.getChunkCoordinates());
+             EntitySection<T> entitysection = this.f.c(i);
  
--            cjn.a((Object) t0);
--            t0.a(new PersistentEntitySectionManager.a(t0, i, cjn));
-+            cjn.a(t0); // CraftBukkit - decompile error
-+            t0.a(new a(t0, i, cjn));
+-            entitysection.a((Object) t0);
++            entitysection.a(t0); // CraftBukkit - decompile error
+             t0.a(new PersistentEntitySectionManager.a(t0, i, entitysection));
              if (!flag) {
                  this.worldCallback.f(t0);
-             }
-@@ -179,18 +190,18 @@
-     }
- 
-     private void a(long i) {
--        PersistentEntitySectionManager.b persistententitysectionmanager_b = (PersistentEntitySectionManager.b) this.i.get(i);
-+        b persistententitysectionmanager_b = (b) this.i.get(i);
- 
--        if (persistententitysectionmanager_b == PersistentEntitySectionManager.b.a) {
-+        if (persistententitysectionmanager_b == b.a) {
-             this.b(i);
-         }
- 
-     }
- 
-     private boolean a(long i, Consumer<T> consumer) {
--        PersistentEntitySectionManager.b persistententitysectionmanager_b = (PersistentEntitySectionManager.b) this.i.get(i);
-+        b persistententitysectionmanager_b = (b) this.i.get(i);
- 
--        if (persistententitysectionmanager_b == PersistentEntitySectionManager.b.b) {
-+        if (persistententitysectionmanager_b == b.b) {
-             return false;
-         } else {
-             List<T> list = (List) this.f.b(i).flatMap((cjn) -> {
-@@ -198,12 +209,12 @@
-             }).collect(Collectors.toList());
- 
-             if (list.isEmpty()) {
--                if (persistententitysectionmanager_b == PersistentEntitySectionManager.b.c) {
-+                if (persistententitysectionmanager_b == b.c) {
-                     this.entityPersistentStorage.a(new ChunkEntities<>(new ChunkCoordIntPair(i), ImmutableList.of()));
-                 }
- 
-                 return true;
--            } else if (persistententitysectionmanager_b == PersistentEntitySectionManager.b.a) {
-+            } else if (persistententitysectionmanager_b == b.a) {
-                 this.b(i);
-                 return false;
-             } else {
-@@ -215,7 +226,7 @@
-     }
- 
-     private void b(long i) {
--        this.i.put(i, PersistentEntitySectionManager.b.b);
-+        this.i.put(i, b.b);
-         ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i);
-         CompletableFuture completablefuture = this.entityPersistentStorage.a(chunkcoordintpair);
-         Queue queue = this.k;
 @@ -246,7 +257,7 @@
      }
  
@@ -108,29 +42,14 @@
              return this.h.get(i) != Visibility.a ? true : this.c(i);
          });
      }
-@@ -256,9 +267,9 @@
+@@ -256,7 +267,7 @@
  
          while ((chunkentities = (ChunkEntities) this.k.poll()) != null) {
              chunkentities.b().forEach((entityaccess) -> {
 -                this.a(entityaccess, true);
 +                this.a((T) entityaccess, true); // CraftBukkit - decompile error
              });
--            this.i.put(chunkentities.a().pair(), PersistentEntitySectionManager.b.c);
-+            this.i.put(chunkentities.a().pair(), b.c);
-         }
- 
-     }
-@@ -273,9 +284,9 @@
-         ObjectIterator objectiterator = Long2ObjectMaps.fastIterable(this.i).iterator();
- 
-         while (objectiterator.hasNext()) {
--            Entry<PersistentEntitySectionManager.b> entry = (Entry) objectiterator.next();
-+            Entry<b> entry = (Entry) objectiterator.next();
- 
--            if (entry.getValue() == PersistentEntitySectionManager.b.c) {
-+            if (entry.getValue() == b.c) {
-                 longset.add(entry.getLongKey());
-             }
+             this.i.put(chunkentities.a().pair(), PersistentEntitySectionManager.b.c);
          }
 @@ -284,7 +295,7 @@
      }
@@ -150,32 +69,30 @@
                  boolean flag = this.h.get(i) == Visibility.a;
  
                  return flag ? this.c(i) : this.a(i, (entityaccess) -> {
-@@ -329,8 +340,8 @@
+@@ -329,7 +340,7 @@
      public void a(Writer writer) throws IOException {
          CSVWriter csvwriter = CSVWriter.a().a("x").a("y").a("z").a("visibility").a("load_status").a("entity_count").a(writer);
  
 -        this.f.a().forEach((i) -> {
--            PersistentEntitySectionManager.b persistententitysectionmanager_b = (PersistentEntitySectionManager.b) this.i.get(i);
 +        this.f.a().forEach((java.util.function.LongConsumer) (i) -> { // CraftBukkit - decompile error
-+            b persistententitysectionmanager_b = (b) this.i.get(i);
+             PersistentEntitySectionManager.b persistententitysectionmanager_b = (PersistentEntitySectionManager.b) this.i.get(i);
  
              this.f.a(i).forEach((j) -> {
-                 cjn<T> cjn = this.f.d(j);
 @@ -358,7 +369,7 @@
-         private cjn<T> e;
+         private EntitySection<T> e;
  
-         private a(EntityAccess entityaccess, long i, cjn cjn) {
+         private a(EntityAccess entityaccess, long i, EntitySection entitysection) {
 -            this.c = entityaccess;
 +            this.c = (T) entityaccess; // CraftBukkit - decompile error
              this.d = i;
-             this.e = cjn;
+             this.e = entitysection;
          }
 @@ -378,7 +389,7 @@
                  PersistentEntitySectionManager.this.a(this.d, this.e);
-                 cjn<T> cjn = PersistentEntitySectionManager.this.f.c(i);
+                 EntitySection<T> entitysection = PersistentEntitySectionManager.this.f.c(i);
  
--                cjn.a((Object) this.c);
-+                cjn.a(this.c); // CraftBukkit - decompile error
-                 this.e = cjn;
+-                entitysection.a((Object) this.c);
++                entitysection.a( this.c); // CraftBukkit - decompile error
+                 this.e = entitysection;
                  this.d = i;
-                 this.a(visibility, cjn.c());
+                 this.a(visibility, entitysection.c());

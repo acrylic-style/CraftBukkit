@@ -29,12 +29,12 @@
 +                return EnumInteractionResult.SUCCESS;
 +            }
 +            // CraftBukkit end
-             this.e(iblockdata, world, blockposition);
+             this.d(iblockdata, world, blockposition);
              this.a(entityhuman, world, blockposition, true);
-             return EnumInteractionResult.a(world.isClientSide);
-@@ -120,6 +138,16 @@
+             world.a((Entity) entityhuman, ckz.t, blockposition);
+@@ -121,6 +139,16 @@
              if (this.v) {
-                 this.f(iblockdata, (World) worldserver, blockposition);
+                 this.e(iblockdata, (World) worldserver, blockposition);
              } else {
 +                // CraftBukkit start
 +                org.bukkit.block.Block block = worldserver.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
@@ -47,9 +47,9 @@
 +                }
 +                // CraftBukkit end
                  worldserver.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockButtonAbstract.POWERED, false), 3);
-                 this.g(iblockdata, worldserver, blockposition);
+                 this.f(iblockdata, (World) worldserver, blockposition);
                  this.a((EntityHuman) null, worldserver, blockposition, false);
-@@ -140,7 +168,44 @@
+@@ -142,11 +170,48 @@
          boolean flag = !list.isEmpty();
          boolean flag1 = (Boolean) iblockdata.get(BlockButtonAbstract.POWERED);
  
@@ -92,5 +92,10 @@
 +            }
 +            // CraftBukkit end
              world.setTypeAndData(blockposition, (IBlockData) iblockdata.set(BlockButtonAbstract.POWERED, flag), 3);
-             this.g(iblockdata, world, blockposition);
+             this.f(iblockdata, world, blockposition);
              this.a((EntityHuman) null, world, blockposition, flag);
+-            world.a((Entity) list.stream().findFirst().orElse((Object) null), flag ? ckz.t : ckz.u, blockposition);
++            world.a((Entity) list.stream().findFirst().orElse(null), flag ? ckz.t : ckz.u, blockposition); // CraftBukkit - decompile error
+         }
+ 
+         if (flag) {

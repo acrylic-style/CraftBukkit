@@ -21,7 +21,7 @@
          }
  
      }
-@@ -136,7 +141,11 @@
+@@ -137,7 +142,11 @@
      protected void a(MovingObjectPositionEntity movingobjectpositionentity) {
          super.a(movingobjectpositionentity);
          if (!this.world.isClientSide) {
@@ -34,10 +34,10 @@
          }
      }
  
-@@ -146,7 +155,11 @@
+@@ -147,7 +156,11 @@
  
          this.world.getType(blockposition).a(this.world, blockposition, (Entity) this);
-         if (!this.world.t_() && this.hasExplosions()) {
+         if (!this.world.g() && this.hasExplosions()) {
 -            this.explode();
 +            // CraftBukkit start
 +            if (!org.bukkit.craftbukkit.event.CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {
@@ -47,7 +47,7 @@
          }
  
          super.a(movingobjectpositionblock);
-@@ -172,7 +185,9 @@
+@@ -173,7 +186,9 @@
  
          if (f > 0.0F) {
              if (this.ridingEntity != null) {
@@ -57,7 +57,7 @@
              }
  
              double d0 = 5.0D;
-@@ -199,7 +214,9 @@
+@@ -200,7 +215,9 @@
                      if (flag) {
                          float f1 = f * (float) Math.sqrt((5.0D - (double) this.g((Entity) entityliving)) / 5.0D);
  

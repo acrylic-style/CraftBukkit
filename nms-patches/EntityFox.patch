@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/EntityFox.java
 +++ b/net/minecraft/server/EntityFox.java
 @@ -264,8 +264,8 @@
-     private List<UUID> fs() {
+     private List<UUID> fv() {
          List<UUID> list = Lists.newArrayList();
  
 -        list.add(((Optional) this.datawatcher.get(EntityFox.FIRST_TRUSTED_PLAYER)).orElse((Object) null));

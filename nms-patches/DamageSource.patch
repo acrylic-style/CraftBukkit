@@ -1,8 +1,8 @@
 --- a/net/minecraft/server/DamageSource.java
 +++ b/net/minecraft/server/DamageSource.java
-@@ -36,6 +36,18 @@
-     private boolean E;
-     private boolean F;
+@@ -38,6 +38,18 @@
+     private boolean G;
+     private boolean H;
      public final String translationIndex;
 +    // CraftBukkit start
 +    private boolean sweep;

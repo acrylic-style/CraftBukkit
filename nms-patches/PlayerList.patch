@@ -104,7 +104,7 @@
 +        entityplayer.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
          playerconnection.sendPacket(new PacketPlayOutCustomPayload(PacketPlayOutCustomPayload.a, (new PacketDataSerializer(Unpooled.buffer())).a(this.getServer().getServerModName())));
          playerconnection.sendPacket(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
-         playerconnection.sendPacket(new PacketPlayOutAbilities(entityplayer.eU()));
+         playerconnection.sendPacket(new PacketPlayOutAbilities(entityplayer.eX()));
 @@ -125,19 +166,61 @@
          } else {
              chatmessage = new ChatMessage("multiplayer.player.joined.renamed", new Object[]{entityplayer.getScoreboardDisplayName(), s});
@@ -171,7 +171,7 @@
 +        // CraftBukkit end
          this.a(entityplayer, worldserver1);
          if (!this.server.getResourcePack().isEmpty()) {
-             entityplayer.setResourcePack(this.server.getResourcePack(), this.server.getResourcePackHash(), this.server.aZ());
+             entityplayer.setResourcePack(this.server.getResourcePack(), this.server.getResourcePackHash(), this.server.aX());
 @@ -153,8 +236,11 @@
  
          if (nbttagcompound != null && nbttagcompound.hasKeyOfType("RootVehicle", 10)) {
@@ -373,9 +373,9 @@
 +            // return chatmessage;
 +            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(chatmessage));
          } else {
--            return this.players.size() >= this.maxPlayers && !this.f(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
-+            // return this.players.size() >= this.maxPlayers && !this.f(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
-+            if (this.players.size() >= this.maxPlayers && !this.f(gameprofile)) {
+-            return this.players.size() >= this.maxPlayers && !this.d(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
++            // return this.players.size() >= this.maxPlayers && !this.d(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
++            if (this.players.size() >= this.maxPlayers && !this.d(gameprofile)) {
 +                event.disallow(PlayerLoginEvent.Result.KICK_FULL, "The server is full");
 +            }
 +        }
@@ -522,7 +522,7 @@
 -        entityplayer1.playerConnection.sendPacket(new PacketPlayOutRespawn(entityplayer1.world.getDimensionManager(), entityplayer1.world.getDimensionKey(), BiomeManager.a(entityplayer1.getWorldServer().getSeed()), entityplayer1.playerInteractManager.getGameMode(), entityplayer1.playerInteractManager.c(), entityplayer1.getWorldServer().isDebugWorld(), entityplayer1.getWorldServer().isFlatWorld(), flag));
 -        entityplayer1.playerConnection.a(entityplayer1.locX(), entityplayer1.locY(), entityplayer1.locZ(), entityplayer1.yaw, entityplayer1.pitch);
 +        // entityplayer1.playerConnection.a(entityplayer1.locX(), entityplayer1.locY(), entityplayer1.locZ(), entityplayer1.yaw, entityplayer1.pitch);
-         entityplayer1.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(worldserver1.getSpawn(), worldserver1.v()));
+         entityplayer1.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(worldserver1.getSpawn(), worldserver1.x()));
          entityplayer1.playerConnection.sendPacket(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
          entityplayer1.playerConnection.sendPacket(new PacketPlayOutExperience(entityplayer1.exp, entityplayer1.expTotal, entityplayer1.expLevel));
          this.a(entityplayer1, worldserver1);
@@ -642,7 +642,7 @@
  
          entityplayer.playerConnection.sendPacket(new PacketPlayOutWorldBorder(worldborder, PacketPlayOutWorldBorder.EnumWorldBorderAction.INITIALIZE));
          entityplayer.playerConnection.sendPacket(new PacketPlayOutUpdateTime(worldserver.getTime(), worldserver.getDayTime(), worldserver.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)));
-         entityplayer.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(worldserver.getSpawn(), worldserver.v()));
+         entityplayer.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(worldserver.getSpawn(), worldserver.x()));
          if (worldserver.isRaining()) {
 -            entityplayer.playerConnection.sendPacket(new PacketPlayOutGameStateChange(PacketPlayOutGameStateChange.b, 0.0F));
 -            entityplayer.playerConnection.sendPacket(new PacketPlayOutGameStateChange(PacketPlayOutGameStateChange.h, worldserver.d(1.0F)));
@@ -663,7 +663,7 @@
 -        entityplayer.triggerHealthUpdate();
 +        // entityplayer.triggerHealthUpdate();
 +        entityplayer.getBukkitEntity().updateScaledHealth(); // CraftBukkit - Update scaled health on respawn and worldchange
-         entityplayer.playerConnection.sendPacket(new PacketPlayOutHeldItemSlot(entityplayer.eT().itemInHandIndex));
+         entityplayer.playerConnection.sendPacket(new PacketPlayOutHeldItemSlot(entityplayer.eW().itemInHandIndex));
 +        // CraftBukkit start - from GameRules
 +        int i = entityplayer.world.getGameRules().getBoolean(GameRules.REDUCED_DEBUG_INFO) ? 22 : 23;
 +        entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityStatus(entityplayer, (byte) i));
@@ -777,5 +777,5 @@
          }
 +        // CraftBukkit end
  
-         this.sendAll(new PacketPlayOutTags(this.server.getTagRegistry()));
+         this.sendAll(new PacketPlayOutTags(this.server.getTagRegistry().a((IRegistryCustom) this.s)));
          PacketPlayOutRecipeUpdate packetplayoutrecipeupdate = new PacketPlayOutRecipeUpdate(this.server.getCraftingManager().b());

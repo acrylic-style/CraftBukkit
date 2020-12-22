@@ -89,7 +89,7 @@
 +            }
 +            worldserver.addAllEntities(entitywitch, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING);
 +            // CraftBukkit end
-             this.fI();
+             this.fL();
              this.ab();
          } else {
 @@ -833,7 +855,7 @@

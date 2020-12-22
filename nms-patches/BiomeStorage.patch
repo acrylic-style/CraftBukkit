@@ -1,26 +1,30 @@
 --- a/net/minecraft/server/BiomeStorage.java
 +++ b/net/minecraft/server/BiomeStorage.java
-@@ -12,7 +12,7 @@
-     public static final int a = 1 << BiomeStorage.e + BiomeStorage.e + BiomeStorage.f;
-     public static final int b = (1 << BiomeStorage.e) - 1;
-     public static final int c = (1 << BiomeStorage.f) - 1;
--    private final Registry<BiomeBase> g;
-+    public final Registry<BiomeBase> g; // PAIL
-     private final BiomeBase[] h;
+@@ -10,7 +10,7 @@
+     private static final int c = MathHelper.e(16) - 2;
+     private static final int d = (1 << BiomeStorage.c) - 1;
+     public static final int a = 1 << BiomeStorage.c + BiomeStorage.c + DimensionManager.a - 2;
+-    private final Registry<BiomeBase> e;
++    public final Registry<BiomeBase> e; // PAIL
+     private final BiomeBase[] f;
+     private final int g;
+     private final int h;
+@@ -78,4 +78,18 @@
  
-     public BiomeStorage(Registry<BiomeBase> registry, BiomeBase[] abiomebase) {
-@@ -87,4 +87,14 @@
- 
-         return this.h[i1 << BiomeStorage.e + BiomeStorage.e | j1 << BiomeStorage.e | l];
+         return this.f[i1 << BiomeStorage.c + BiomeStorage.c | j1 << BiomeStorage.c | l];
      }
 +
 +    // CraftBukkit start
 +    public void setBiome(int i, int j, int k, BiomeBase biome) {
-+        int l = i & BiomeStorage.b;
-+        int i1 = MathHelper.clamp(j, 0, BiomeStorage.c);
-+        int j1 = k & BiomeStorage.b;
++        int e = (int) Math.round(Math.log(16.0D) / Math.log(2.0D)) - 2;
++        int f = (int) Math.round(Math.log(256.0D) / Math.log(2.0D)) - 2;
++        int b = (1 << e) - 1;
++        int c = (1 << f) - 1;
++        int l = i & b;
++        int i1 = MathHelper.clamp(j, 0, c);
++        int j1 = k & b;
 +
-+        this.h[i1 << BiomeStorage.e + BiomeStorage.e | j1 << BiomeStorage.e | l] = biome;
++        this.f[i1 << e + e | j1 << e | l] = biome;
 +    }
 +    // CraftBukkit end
  }

@@ -9,7 +9,7 @@
  public class BlockDoor extends Block {
  
      public static final BlockStateDirection FACING = BlockFacingHorizontal.FACING;
-@@ -157,9 +159,24 @@
+@@ -159,9 +161,24 @@
  
      @Override
      public void doPhysics(IBlockData iblockdata, World world, BlockPosition blockposition, Block block, BlockPosition blockposition1, boolean flag) {
@@ -35,4 +35,4 @@
 +            // CraftBukkit end
              if (flag1 != (Boolean) iblockdata.get(BlockDoor.OPEN)) {
                  this.a(world, blockposition, flag1);
-             }
+                 world.a(flag1 ? ckz.n : ckz.o, blockposition);

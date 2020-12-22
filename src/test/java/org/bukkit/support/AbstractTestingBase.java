@@ -10,6 +10,7 @@ import com.mojang.bridge.game.PackType;
 import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.DispenserRegistry;
 import net.minecraft.server.EnumResourcePackType;
+import net.minecraft.server.IRegistryCustom;
 import net.minecraft.server.LootPredicateManager;
 import net.minecraft.server.LootTableRegistry;
 import net.minecraft.server.ResourceManager;
@@ -42,7 +43,7 @@ public abstract class AbstractTestingBase {
         // Set up resource manager
         ResourceManager resourceManager = new ResourceManager(EnumResourcePackType.SERVER_DATA);
         // add tags and loot tables for unit tests
-        resourceManager.a(TAG_REGISTRY = new TagRegistry());
+        resourceManager.a(TAG_REGISTRY = new TagRegistry(new IRegistryCustom.Dimension()));
         resourceManager.a(LOOT_TABLE_REGISTRY = new LootTableRegistry(new LootPredicateManager()));
         // Register vanilla pack
         resourceManager.a(MoreExecutors.directExecutor(), MoreExecutors.directExecutor(), Collections.singletonList(new ResourcePackVanilla(new ResourcePackInfo(new ChatComponentText("resourcePack.broken_assets"), SharedConstants.getGameVersion().getPackVersion(PackType.RESOURCE)), "minecraft")), CompletableFuture.completedFuture(Unit.INSTANCE)).join();

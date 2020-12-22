@@ -136,7 +136,7 @@
 +                    world.getServer().getPluginManager().callEvent(event);
 +
 +                    int level = event.getExpLevelCost();
-+                    if (event.isCancelled() || (level > entityhuman.expLevel && !entityhuman.eU().canInstantlyBuild) || event.getEnchantsToAdd().isEmpty()) {
++                    if (event.isCancelled() || (level > entityhuman.expLevel && !entityhuman.eX().canInstantlyBuild) || event.getEnchantsToAdd().isEmpty()) {
 +                        return;
 +                    }
  
@@ -175,7 +175,7 @@
 +                    // CraftBukkit end
 +
 +                    // CraftBukkit - TODO: let plugins change this
-                     if (!entityhuman.eU().canInstantlyBuild) {
+                     if (!entityhuman.eX().canInstantlyBuild) {
                          itemstack1.subtract(j);
                          if (itemstack1.isEmpty()) {
 @@ -238,6 +330,7 @@

@@ -1,8 +1,8 @@
 --- a/net/minecraft/server/GeneratorAccess.java
 +++ b/net/minecraft/server/GeneratorAccess.java
-@@ -46,4 +46,6 @@
-     default void triggerEffect(int i, BlockPosition blockposition, int j) {
-         this.a((EntityHuman) null, i, blockposition, j);
+@@ -52,4 +52,6 @@
+     default void a(@Nullable Entity entity, ckz ckz, Entity entity1) {
+         this.a(entity, ckz, entity1.getChunkCoordinates());
      }
 +
 +    WorldServer getMinecraftWorld(); // CraftBukkit

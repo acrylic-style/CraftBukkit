@@ -6,7 +6,7 @@
  
 +import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 +
- public class BlockCommand extends BlockTileEntity implements byl {
+ public class BlockCommand extends BlockTileEntity implements BlockGameMaster {
  
      private static final Logger LOGGER = LogManager.getLogger();
 @@ -34,6 +36,15 @@

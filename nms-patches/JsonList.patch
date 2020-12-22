@@ -10,7 +10,7 @@
  
      public void remove(K k0) {
 @@ -72,6 +72,12 @@
-         return (String[]) this.d.keySet().toArray(new String[this.d.size()]);
+         return (String[]) this.d.keySet().toArray(new String[0]);
      }
  
 +    // CraftBukkit start

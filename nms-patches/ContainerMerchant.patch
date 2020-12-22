@@ -50,5 +50,5 @@
 -            if (entityhuman.isAlive() && (!(entityhuman instanceof EntityPlayer) || !((EntityPlayer) entityhuman).q())) {
 +            if (entityhuman.isAlive() && (!(entityhuman instanceof EntityPlayer) || !((EntityPlayer) entityhuman).playerConnection.isDisconnected())) {
                  if (entityhuman instanceof EntityPlayer) {
-                     entityhuman.eT().f(this.inventoryMerchant.splitWithoutUpdate(0));
-                     entityhuman.eT().f(this.inventoryMerchant.splitWithoutUpdate(1));
+                     entityhuman.eW().f(this.inventoryMerchant.splitWithoutUpdate(0));
+                     entityhuman.eW().f(this.inventoryMerchant.splitWithoutUpdate(1));

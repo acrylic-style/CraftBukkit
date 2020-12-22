@@ -9,7 +9,7 @@
  public abstract class PathfinderGoalTarget extends PathfinderGoal {
  
 @@ -59,7 +60,7 @@
-                     if (entityliving instanceof EntityHuman && ((EntityHuman) entityliving).eU().isInvulnerable) {
+                     if (!entityliving.dz()) {
                          return false;
                      } else {
 -                        this.e.setGoalTarget(entityliving);

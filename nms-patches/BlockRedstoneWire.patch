@@ -13,8 +13,8 @@
      private static final Map<EnumDirection, VoxelShape> h = Maps.newEnumMap(ImmutableMap.of(EnumDirection.NORTH, Block.a(3.0D, 0.0D, 0.0D, 13.0D, 1.0D, 13.0D), EnumDirection.SOUTH, Block.a(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 16.0D), EnumDirection.EAST, Block.a(3.0D, 0.0D, 3.0D, 16.0D, 1.0D, 13.0D), EnumDirection.WEST, Block.a(0.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D)));
      private static final Map<EnumDirection, VoxelShape> i = Maps.newEnumMap(ImmutableMap.of(EnumDirection.NORTH, VoxelShapes.a((VoxelShape) BlockRedstoneWire.h.get(EnumDirection.NORTH), Block.a(3.0D, 0.0D, 0.0D, 13.0D, 16.0D, 1.0D)), EnumDirection.SOUTH, VoxelShapes.a((VoxelShape) BlockRedstoneWire.h.get(EnumDirection.SOUTH), Block.a(3.0D, 0.0D, 15.0D, 13.0D, 16.0D, 16.0D)), EnumDirection.EAST, VoxelShapes.a((VoxelShape) BlockRedstoneWire.h.get(EnumDirection.EAST), Block.a(15.0D, 0.0D, 3.0D, 16.0D, 16.0D, 13.0D)), EnumDirection.WEST, VoxelShapes.a((VoxelShape) BlockRedstoneWire.h.get(EnumDirection.WEST), Block.a(0.0D, 0.0D, 3.0D, 1.0D, 16.0D, 13.0D))));
      private static final Map<IBlockData, VoxelShape> j = Maps.newHashMap();
--    private static final Vector3fa[] k = (Vector3fa[]) SystemUtils.a((Object) (new Vector3fa[16]), (avector3fa) -> {
-+    private static final Vector3fa[] k = (Vector3fa[]) SystemUtils.a( (new Vector3fa[16]), (avector3fa) -> { // CraftBukkit - decompile error
+-    private static final Vec3D[] k = (Vec3D[]) SystemUtils.a((Object) (new Vec3D[16]), (avec3d) -> {
++    private static final Vec3D[] k = (Vec3D[]) SystemUtils.a( (new Vec3D[16]), (avec3d) -> { // CraftBukkit - decompile error
          for (int i = 0; i <= 15; ++i) {
              float f = (float) i / 15.0F;
              float f1 = f * 0.6F + (f > 0.0F ? 0.4F : 0.3F);

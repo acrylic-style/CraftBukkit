@@ -8,17 +8,17 @@
 +    public static final EntityTypes<EntityAreaEffectCloud> AREA_EFFECT_CLOUD = a("area_effect_cloud", EntityTypes.Builder.a(EntityAreaEffectCloud::new, EnumCreatureType.MISC).c().a(6.0F, 0.5F).trackingRange(10).updateInterval(10)); // CraftBukkit - SPIGOT-3729: track area effect clouds
      public static final EntityTypes<EntityArmorStand> ARMOR_STAND = a("armor_stand", EntityTypes.Builder.a(EntityArmorStand::new, EnumCreatureType.MISC).a(0.5F, 1.975F).trackingRange(10));
      public static final EntityTypes<EntityTippedArrow> ARROW = a("arrow", EntityTypes.Builder.a(EntityTippedArrow::new, EnumCreatureType.MISC).a(0.5F, 0.5F).trackingRange(4).updateInterval(20));
-     public static final EntityTypes<EntityBat> BAT = a("bat", EntityTypes.Builder.a(EntityBat::new, EnumCreatureType.AMBIENT).a(0.5F, 0.9F).trackingRange(5));
-@@ -141,7 +141,7 @@
-     private MinecraftKey bq;
-     private final EntitySize br;
+     public static final EntityTypes<Axolotl> AXOLOTL = a("axolotl", EntityTypes.Builder.a(Axolotl::new, EnumCreatureType.WATER_CREATURE).a(0.75F, 0.42F).trackingRange(10));
+@@ -142,7 +142,7 @@
+     private MinecraftKey br;
+     private final EntitySize bs;
  
 -    private static <T extends Entity> EntityTypes<T> a(String s, EntityTypes.Builder<T> entitytypes_builder) {
 +    private static <T extends Entity> EntityTypes<T> a(String s, EntityTypes.Builder entitytypes_builder) { // CraftBukkit - decompile error
          return (EntityTypes) IRegistry.a((IRegistry) IRegistry.ENTITY_TYPE, s, (Object) entitytypes_builder.a(s));
      }
  
-@@ -173,10 +173,18 @@
+@@ -174,10 +174,18 @@
  
      @Nullable
      public T spawnCreature(WorldServer worldserver, @Nullable NBTTagCompound nbttagcompound, @Nullable IChatBaseComponent ichatbasecomponent, @Nullable EntityHuman entityhuman, BlockPosition blockposition, EnumMobSpawn enummobspawn, boolean flag, boolean flag1) {
@@ -38,7 +38,7 @@
          }
  
          return t0;
-@@ -212,7 +220,7 @@
+@@ -213,7 +221,7 @@
                  t0.setCustomName(ichatbasecomponent);
              }
  
@@ -47,7 +47,7 @@
              return t0;
          }
      }
-@@ -355,7 +363,7 @@
+@@ -356,7 +364,7 @@
              }
  
              return entity;
@@ -56,7 +56,7 @@
      }
  
      public static Stream<Entity> a(final List<? extends NBTBase> list, final World world) {
-@@ -412,7 +420,7 @@
+@@ -413,7 +421,7 @@
  
      @Nullable
      public T a(Entity entity) {
@@ -65,7 +65,7 @@
      }
  
      @Override
-@@ -444,7 +452,7 @@
+@@ -445,7 +453,7 @@
              this.g = enumcreaturetype == EnumCreatureType.CREATURE || enumcreaturetype == EnumCreatureType.MISC;
          }
  

@@ -47,7 +47,7 @@
              ProtoChunk protochunk1 = (ProtoChunk) object;
  
 @@ -245,8 +257,9 @@
-         boolean flag = ichunkaccess.t();
+         boolean flag = ichunkaccess.s();
  
          for (int i = lightenginethreaded.c(); i < lightenginethreaded.d(); ++i) {
 +            int finalI = i; // CraftBukkit - decompile errors

@@ -62,7 +62,7 @@
 +        this.ticksPerWaterSpawns = this.getServer().getTicksPerWaterSpawns(); // CraftBukkit
 +        this.ticksPerWaterAmbientSpawns = this.getServer().getTicksPerWaterAmbientSpawns(); // CraftBukkit
 +        this.ticksPerAmbientSpawns = this.getServer().getTicksPerAmbientSpawns(); // CraftBukkit
-+        this.typeKey = (ResourceKey) this.getServer().getHandle().getServer().customRegistry.a().c(dimensionmanager).orElseThrow(() -> {
++        this.typeKey = (ResourceKey) this.getServer().getHandle().getServer().customRegistry.b(IRegistry.P).c(dimensionmanager).orElseThrow(() -> {
 +            return new IllegalStateException("Unregistered dimension type: " + dimensionmanager);
 +        });
 +        // CraftBukkit end
@@ -238,7 +238,7 @@
      public void a(BlockPosition blockposition, IBlockData iblockdata, IBlockData iblockdata1) {}
  
      @Override
-@@ -257,6 +419,17 @@
+@@ -263,6 +425,17 @@
              IBlockData iblockdata = this.getType(blockposition);
  
              try {
@@ -256,7 +256,7 @@
                  iblockdata.doPhysics(this, blockposition, block, blockposition1, false);
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.a(throwable, "Exception while updating neighbours");
-@@ -299,6 +472,14 @@
+@@ -305,6 +478,14 @@
  
      @Override
      public IBlockData getType(BlockPosition blockposition) {
@@ -271,7 +271,7 @@
          if (this.isOutsideWorld(blockposition)) {
              return Blocks.VOID_AIR.getBlockData();
          } else {
-@@ -412,6 +593,13 @@
+@@ -418,6 +599,13 @@
      @Nullable
      @Override
      public TileEntity getTileEntity(BlockPosition blockposition) {
@@ -285,7 +285,7 @@
          return this.isOutsideWorld(blockposition) ? null : (!this.isClientSide && Thread.currentThread() != this.serverThread ? null : this.getChunkAtWorldCoords(blockposition).a(blockposition, Chunk.b.a));
      }
  
-@@ -522,7 +710,7 @@
+@@ -528,7 +716,7 @@
  
                  for (int j = 0; j < i; ++j) {
                      EntityComplexPart entitycomplexpart = aentitycomplexpart[j];
@@ -294,11 +294,10 @@
  
                      if (t0 != null && predicate.test(t0)) {
                          list.add(t0);
-@@ -830,4 +1018,15 @@
-     }
+@@ -827,6 +1015,17 @@
  
      protected abstract WorldEntityGetter<Entity> getEntities();
-+
+ 
 +    // CraftBukkit start
 +    public void setTileEntity(BlockPosition blockposition, TileEntity tileentity) {
 +        tileentity.position = blockposition;
@@ -309,4 +308,7 @@
 +        setTileEntity(tileentity.position, tileentity);
 +    }
 +    // CraftBukkit end
- }
++
+     protected void a(@Nullable Entity entity, ckz ckz, BlockPosition blockposition, int i) {
+         int j = SectionPosition.a(blockposition.getX() - i);
+         int k = SectionPosition.a(blockposition.getZ() - i);

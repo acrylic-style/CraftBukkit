@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/PlayerChunkMap.java
 +++ b/net/minecraft/server/PlayerChunkMap.java
-@@ -43,6 +43,7 @@
+@@ -44,6 +44,7 @@
  import org.apache.commons.lang3.mutable.MutableBoolean;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -8,7 +8,7 @@
  
  public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
  
-@@ -75,6 +76,31 @@
+@@ -76,6 +77,31 @@
      private final Queue<Runnable> unloadQueueTasks;
      private int viewDistance;
  
@@ -40,7 +40,7 @@
      public PlayerChunkMap(WorldServer worldserver, Convertable.ConversionSession convertable_conversionsession, DataFixer datafixer, DefinedStructureManager definedstructuremanager, Executor executor, IAsyncTaskHandler<Runnable> iasynctaskhandler, ILightAccess ilightaccess, ChunkGenerator chunkgenerator, WorldLoadListener worldloadlistener, ChunkStatusUpdateListener chunkstatusupdatelistener, Supplier<WorldPersistentData> supplier, int i, boolean flag) {
          super(new File(convertable_conversionsession.a(worldserver.getDimensionKey()), "region"), datafixer, flag);
          this.visibleChunks = this.updatingChunks.clone();
-@@ -196,9 +222,12 @@
+@@ -197,9 +223,12 @@
  
          return completablefuture1.thenApply((list1) -> {
              List<IChunkAccess> list2 = Lists.newArrayList();
@@ -55,7 +55,7 @@
                  final Either<IChunkAccess, PlayerChunk.Failure> either = (Either) iterator.next();
                  Optional<IChunkAccess> optional = either.left();
  
-@@ -301,7 +330,7 @@
+@@ -302,7 +331,7 @@
              PlayerChunkMap.LOGGER.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.x.getName());
          } else {
              this.visibleChunks.values().stream().filter(PlayerChunk::hasBeenLoaded).forEach((playerchunk) -> {
@@ -64,7 +64,7 @@
  
                  if (ichunkaccess instanceof ProtoChunkExtension || ichunkaccess instanceof Chunk) {
                      this.saveChunk(ichunkaccess);
-@@ -312,7 +341,6 @@
+@@ -313,7 +342,6 @@
          }
  
      }
@@ -72,7 +72,7 @@
      protected void unloadChunks(BooleanSupplier booleansupplier) {
          GameProfilerFiller gameprofilerfiller = this.world.getMethodProfiler();
  
-@@ -351,7 +379,7 @@
+@@ -352,7 +380,7 @@
  
      private void a(long i, PlayerChunk playerchunk) {
          CompletableFuture<IChunkAccess> completablefuture = playerchunk.getChunkSave();
@@ -81,7 +81,7 @@
              CompletableFuture<IChunkAccess> completablefuture1 = playerchunk.getChunkSave();
  
              if (completablefuture1 != completablefuture) {
-@@ -762,7 +790,8 @@
+@@ -763,7 +791,8 @@
                  return ichunkaccess instanceof Chunk ? Optional.of((Chunk) ichunkaccess) : Optional.empty();
              });
  
@@ -91,7 +91,7 @@
                  return chunk.getTileEntities().size();
              }).orElse(0));
          }
-@@ -771,7 +800,7 @@
+@@ -772,7 +801,7 @@
  
      private static String a(CompletableFuture<Either<Chunk, PlayerChunk.Failure>> completablefuture) {
          try {
@@ -100,7 +100,7 @@
  
              return either != null ? (String) either.map((chunk) -> {
                  return "done";
-@@ -789,7 +818,7 @@
+@@ -790,7 +819,7 @@
      private NBTTagCompound readChunkData(ChunkCoordIntPair chunkcoordintpair) throws IOException {
          NBTTagCompound nbttagcompound = this.read(chunkcoordintpair);
  
@@ -109,7 +109,7 @@
      }
  
      boolean isOutsideOfRange(ChunkCoordIntPair chunkcoordintpair) {
-@@ -1125,12 +1154,20 @@
+@@ -1126,12 +1155,20 @@
          public final Set<EntityPlayerHolder> trackedPlayers = Sets.newIdentityHashSet();
  
          public EntityTracker(Entity entity, int i, int j, boolean flag) {
@@ -131,7 +131,7 @@
          public boolean equals(Object object) {
              return object instanceof PlayerChunkMap.EntityTracker ? ((PlayerChunkMap.EntityTracker) object).tracker.getId() == this.tracker.getId() : false;
          }
-@@ -1178,10 +1215,20 @@
+@@ -1179,10 +1216,20 @@
  
          public void updatePlayer(EntityPlayer entityplayer) {
              if (entityplayer != this.tracker) {

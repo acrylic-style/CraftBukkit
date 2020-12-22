@@ -32,7 +32,7 @@
 +        } else if (s == BiomeDecoratorGroups.HUGE_BROWN_MUSHROOM) {
 +            BlockSapling.treeType = org.bukkit.TreeType.BROWN_MUSHROOM;
 +        }
-+        if (s.a(worldserver, worldserver.getChunkProvider().getChunkGenerator(), random, blockposition)) {
++        if (s.a(worldserver, ((ChunkProviderServer) worldserver.getChunkProvider()).getChunkGenerator(), random, blockposition)) {
 +            // CraftBukkit end
              return true;
          } else {

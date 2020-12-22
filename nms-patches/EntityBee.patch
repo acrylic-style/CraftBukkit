@@ -53,7 +53,7 @@
 +                        if (flag && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(EntityBee.this, blockposition, iblockdata.set(blockstateinteger, (Integer) iblockdata.get(blockstateinteger) + 1)).isCancelled()) { // Spigot
                              EntityBee.this.world.triggerEffect(2005, blockposition, 0);
                              EntityBee.this.world.setTypeUpdate(blockposition, (IBlockData) iblockdata.set(blockstateinteger, (Integer) iblockdata.get(blockstateinteger) + 1));
-                             EntityBee.this.fA();
+                             EntityBee.this.fD();
 @@ -660,7 +664,7 @@
      class i extends EntityBee.a {
  

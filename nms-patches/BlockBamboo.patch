@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/BlockBamboo.java
 +++ b/net/minecraft/server/BlockBamboo.java
 @@ -170,14 +170,18 @@
-         BlockPosition blockposition1 = blockposition.down(2);
+         BlockPosition blockposition1 = blockposition.m(2);
          IBlockData iblockdata2 = world.getType(blockposition1);
          BlockPropertyBambooSize blockpropertybamboosize = BlockPropertyBambooSize.NONE;
 +        boolean shouldUpdateOthers = false; // CraftBukkit

@@ -82,7 +82,7 @@
 @@ -80,6 +98,24 @@
              if (this.e++ == 100) {
                  this.e = 0;
-                 if (!this.cU() && !this.survives()) {
+                 if (!this.cW() && !this.survives()) {
 +                    // CraftBukkit start - fire break events
 +                    Material material = this.world.getType(this.getChunkCoordinates()).getMaterial();
 +                    HangingBreakEvent.RemoveCause cause;
@@ -107,7 +107,7 @@
 @@ -143,6 +179,22 @@
              return false;
          } else {
-             if (!this.cU() && !this.world.isClientSide) {
+             if (!this.cW() && !this.world.isClientSide) {
 +                // CraftBukkit start - fire break events
 +                Entity damager = (damagesource instanceof EntityDamageSourceIndirect) ? ((EntityDamageSourceIndirect) damagesource).getProximateDamageSource() : damagesource.getEntity();
 +                HangingBreakEvent event;
@@ -126,11 +126,11 @@
 +
                  this.killEntity();
                  this.velocityChanged();
-                 this.a(damagesource.k());
+                 this.a(damagesource.getEntity());
 @@ -155,6 +207,18 @@
      @Override
      public void move(EnumMoveType enummovetype, Vec3D vec3d) {
-         if (!this.world.isClientSide && !this.cU() && vec3d.g() > 0.0D) {
+         if (!this.world.isClientSide && !this.cW() && vec3d.g() > 0.0D) {
 +            if (this.dead != null) return; // CraftBukkit
 +
 +            // CraftBukkit start - fire break events
@@ -150,8 +150,8 @@
  
      @Override
      public void i(double d0, double d1, double d2) {
--        if (!this.world.isClientSide && !this.cU() && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) {
-+        if (false && !this.world.isClientSide && !this.cU() && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) { // CraftBukkit - not needed
+-        if (!this.world.isClientSide && !this.cW() && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) {
++        if (false && !this.world.isClientSide && !this.cW() && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) { // CraftBukkit - not needed
              this.killEntity();
              this.a((Entity) null);
          }

@@ -98,7 +98,7 @@
          BlockPosition blockposition = itemactioncontext.getClickPosition();
          ShapeDetectorBlock shapedetectorblock = new ShapeDetectorBlock(itemactioncontext.getWorld(), blockposition, false);
 @@ -129,12 +166,153 @@
-         if (entityhuman != null && !entityhuman.eU().mayBuild && !this.b(itemactioncontext.getWorld().p(), shapedetectorblock)) {
+         if (entityhuman != null && !entityhuman.eX().mayBuild && !this.b(itemactioncontext.getWorld().r(), shapedetectorblock)) {
              return EnumInteractionResult.PASS;
          } else {
 +            // CraftBukkit start - handle all block place event logic here

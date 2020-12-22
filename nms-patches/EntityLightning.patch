@@ -33,9 +33,9 @@
 +            }
 +            // CraftBukkit end
              this.world.playSound((EntityHuman) null, this.locX(), this.locY(), this.locZ(), SoundEffects.LIGHTNING_BOLT_IMPACT, SoundCategory.WEATHER, 2.0F, 0.5F + this.random.nextFloat() * 0.2F);
+             this.a(ckz.H);
          }
- 
-@@ -72,7 +91,7 @@
+@@ -73,7 +92,7 @@
              }
          }
  
@@ -44,7 +44,7 @@
              if (!(this.world instanceof WorldServer)) {
                  this.world.c(2);
              } else if (!this.isEffect) {
-@@ -100,7 +119,11 @@
+@@ -101,7 +120,11 @@
              IBlockData iblockdata = BlockFireAbstract.a((IBlockAccess) this.world, blockposition);
  
              if (this.world.getType(blockposition).isAir() && iblockdata.canPlace(this.world, blockposition)) {
@@ -57,7 +57,7 @@
              }
  
              for (int j = 0; j < i; ++j) {
-@@ -108,7 +131,11 @@
+@@ -109,7 +132,11 @@
  
                  iblockdata = BlockFireAbstract.a((IBlockAccess) this.world, blockposition1);
                  if (this.world.getType(blockposition1).isAir() && iblockdata.canPlace(this.world, blockposition1)) {

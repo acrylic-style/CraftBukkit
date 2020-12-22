@@ -9,15 +9,15 @@
      }
  
      @Override
-@@ -52,6 +52,7 @@
- 
+@@ -53,6 +53,7 @@
+     @Override
      public void setFromBucket(boolean flag) {
          this.datawatcher.set(EntityFish.FROM_BUCKET, flag);
 +        this.persistent = this.isPersistent(); // CraftBukkit - SPIGOT-4106 update persistence
      }
  
      @Override
-@@ -71,7 +72,7 @@
+@@ -72,7 +73,7 @@
          super.initPathfinder();
          this.goalSelector.a(0, new PathfinderGoalPanic(this, 1.25D));
          PathfinderGoalSelector pathfindergoalselector = this.goalSelector;

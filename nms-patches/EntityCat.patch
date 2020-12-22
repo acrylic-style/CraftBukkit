@@ -12,7 +12,7 @@
 @@ -341,7 +341,7 @@
                  }
              } else if (this.k(itemstack)) {
-                 this.a(entityhuman, itemstack);
+                 this.a(entityhuman, enumhand, itemstack);
 -                if (this.random.nextInt(3) == 0) {
 +                if (this.random.nextInt(3) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) { // CraftBukkit
                      this.tame(entityhuman);

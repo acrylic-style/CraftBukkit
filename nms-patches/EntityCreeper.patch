@@ -47,7 +47,7 @@
 +            if (!event.isCancelled()) {
 +                this.killed = true;
 +                this.world.createExplosion(this, this.locX(), this.locY(), this.locZ(), event.getRadius(), event.getFire(), explosion_effect);
-+                this.killEntity();
++                this.ab();
 +                this.createEffectCloud();
 +            } else {
 +                fuseTicks = 0;

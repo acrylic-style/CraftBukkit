@@ -10,5 +10,5 @@
 +                        }
 +                        // CraftBukkit end
                          world.addEntity(entityendercrystal);
+                         world.a((Entity) itemactioncontext.getEntity(), ckz.j, blockposition1);
                          EnderDragonBattle enderdragonbattle = ((WorldServer) world).getDragonBattle();
- 

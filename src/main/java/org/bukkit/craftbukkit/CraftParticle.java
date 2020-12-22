@@ -12,6 +12,7 @@ import net.minecraft.server.ParticleParamBlock;
 import net.minecraft.server.ParticleParamItem;
 import net.minecraft.server.ParticleParamRedstone;
 import net.minecraft.server.ParticleType;
+import net.minecraft.server.Vec3D;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.block.data.BlockData;
@@ -159,7 +160,7 @@ public enum CraftParticle {
         if (particle.getDataType() == Particle.DustOptions.class) {
             Particle.DustOptions data = (Particle.DustOptions) obj;
             Color color = data.getColor();
-            return new ParticleParamRedstone(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, data.getSize());
+            return new ParticleParamRedstone(new Vec3D(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f), data.getSize());
         }
         throw new IllegalArgumentException(particle.getDataType().toString());
     }

@@ -1,15 +1,15 @@
 --- a/net/minecraft/server/SoundEffectType.java
 +++ b/net/minecraft/server/SoundEffectType.java
-@@ -63,10 +63,10 @@
-     public static final SoundEffectType ag = new SoundEffectType(1.0F, 1.0F, SoundEffects.COPPER_BREAK, SoundEffects.COPPER_STEP, SoundEffects.COPPER_PLACE, SoundEffects.COPPER_HIT, SoundEffects.COPPER_FALL);
-     public final float ah;
+@@ -64,10 +64,10 @@
+     public static final SoundEffectType ah = new SoundEffectType(1.0F, 1.0F, SoundEffects.SCULK_SENSOR_BREAK, SoundEffects.SCULK_SENSOR_STEP, SoundEffects.SCULK_SENSOR_PLACE, SoundEffects.SCULK_SENSOR_HIT, SoundEffects.SCULK_SENSOR_FALL);
      public final float ai;
--    private final SoundEffect aj;
-+    public final SoundEffect aj; // PAIL private -> public, rename breakSound
-     private final SoundEffect ak;
+     public final float aj;
+-    private final SoundEffect ak;
++    public final SoundEffect ak; // PAIL private -> public, rename breakSound
      private final SoundEffect al;
--    private final SoundEffect am;
-+    public final SoundEffect am; // PAIL private -> public, rename hitSound
-     private final SoundEffect an;
+     private final SoundEffect am;
+-    private final SoundEffect an;
++    public final SoundEffect an; // PAIL private -> public, rename hitSound
+     private final SoundEffect ao;
  
      public SoundEffectType(float f, float f1, SoundEffect soundeffect, SoundEffect soundeffect1, SoundEffect soundeffect2, SoundEffect soundeffect3, SoundEffect soundeffect4) {

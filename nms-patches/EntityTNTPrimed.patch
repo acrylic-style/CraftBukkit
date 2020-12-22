@@ -29,7 +29,7 @@
 +            this.ab();
 +            // CraftBukkit end
          } else {
-             this.aL();
+             this.aM();
              if (this.world.isClientSide) {
 @@ -71,9 +77,16 @@
      }

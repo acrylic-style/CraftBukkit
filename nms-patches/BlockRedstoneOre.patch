@@ -16,14 +16,14 @@
  
      @Override
      public void attack(IBlockData iblockdata, World world, BlockPosition blockposition, EntityHuman entityhuman) {
--        e(iblockdata, world, blockposition);
+-        interact(iblockdata, world, blockposition);
 +        interact(iblockdata, world, blockposition, entityhuman);
          super.attack(iblockdata, world, blockposition, entityhuman);
      }
  
      @Override
      public void stepOn(World world, BlockPosition blockposition, Entity entity) {
--        e(world.getType(blockposition), world, blockposition);
+-        interact(world.getType(blockposition), world, blockposition);
 -        super.stepOn(world, blockposition, entity);
 +        // CraftBukkit start
 +        // interact(world.getType(blockposition), world, blockposition);
@@ -50,7 +50,7 @@
          if (world.isClientSide) {
              playEffect(world, blockposition);
          } else {
--            e(iblockdata, world, blockposition);
+-            interact(iblockdata, world, blockposition);
 +            interact(iblockdata, world, blockposition, entityhuman);
          }
  
@@ -59,7 +59,7 @@
          return itemstack.getItem() instanceof ItemBlock && (new BlockActionContext(entityhuman, enumhand, itemstack, movingobjectpositionblock)).b() ? EnumInteractionResult.PASS : EnumInteractionResult.SUCCESS;
      }
  
--    private static void e(IBlockData iblockdata, World world, BlockPosition blockposition) {
+-    private static void interact(IBlockData iblockdata, World world, BlockPosition blockposition) {
 +    private static void interact(IBlockData iblockdata, World world, BlockPosition blockposition, Entity entity) { // CraftBukkit - add Entity
          playEffect(world, blockposition);
          if (!(Boolean) iblockdata.get(BlockRedstoneOre.a)) {

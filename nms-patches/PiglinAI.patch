@@ -73,16 +73,13 @@
  
              if (!flag) {
                  d(entitypiglin, itemstack);
-@@ -347,9 +354,9 @@
-     }
- 
+@@ -349,7 +356,7 @@
      public static void a(EntityHuman entityhuman, boolean flag) {
--        List<EntityPiglin> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D));
-+        List<EntityPiglin> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D)); // CraftBukkit - decompile error
+         List<EntityPiglin> list = entityhuman.world.a(EntityPiglin.class, entityhuman.getBoundingBox().g(16.0D));
  
 -        list.stream().filter(PiglinAI::d).filter((entitypiglin) -> {
 +        list.stream().filter(piglin -> d((EntityPiglinAbstract) piglin)).filter((entitypiglin) -> { // CraftBukkit - decompile error
-             return !flag || BehaviorUtil.c(entitypiglin, entityhuman);
+             return !flag || BehaviorUtil.b((EntityLiving) entitypiglin, entityhuman);
          }).forEach((entitypiglin) -> {
              if (entitypiglin.world.getGameRules().getBoolean(GameRules.H)) {
 @@ -583,7 +590,7 @@

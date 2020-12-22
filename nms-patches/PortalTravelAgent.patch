@@ -9,7 +9,7 @@
 +    }
 +
 +    public Optional<BlockUtil.Rectangle> findPortal(BlockPosition blockposition, int i) {
-         VillagePlace villageplace = this.world.y();
+         VillagePlace villageplace = this.world.A();
 -        int i = flag ? 16 : 128;
 +        // int i = flag ? 16 : 128;
 +        // CraftBukkit end
@@ -37,7 +37,7 @@
          BlockPosition blockposition1 = null;
 @@ -48,7 +60,7 @@
          WorldBorder worldborder = this.world.getWorldBorder();
-         int i = this.world.getMinBuildHeight() + this.world.getHeight() - 1;
+         int i = this.world.getMinBuildHeight() + this.world.j() - 1;
          BlockPosition.MutableBlockPosition blockposition_mutableblockposition = blockposition.i();
 -        Iterator iterator = BlockPosition.a(blockposition, 16, EnumDirection.EAST, EnumDirection.SOUTH).iterator();
 +        Iterator iterator = BlockPosition.a(blockposition, createRadius, EnumDirection.EAST, EnumDirection.SOUTH).iterator(); // CraftBukkit
@@ -50,7 +50,7 @@
  
 +        org.bukkit.craftbukkit.util.BlockStateListPopulator blockList = new org.bukkit.craftbukkit.util.BlockStateListPopulator(this.world); // CraftBukkit - Use BlockStateListPopulator
          if (d0 == -1.0D) {
-             blockposition1 = (new BlockPosition(blockposition.getX(), MathHelper.clamp(blockposition.getY(), 70, this.world.getMinBuildHeight() + this.world.getHeight() - 10), blockposition.getZ())).immutableCopy();
+             blockposition1 = (new BlockPosition(blockposition.getX(), MathHelper.clamp(blockposition.getY(), 70, this.world.getMinBuildHeight() + this.world.j() - 10), blockposition.getZ())).immutableCopy();
              EnumDirection enumdirection1 = enumdirection.g();
 @@ -116,7 +129,7 @@
                          IBlockData iblockdata = k1 < 0 ? Blocks.OBSIDIAN.getBlockData() : Blocks.AIR.getBlockData();

@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/BlockFenceGate.java
 +++ b/net/minecraft/server/BlockFenceGate.java
-@@ -103,6 +103,17 @@
+@@ -106,6 +106,17 @@
      public void doPhysics(IBlockData iblockdata, World world, BlockPosition blockposition, Block block, BlockPosition blockposition1, boolean flag) {
          if (!world.isClientSide) {
              boolean flag1 = world.isBlockIndirectlyPowered(blockposition);

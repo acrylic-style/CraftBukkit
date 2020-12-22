@@ -24,40 +24,21 @@
      private EnumGamemode gamemode;
      @Nullable
      private EnumGamemode e;
-@@ -23,7 +32,7 @@
-     private int m;
- 
-     public PlayerInteractManager(EntityPlayer entityplayer) {
--        this.gamemode = EnumGamemode.SPECTATOR;
-+        this.gamemode = EnumGamemode.NOT_SET;
-         this.h = BlockPosition.ZERO;
-         this.k = BlockPosition.ZERO;
-         this.m = -1;
 @@ -45,7 +54,7 @@
          this.gamemode = enumgamemode;
-         enumgamemode.a(this.player.eU());
+         enumgamemode.a(this.player.eX());
          this.player.updateAbilities();
 -        this.player.server.getPlayerList().sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE, new EntityPlayer[]{this.player}));
 +        this.player.server.getPlayerList().sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE, new EntityPlayer[]{this.player}), this.player); // CraftBukkit
          this.world.everyoneSleeping();
      }
  
-@@ -59,15 +68,15 @@
-     }
- 
-     public boolean d() {
--        return this.gamemode.g();
-+        return this.gamemode.isSurvival();
-     }
- 
-     public boolean isCreative() {
--        return this.gamemode.f();
-+        return this.gamemode.isSurvivalMode();
+@@ -67,7 +76,7 @@
      }
  
      public void a() {
 -        ++this.currentTick;
-+        this.currentTick = MinecraftServer.currentTick; // CraftBukkit;
++        this.currentTick = MinecraftServer.currentTick;
          IBlockData iblockdata;
  
          if (this.j) {
@@ -234,7 +215,7 @@
                  block.a((World) this.world, blockposition, iblockdata, (EntityHuman) this.player);
                  boolean flag = this.world.a(blockposition, false);
  
-@@ -233,25 +356,38 @@
+@@ -233,19 +356,32 @@
                  }
  
                  if (this.isCreative()) {
@@ -270,14 +251,7 @@
              }
          }
      }
- 
-     public EnumInteractionResult a(EntityPlayer entityplayer, World world, ItemStack itemstack, EnumHand enumhand) {
--        if (this.gamemode == EnumGamemode.ADVENTURE) {
-+        if (this.gamemode == EnumGamemode.SPECTATOR) {
-             return EnumInteractionResult.PASS;
-         } else if (entityplayer.getCooldownTracker().hasCooldown(itemstack.getItem())) {
-             return EnumInteractionResult.PASS;
-@@ -287,11 +423,45 @@
+@@ -287,12 +423,46 @@
          }
      }
  
@@ -293,9 +267,8 @@
 +        EnumInteractionResult enuminteractionresult = EnumInteractionResult.PASS;
 +        boolean cancelledBlock = false;
  
--        if (this.gamemode == EnumGamemode.ADVENTURE) {
-+        if (this.gamemode == EnumGamemode.SPECTATOR) {
-+            ITileInventory itileinventory = iblockdata.b(world, blockposition);
+         if (this.gamemode == EnumGamemode.SPECTATOR) {
+             ITileInventory itileinventory = iblockdata.b(world, blockposition);
 +            cancelledBlock = !(itileinventory instanceof ITileInventory);
 +        }
 +
@@ -321,9 +294,10 @@
 +            entityplayer.getBukkitEntity().updateInventory(); // SPIGOT-2867
 +            enuminteractionresult = (event.useItemInHand() != Event.Result.ALLOW) ? EnumInteractionResult.SUCCESS : EnumInteractionResult.PASS;
 +        } else if (this.gamemode == EnumGamemode.SPECTATOR) {
-             ITileInventory itileinventory = iblockdata.b(world, blockposition);
++            ITileInventory itileinventory = iblockdata.b(world, blockposition);
  
              if (itileinventory != null) {
+                 entityplayer.openContainer(itileinventory);
 @@ -306,7 +476,7 @@
              ItemStack itemstack1 = itemstack.cloneItemStack();
  

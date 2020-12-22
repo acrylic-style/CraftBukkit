@@ -12,7 +12,7 @@
      public final boolean onlineMode = this.getBoolean("online-mode", true);
      public final boolean preventProxyConnections = this.getBoolean("prevent-proxy-connections", false);
      public final String serverIp = this.getString("server-ip", "");
-@@ -56,10 +58,12 @@
+@@ -55,8 +57,10 @@
      public final PropertyManager<DedicatedServerProperties>.EditableProperty<Boolean> whiteList;
      public final GeneratorSettings generatorSettings;
  
@@ -23,12 +23,9 @@
 +        super(properties, optionset);
 +        // CraftBukkit end
          this.difficulty = (EnumDifficulty) this.a("difficulty", a(EnumDifficulty::getById, EnumDifficulty::a), EnumDifficulty::c, EnumDifficulty.EASY);
--        this.gamemode = (EnumGamemode) this.a("gamemode", a(EnumGamemode::getById, EnumGamemode::a), EnumGamemode::b, EnumGamemode.NOT_SET);
-+        this.gamemode = (EnumGamemode) this.a("gamemode", a(EnumGamemode::getById, EnumGamemode::a), EnumGamemode::b, EnumGamemode.SURVIVAL);
+         this.gamemode = (EnumGamemode) this.a("gamemode", a(EnumGamemode::getById, EnumGamemode::a), EnumGamemode::b, EnumGamemode.SURVIVAL);
          this.levelName = this.getString("level-name", "world");
-         this.serverPort = this.getInt("server-port", 25565);
-         this.maxBuildHeight = this.a("max-build-height", (integer) -> {
-@@ -108,12 +112,14 @@
+@@ -104,12 +108,14 @@
          this.generatorSettings = GeneratorSettings.a(iregistrycustom, properties);
      }
  

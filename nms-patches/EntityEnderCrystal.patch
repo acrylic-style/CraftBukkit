@@ -28,7 +28,7 @@
 @@ -78,9 +87,22 @@
              return false;
          } else {
-             if (!this.cU() && !this.world.isClientSide) {
+             if (!this.cW() && !this.world.isClientSide) {
 +                // CraftBukkit start - All non-living entities need this
 +                if (CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f, false)) {
 +                    return false;

@@ -4,8 +4,8 @@
  
          @Override
          public void c() {
--            this.e.setGoalTarget(this.c);
-+            this.e.setGoalTarget(this.c, org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER, true); // CraftBukkit
-             Entity entity = this.b.getLeashHolder();
+-            this.e.setGoalTarget(this.b);
++            this.e.setGoalTarget(this.b, org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER, true); // CraftBukkit
+             Entity entity = this.a.getLeashHolder();
  
              if (entity instanceof EntityVillagerTrader) {

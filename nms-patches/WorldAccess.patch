@@ -4,13 +4,13 @@
      WorldServer getMinecraftWorld();
  
      default void addAllEntities(Entity entity) {
--        entity.cs().forEach(this::addEntity);
+-        entity.cu().forEach(this::addEntity);
 +        // CraftBukkit start
 +        this.addAllEntities(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.DEFAULT);
      }
 +
 +    default void addAllEntities(Entity entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason reason) {
-+        entity.cs().forEach((e) -> this.addEntity(e, reason));
++        entity.cu().forEach((e) -> this.addEntity(e, reason));
 +    }
 +    // CraftBukkit end
  }

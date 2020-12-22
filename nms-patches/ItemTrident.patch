@@ -33,8 +33,8 @@
 +                            // CraftBukkit end
 +
                              world.playSound((EntityHuman) null, (Entity) entitythrowntrident, SoundEffects.TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                             if (!entityhuman.eU().canInstantlyBuild) {
-                                 entityhuman.eT().setCarried(itemstack);
+                             if (!entityhuman.eX().canInstantlyBuild) {
+                                 entityhuman.eW().setCarried(itemstack);
                              }
                          }
 +                        // CraftBukkit start - SPIGOT-5458 also need in this branch :(

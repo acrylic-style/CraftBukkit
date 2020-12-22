@@ -23,8 +23,8 @@
  
                  entityhuman.a(enumhand, itemstack1);
                  entityhuman.a(StatisticList.CLEAN_SHULKER_BOX);
--                LayeredCauldronBlock.e(iblockdata, world, blockposition);
-+                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
+-                LayeredCauldronBlock.d(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.d(iblockdata, world, blockposition);
 +                // CraftBukkit end
              }
  
@@ -44,8 +44,8 @@
                  }
  
                  entityhuman.a(StatisticList.CLEAN_BANNER);
--                LayeredCauldronBlock.e(iblockdata, world, blockposition);
-+                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
+-                LayeredCauldronBlock.d(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.d(iblockdata, world, blockposition);
 +                // CraftBukkit end
              }
  
@@ -60,8 +60,8 @@
 +                    }
                      idyeable.c(itemstack);
                      entityhuman.a(StatisticList.CLEAN_ARMOR);
--                    LayeredCauldronBlock.e(iblockdata, world, blockposition);
-+                    // LayeredCauldronBlock.e(iblockdata, world, blockposition);
+-                    LayeredCauldronBlock.d(iblockdata, world, blockposition);
++                    // LayeredCauldronBlock.d(iblockdata, world, blockposition);
 +                    // CraftBukkit end
                  }
  
@@ -108,8 +108,8 @@
 +                }
                  entityhuman.a(enumhand, ItemLiquidUtil.a(itemstack, entityhuman, PotionUtil.a(new ItemStack(Items.POTION), Potions.WATER)));
                  entityhuman.a(StatisticList.USE_CAULDRON);
--                LayeredCauldronBlock.e(iblockdata, world, blockposition);
-+                // LayeredCauldronBlock.e(iblockdata, world, blockposition);
+-                LayeredCauldronBlock.d(iblockdata, world, blockposition);
++                // LayeredCauldronBlock.d(iblockdata, world, blockposition);
 +                // CraftBukkit end
                  world.playSound((EntityHuman) null, blockposition, SoundEffects.BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
              }

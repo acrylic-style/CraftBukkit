@@ -40,7 +40,7 @@
 +        }
 +        // CraftBukkit end
  
-         if (!worldserver.t_()) {
+         if (!worldserver.g()) {
              BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
  
 -            this.a(a((WorldServer) worldserver, blockposition) || b((WorldServer) worldserver, blockposition));

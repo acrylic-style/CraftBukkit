@@ -8,7 +8,7 @@
  
  public class BlockTrapdoor extends BlockFacingHorizontal implements IBlockWaterlogged {
  
-@@ -88,6 +89,19 @@
+@@ -89,6 +90,19 @@
              boolean flag1 = world.isBlockIndirectlyPowered(blockposition);
  
              if (flag1 != (Boolean) iblockdata.get(BlockTrapdoor.c)) {
