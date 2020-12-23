@@ -19,7 +19,7 @@
 +    // CraftBukkit end
 +
 +    default MovingObjectPositionBlock rayTrace(RayTrace raytrace) {
-+        return (MovingObjectPositionBlock) a(raytrace.a(), raytrace.b(), raytrace, (raytrace1, blockposition) -> {
++        return (MovingObjectPositionBlock) a(raytrace.b(), raytrace.a(), raytrace, (raytrace1, blockposition) -> {
 +            return this.rayTraceBlock(raytrace1, blockposition); // CraftBukkit - moved into separate method
          }, (raytrace1) -> {
              Vec3D vec3d = raytrace1.b().d(raytrace1.a());

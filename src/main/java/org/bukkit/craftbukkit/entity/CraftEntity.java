@@ -15,6 +15,7 @@ import net.minecraft.server.EntityAnimal;
 import net.minecraft.server.EntityAreaEffectCloud;
 import net.minecraft.server.EntityArmorStand;
 import net.minecraft.server.EntityArrow;
+import net.minecraft.server.EntityAxolotl;
 import net.minecraft.server.EntityBat;
 import net.minecraft.server.EntityBee;
 import net.minecraft.server.EntityBlaze;
@@ -243,6 +244,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
                     else if (entity instanceof EntityBee) { return new CraftBee(server, (EntityBee) entity); }
                     else if (entity instanceof EntityHoglin) { return new CraftHoglin(server, (EntityHoglin) entity); }
                     else if (entity instanceof EntityStrider) { return new CraftStrider(server, (EntityStrider) entity); }
+                    else if (entity instanceof EntityAxolotl) { return new CraftAxolotl(server, (EntityAxolotl) entity); }
                     else  { return new CraftAnimals(server, (EntityAnimal) entity); }
                 }
                 // Monsters

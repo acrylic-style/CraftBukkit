@@ -13,7 +13,7 @@
                          if (k == 0) {
                              EntityThrownTrident entitythrowntrident = new EntityThrownTrident(world, entityhuman, itemstack);
  
-@@ -54,16 +57,40 @@
+@@ -54,16 +57,39 @@
                                  entitythrowntrident.fromPlayer = EntityArrow.PickupStatus.CREATIVE_ONLY;
                              }
  
@@ -31,10 +31,9 @@
 +                            });
 +                            entitythrowntrident.trident = itemstack.cloneItemStack(); // SPIGOT-4511 update since damage call moved
 +                            // CraftBukkit end
-+
                              world.playSound((EntityHuman) null, (Entity) entitythrowntrident, SoundEffects.TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
                              if (!entityhuman.eX().canInstantlyBuild) {
-                                 entityhuman.eW().setCarried(itemstack);
+                                 entityhuman.eW().g(itemstack);
                              }
                          }
 +                        // CraftBukkit start - SPIGOT-5458 also need in this branch :(

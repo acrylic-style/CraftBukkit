@@ -55,11 +55,10 @@
                      while (iterator.hasNext()) {
                          Slot slot1 = (Slot) iterator.next();
                          ItemStack itemstack3 = playerinventory.getCarried();
-@@ -222,12 +256,48 @@
-                             }
+@@ -223,11 +257,48 @@
  
                              l -= itemstack4.getCount() - j1;
--                            slot1.set(itemstack4);
+                             slot1.set(itemstack4);
 +                            // slot1.set(itemstack4);
 +                            draggedSlots.put(slot1.rawSlotIndex, itemstack4); // CraftBukkit - Put in map instead of setting
 +                        }
@@ -99,7 +98,7 @@
                      }
  
 -                    itemstack2.setCount(l);
--                    playerinventory.h(itemstack2);
+-                    playerinventory.setCarried(itemstack2);
 +                    if (needsUpdate && entityhuman instanceof EntityPlayer) {
 +                        ((EntityPlayer) entityhuman).updateInventory(this);
 +                    }
@@ -107,20 +106,19 @@
                  }
  
                  this.d();
-@@ -245,8 +315,11 @@
-                 if (i == -999) {
+@@ -246,7 +317,11 @@
                      if (!playerinventory.getCarried().isEmpty()) {
                          if (inventoryclickaction == InventoryClickAction.a) {
--                            entityhuman.drop(playerinventory.getCarried(), true);
+                             entityhuman.drop(playerinventory.getCarried(), true);
 +                            // CraftBukkit start
 +                            ItemStack carried = playerinventory.getCarried();
-                             playerinventory.h(ItemStack.b);
+                             playerinventory.setCarried(ItemStack.b);
 +                            entityhuman.drop(carried, true);
 +                            // CraftBukkit end
                          } else {
                              entityhuman.drop(playerinventory.getCarried().cloneAndSubtract(1), true);
                          }
-@@ -304,6 +377,15 @@
+@@ -304,6 +379,15 @@
                      }
  
                      slot.d();
@@ -136,20 +134,28 @@
                  }
              } else {
                  Slot slot2;
-@@ -398,8 +480,11 @@
+@@ -387,6 +471,7 @@
+             }
+         }
+ 
++        if (entityhuman instanceof EntityPlayer) ((EntityPlayer) entityhuman).updateInventory(this); // CraftBukkit
+         return itemstack;
+     }
+ 
+@@ -398,8 +483,11 @@
          PlayerInventory playerinventory = entityhuman.eW();
  
          if (!playerinventory.getCarried().isEmpty()) {
 -            entityhuman.drop(playerinventory.getCarried(), false);
 +            // CraftBukkit start - SPIGOT-4556
 +            ItemStack carried = playerinventory.getCarried();
-             playerinventory.h(ItemStack.b);
+             playerinventory.setCarried(ItemStack.b);
 +            entityhuman.drop(carried, false);
 +            // CraftBukkit end
          }
  
      }
-@@ -407,7 +492,7 @@
+@@ -407,7 +495,7 @@
      protected void a(EntityHuman entityhuman, IInventory iinventory) {
          int i;
  

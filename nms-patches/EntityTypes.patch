@@ -8,7 +8,7 @@
 +    public static final EntityTypes<EntityAreaEffectCloud> AREA_EFFECT_CLOUD = a("area_effect_cloud", EntityTypes.Builder.a(EntityAreaEffectCloud::new, EnumCreatureType.MISC).c().a(6.0F, 0.5F).trackingRange(10).updateInterval(10)); // CraftBukkit - SPIGOT-3729: track area effect clouds
      public static final EntityTypes<EntityArmorStand> ARMOR_STAND = a("armor_stand", EntityTypes.Builder.a(EntityArmorStand::new, EnumCreatureType.MISC).a(0.5F, 1.975F).trackingRange(10));
      public static final EntityTypes<EntityTippedArrow> ARROW = a("arrow", EntityTypes.Builder.a(EntityTippedArrow::new, EnumCreatureType.MISC).a(0.5F, 0.5F).trackingRange(4).updateInterval(20));
-     public static final EntityTypes<Axolotl> AXOLOTL = a("axolotl", EntityTypes.Builder.a(Axolotl::new, EnumCreatureType.WATER_CREATURE).a(0.75F, 0.42F).trackingRange(10));
+     public static final EntityTypes<EntityAxolotl> AXOLOTL = a("axolotl", EntityTypes.Builder.a(EntityAxolotl::new, EnumCreatureType.WATER_CREATURE).a(0.75F, 0.42F).trackingRange(10));
 @@ -142,7 +142,7 @@
      private MinecraftKey br;
      private final EntitySize bs;

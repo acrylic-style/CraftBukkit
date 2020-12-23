@@ -97,6 +97,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
             Material material = Material.getMaterial(key);
             if (material == null) {
                 System.err.println("No Material found for " + key + " (Block)");
+                continue;
             }
             BLOCK_MATERIAL.put(block, material);
         }
