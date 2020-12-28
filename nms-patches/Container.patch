@@ -106,10 +106,11 @@
                  }
  
                  this.d();
-@@ -246,7 +317,11 @@
+@@ -245,8 +316,11 @@
+                 if (i == -999) {
                      if (!playerinventory.getCarried().isEmpty()) {
                          if (inventoryclickaction == InventoryClickAction.a) {
-                             entityhuman.drop(playerinventory.getCarried(), true);
+-                            entityhuman.drop(playerinventory.getCarried(), true);
 +                            // CraftBukkit start
 +                            ItemStack carried = playerinventory.getCarried();
                              playerinventory.setCarried(ItemStack.b);
@@ -118,7 +119,7 @@
                          } else {
                              entityhuman.drop(playerinventory.getCarried().cloneAndSubtract(1), true);
                          }
-@@ -304,6 +379,15 @@
+@@ -304,6 +378,15 @@
                      }
  
                      slot.d();
@@ -134,7 +135,7 @@
                  }
              } else {
                  Slot slot2;
-@@ -387,6 +471,7 @@
+@@ -387,6 +470,7 @@
              }
          }
  
@@ -142,7 +143,7 @@
          return itemstack;
      }
  
-@@ -398,8 +483,11 @@
+@@ -398,8 +482,11 @@
          PlayerInventory playerinventory = entityhuman.eW();
  
          if (!playerinventory.getCarried().isEmpty()) {
@@ -155,7 +156,7 @@
          }
  
      }
-@@ -407,7 +495,7 @@
+@@ -407,7 +494,7 @@
      protected void a(EntityHuman entityhuman, IInventory iinventory) {
          int i;
  
