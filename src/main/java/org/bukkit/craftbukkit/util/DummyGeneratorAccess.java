@@ -145,7 +145,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
 
     @Override
     public boolean g() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
