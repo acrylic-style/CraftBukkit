@@ -185,7 +185,7 @@ public class DummyGeneratorAccess implements GeneratorAccess {
 
     @Override
     public boolean a(BlockPosition bp, Predicate<IBlockData> prdct) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
@@ -195,11 +195,11 @@ public class DummyGeneratorAccess implements GeneratorAccess {
 
     @Override
     public boolean a(BlockPosition blockposition, boolean flag) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
     public boolean a(BlockPosition blockposition, boolean flag, Entity entity, int i) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 }
